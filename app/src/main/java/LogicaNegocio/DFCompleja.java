@@ -74,8 +74,8 @@ public class DFCompleja extends DependenciaFuncional {
             int tam = this.determinado.size();
             int ii = 0;
             int tamd = this.determinante.size();
-            while ( i < tam && lDeterminado.contains(this.determinado.get(tam))){i++;}
-            while ( ii < tam && lDeterminantes.contains(this.determinante.get(tam))){ii++;}
+            while ( i < tam && lDeterminado.contains(this.determinado.get(i))){i++;}
+            while ( ii < tam && lDeterminantes.contains(this.determinante.get(ii))){ii++;}
             return  ( i == tam ) && (ii == tamd);
         }
         return false;

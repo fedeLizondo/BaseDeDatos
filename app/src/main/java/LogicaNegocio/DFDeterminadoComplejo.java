@@ -66,7 +66,7 @@ public class DFDeterminadoComplejo extends DependenciaFuncional {
             return  s;
         */
 
-        return determinante+" - > "+determinado;
+        return determinante+" -> "+determinado;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class DFDeterminadoComplejo extends DependenciaFuncional {
             ArrayList<String> lDeterminado = DF.getDeterminado();
             int i = 0;
             int tam = this.determinado.size();
-            while ( i < tam && lDeterminado.contains(this.determinado.get(tam)))
+            while ( i < tam && lDeterminado.contains(this.determinado.get(i)))
             {
                 i++;
             }

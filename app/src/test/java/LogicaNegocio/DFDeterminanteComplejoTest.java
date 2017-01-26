@@ -17,7 +17,7 @@ public class DFDeterminanteComplejoTest {
     public static ArrayList<String> determinantes = new ArrayList<String>(){{
         add("A");
         add("B");
-    }};;
+    }};
 
     public static DFDeterminanteComplejo  dfDeterminanteComplejo = new DFDeterminanteComplejo(determinantes,"C");
 
@@ -56,7 +56,7 @@ public class DFDeterminanteComplejoTest {
         ArrayList<String> determinantes = new ArrayList<String>(){{
             add("A");
             add("B");
-        }};;
+        }};
         DFDeterminanteComplejo dfdComplejo = new DFDeterminanteComplejo(determinantes,"C");
         AUX.add(dfdComplejo);
         assertEquals(AUX,dfDeterminanteComplejo.convertirAFmin());
