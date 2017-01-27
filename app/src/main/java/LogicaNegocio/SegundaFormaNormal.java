@@ -16,7 +16,7 @@ public class SegundaFormaNormal extends FormaNormal {
     @Override
     public String JustificaMiFN() {
 
-        return "Esta en 2ra Forma Normal :\nPor la dependencia Funcional "+dependenciaFuncional.toString()+". ";
+        return "Esta en 2da Forma Normal :\nPor la dependencia Funcional "+dependenciaFuncional.toString()+". ";
     }
 
     @Override

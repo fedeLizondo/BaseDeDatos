@@ -8,6 +8,7 @@ public abstract class FormaNormal {
 
 
     public abstract String JustificaMiFN();
+
     @Override
     public abstract String toString() ;
 
