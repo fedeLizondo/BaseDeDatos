@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">BaseDeDatos</string>
+    <string name="app_name">Navegador</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="Determinantes">
+
+        <item>ABCD</item>
+        <item>DEG</item>
+        <item>AFJU</item>
+        <item>UREHY</item>
+        <item>UREYGHSOABCD</item>
+    </string-array>
+
+    <string-array name="ListaDF">
+
+        <item>ABCD -> BCD</item>
+        <item>DEG -> DSAD</item>
+        <item>AFJU -> FGHT</item>
+        <item>UREHY -> RYU</item>
+        <item>UREYGHSOABCD -> GRETIOHGT</item>
+    </string-array>
 </resources>
