@@ -1,11 +1,13 @@
 package LogicaNegocio;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +16,7 @@ import java.util.HashSet;
  * Created by federicolizondo on 25/01/17.
  */
 public class Administradora {
+
     private static Administradora ourInstance = new Administradora();
 
     public static Administradora getInstance() {
@@ -46,7 +49,6 @@ public class Administradora {
 
     //throws Exception
     public void agregarAtributos(String atributo) {
-
 
         if ( !lAtributos.contains(atributo)) {
             lAtributos.add(atributo);
@@ -100,14 +102,16 @@ public class Administradora {
     }
 
     public ArrayList<DependenciaFuncional> darListadoDependenciasFuncional(){
-        return lDependenciasFuncionales;
+        //Retorno una copia de la lista de dependencias funcionales
+        return (ArrayList<DependenciaFuncional>) lDependenciasFuncionales.clone();
     }
 
     //CLAVE CANDIDATAS
     public ArrayList<ArrayList<String>> calcularClavesCandidatas() {
 
+        //TODO ARREGLAR CLAVES CANDIDATAS
         ArrayList<String> lposibles;
-        ArrayList<String> lprefijoClave = new ArrayList<String>(lAtributos);
+        ArrayList<String> lprefijoClave = new ArrayList<String>( lAtributos);
         ArrayList<String> determinante=new ArrayList<String>();
         ArrayList<String> determinado = new ArrayList<String>();
 
@@ -131,7 +135,10 @@ public class Administradora {
         //Cargo la lista de los posibles componentes de las claves
         lposibles = determinante;
 
+
         calcularClavesRecursivo(lprefijoClave,lposibles);
+
+
 
         //ELIMINÓ CLAVES NO CANDIDATAS
         ArrayList<ArrayList<String>> lAuxClave = new ArrayList<ArrayList<String>>(claves);
@@ -146,11 +153,12 @@ public class Administradora {
         return claves;
     }
 
-    private void calcularClavesRecursivo(ArrayList<String> lPrefijos, ArrayList<String> lAtributosPosibles){
-        if( lAtributosPosibles!= null &&!lAtributosPosibles.isEmpty() )
-        {
-            ArrayList<String> lAuxPrefijos = new ArrayList<String>(lPrefijos);
-            ArrayList<String> lAuxAtributosPosibles = new ArrayList<String>(lAtributosPosibles);
+    private void calcularClavesRecursivo( ArrayList<String> lPrefijos, ArrayList<String> lAtributosPosibles ){
+
+        //TODO FIX CALCULO RECURSIVO POR ALGUNA RAZON SE CUELGA
+        if( lAtributosPosibles!= null &&!lAtributosPosibles.isEmpty() ) {
+            ArrayList<String> lAuxPrefijos = new ArrayList<String>((ArrayList<String>) lPrefijos.clone());
+            ArrayList<String> lAuxAtributosPosibles = new ArrayList<String>((ArrayList<String>) lAtributosPosibles.clone());
 
             for (String atributoPosible : lAtributosPosibles) {
 
@@ -162,7 +170,7 @@ public class Administradora {
                     aux.addAll(lAuxPrefijos);
                     claves.add(aux);
                 } else
-                    calcularClavesRecursivo(lAuxPrefijos, lAuxAtributosPosibles);
+                    calcularClavesRecursivo(lAuxPrefijos,(ArrayList<String>) lAuxAtributosPosibles.clone());
 
                 lAuxPrefijos.remove(atributoPosible);
             }
@@ -170,53 +178,64 @@ public class Administradora {
     }
 
     public boolean calcularUniverso(ArrayList<String> clave){
-        if(!clave.isEmpty()&&!lDependenciasFuncionales.isEmpty()) {
-            ArrayList<String> auxClaves = new ArrayList<String>();
-            ArrayList<String> auxDeterminante;
-            ArrayList<String> auxDeterminado;
-            auxClaves.addAll(clave);
+
+        if( !clave.isEmpty() && !lDependenciasFuncionales.isEmpty() )
+        {
+            ArrayList<String> lClaves = new ArrayList<String>();
+            ArrayList<String> lDeterminate = new ArrayList<String>();
+            ArrayList<String> lDeterminado = new ArrayList<String>();
             boolean cambios = true;
-            while (cambios) {
+            lClaves.addAll((ArrayList<String>)clave.clone());
+
+            while(cambios)
+            {
                 cambios = false;
-                for (DependenciaFuncional df : lDependenciasFuncionales) {
-                    auxDeterminante = df.getDeterminante();
-                    auxDeterminado = df.getDeterminante();
-                    if (auxClaves.containsAll(auxDeterminante) && auxClaves.containsAll(auxDeterminado)) {
-                        auxClaves.addAll(df.getDeterminado());
+                for (DependenciaFuncional df : Administradora.getInstance().darListadoDependenciasFuncional() )
+                {
+                    if( lClaves.containsAll( df.getDeterminante()) && !lClaves.containsAll(df.getDeterminado()) )
+                    {
                         cambios = true;
+                        lClaves.addAll(df.getDeterminado());
+                        lClaves = new ArrayList<String>(new HashSet<String>(lClaves));
                     }
                 }
             }
-            return auxClaves.containsAll(lAtributos);
+            return lClaves.containsAll(lAtributos);
         }
-        return false;
-        }
+        return  false;
+    }
 
     public ArrayList<String> calcularClausura(ArrayList<String> AtributoACalcular ){
+
+        //TODO VERIFICAR CALCULAR CLAUSURA
 
         if (lDependenciasFuncionales.isEmpty() || AtributoACalcular.isEmpty()) {
             return new ArrayList<String>();
         }
 
-        ArrayList<String> clausura = new ArrayList<String>();
+        ArrayList<String> lClausura = new ArrayList<String>();
         ArrayList<String> ldeterminante;
         ArrayList<String> ldeterminado;
 
+        lClausura.addAll(AtributoACalcular);
+
         boolean tengoCambio= true;
-        while(tengoCambio) {
+        while(tengoCambio)
+        {
             tengoCambio = false;
-            for (DependenciaFuncional df : lDependenciasFuncionales) {
-                ldeterminante = df.getDeterminante();
-                ldeterminado = df.getDeterminado();
-                if (!clausura.containsAll(ldeterminante) && !clausura.containsAll(ldeterminado)) {
-                    clausura.addAll(ldeterminado);
-                    tengoCambio=true;
+            for (DependenciaFuncional df : Administradora.getInstance().darListadoDependenciasFuncional() )
+            {
+                if( lClausura.containsAll( df.getDeterminante()) && !lClausura.containsAll(df.getDeterminado()) )
+                {
+                    tengoCambio = true;
+                    lClausura.addAll(df.getDeterminado());
+                    lClausura = new ArrayList<String>(new HashSet<String>(lClausura));
                 }
             }
         }
-        clausura = new ArrayList<String>(new HashSet<String>(clausura));
+        lClausura = new ArrayList<String>(new HashSet<String>(lClausura));
 
-        return clausura;
+        return lClausura;
     }
 
     //FORMA NORMAL
