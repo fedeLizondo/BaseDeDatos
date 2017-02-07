@@ -10,13 +10,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.gaby.navegador.navegador"
+    tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_navegador">
+
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lista de atributos agregados"
+        android:text="@string/tituloAgregarAtributo"
         android:textSize="24sp" />
 
     <ListView
@@ -35,5 +37,30 @@
         android:headerDividersEnabled="false"
         android:paddingTop="8dip"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tituloAgregarAtributo"
+        android:textSize="24sp" />
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        app:fabSize="normal"
+        app:srcCompat="@drawable/plus"
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="agregarAtributos"
+        />
+
+
+
+
 
 </RelativeLayout>

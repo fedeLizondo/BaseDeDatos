@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <!--COLOR del theme status-->
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#e53935</color>
+    <!--COLOR DEL TOOLBAR-->
+    <color name="colorPrimary">#3F51B5</color>
+
+    <!-- TITULO CON COLOR PRIMARIO -->
+    <color name="colorText_Icons">#FFFFFF</color>
+    <!-- SUB-TITULO CON COLOR PRIMARIO -->
+    <color name="colorPrimaryLight">#C5CAE9</color>
+
+    <!-- Color Para el texto del contenido -->
+    <color name="colorTextPrimary">#212121</color>
+    <!-- Color para sub items de una lista por ejemplo-->
+    <color name="colorTextSecondary">#757575</color>
+    <!--Color para dividir secciones , o para usar en la delimitacion de las listas-->
+    <color name="colorDivider">#BDBDBD</color>
+
+    <!--Color para resaltar (por ejemplo el Float Action Button)-->
+    <color name="colorAccent">#E53935</color>
+
 </resources>

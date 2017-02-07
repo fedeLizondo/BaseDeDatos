@@ -47,7 +47,7 @@ public class AdministradoraTest {
         atributos.add("C");
         atributos.add("D");
         atributos.add("E");
-        
+
         admin.agregarAtributos("C");
         admin.agregarAtributos("D");
         admin.agregarAtributos("E");
@@ -135,7 +135,7 @@ public class AdministradoraTest {
 
     }
 
-    @Test (timeout=50000)
+    @Test (timeout=5000)
     public void calcularClavesCandidatas() throws Exception {
 
 
