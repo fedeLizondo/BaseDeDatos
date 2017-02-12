@@ -38,8 +38,7 @@
     <!--|                       DETERMINANTES                                   |-->
     <!--|_______________________________________________________________________|-->
 
-    <string-array name="Determinantes">
-    </string-array>
+    <string-array name="Determinantes"></string-array>
 
     <string-array name="ListaDF">
         <item>ABCD -> BCD</item>

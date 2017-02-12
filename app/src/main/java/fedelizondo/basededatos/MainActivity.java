@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
     {
         Toast.makeText(MainActivity.this.getBaseContext(), "This is my Toast message!",
                 Toast.LENGTH_LONG).show();
-        //Dialog dialog = new Dialog(MainActivity.this);
-        DialogFragment dialog = new AgregarAtributosFragment();
+        Dialog dialog = new Dialog(MainActivity.this);
+        //DialogFragment dialog = new AgregarAtributosFragment();
 
 
-        //dialog.setTitle(R.string.tituloFragmentAgregarAtributo);
-        //dialog.setContentView(R.layout.fragment_agregar_atributos);
-        //dialog.show();
+        dialog.setTitle(R.string.tituloFragmentAgregarAtributo);
+        dialog.setContentView(R.layout.fragment_agregar_atributos);
+        dialog.show();
 
     }
 
