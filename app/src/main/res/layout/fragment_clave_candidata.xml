@@ -46,15 +46,13 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/colorAccent"
 
-                    />
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#0000"
-                android:cacheColorHint="@android:color/darker_gray"
-                android:divider="@android:color/darker_gray"
+                android:divider="@color/colorDivider"
                 android:dividerHeight="1dp"
                 />
 
@@ -79,9 +77,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#0000"
-                android:cacheColorHint="@android:color/darker_gray"
-                android:divider="@android:color/darker_gray"
+                android:divider="@color/colorDivider"
                 android:dividerHeight="1dp"
                 />
 

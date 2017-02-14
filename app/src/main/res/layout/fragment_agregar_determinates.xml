@@ -5,9 +5,33 @@
     tools:context="layout.SeleccionarDeterminatesFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#0000"
+            android:cacheColorHint="@android:color/darker_gray"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp"
+            />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_weight="0"
+            android:textAlignment="center"
+            android:background="@color/colorTextview"
+            android:textColor="@color/colorText_Icons"
+            android:textSize="24sp"
+            android:elevation="0dp"
+            android:padding="10dp"/>
+    </LinearLayout>
 </FrameLayout>
