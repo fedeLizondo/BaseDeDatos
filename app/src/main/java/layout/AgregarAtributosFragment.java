@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import Interfaces.ListadoDeStringListener;
 import fedelizondo.basededatos.R;
 
 /**
@@ -27,10 +29,10 @@ import fedelizondo.basededatos.R;
  * Use the {@link AgregarAtributosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AgregarAtributosFragment extends DialogFragment {
+public class AgregarAtributosFragment extends DialogFragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "listaAtributosAgregar";
+    public static final String ARG_PARAM1 = "listaAtributosAgregar";
 
     private Button btnAgregar ;
     private Button btnCancelar;
@@ -41,6 +43,12 @@ public class AgregarAtributosFragment extends DialogFragment {
     private ArrayList<String> atributos;
 
     private OnFragmentInteractionListener mListener;
+
+
+    public final static int OK = 0;
+    public final static int CANCEL = 1;
+    //private ListadoDeStringListener mListener;
+    private int botonPresionado = CANCEL;
 
     public AgregarAtributosFragment() {
         // Required empty public constructor
@@ -79,40 +87,61 @@ public class AgregarAtributosFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_agregar_atributos, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_agregar_atributos, container, false);
 
-        atributoPorAgregar = (EditText) v.findViewById(R.id.etAtributoPorAgregar);
+        atributoPorAgregar = (EditText) rootView.findViewById(R.id.etAtributoPorAgregar);
 
 
-        btnAgregar = (Button) v.findViewById(R.id.btnAgregarAtributosAgregar);
+        btnAgregar = (Button) rootView.findViewById(R.id.btnAgregarAtributosAgregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+        atributos = new ArrayList<String>();
+
+                botonPresionado = OK;
+
 
                 if (atributoPorAgregar.getTextSize() > 0) {
+
                     String atributo = atributoPorAgregar.getText().toString();
                     String arrayAtributo[] = atributo.split(",");
-                    if (!listadoAtributo.isEmpty()) {
+
+                    ArrayList<String> listaStringRepetidos = new ArrayList<String>();
+
+                    if (listadoAtributo!=null && !listadoAtributo.isEmpty()) {
                         for (String string : arrayAtributo)
                         {
                             if( !listadoAtributo.contains(string) )
                                 atributos.add(string);
                             else
-                            {
-                                //TODO MENSAJE DE ERROR INFORMANDO QUE HABIA ELEMENTOS REPETIDOS Y NO SE PUDIERON INGRESAR
-                            }
+                                listaStringRepetidos.add(string);
                         }
 
+                        if(!listaStringRepetidos.isEmpty())
+                        {
+                            String preTexto = getResources().getString( (listaStringRepetidos.size()>1)?
+                                    R.string.preTextoMuchosFragmentAgregarAtributo :
+                                    R.string.preTextoUnicoFragmentAgregarAtributo);
+
+                            String postTexto = getResources().getString( (listaStringRepetidos.size() > 1)?
+                                    R.string.postTextoMuchosFragmentAgregarAtributo:
+                                    R.string.postTextoUnicoFragmentAgregarAtributo);
+
+                            Toast.makeText(getContext(), preTexto +listaStringRepetidos.toString()+postTexto,
+                                    Toast.LENGTH_LONG).show();
+                        }
                     }
                     else
                     {
                         for (String s : arrayAtributo) {
                             atributos.add(s);
-                            Log.d("DATO EN AGREGAR ELSE",s);
                         }
-                        getActivity().finish();
                     }
+
+                    if(mListener!= null)
+                        mListener.onFragmentInteraction(atributos);
+                    dismiss();
                 }
                 else
                 {
@@ -121,30 +150,34 @@ public class AgregarAtributosFragment extends DialogFragment {
             }
         });
 
-        btnCancelar = (Button) v.findViewById(R.id.btnAgregarAtributosCancelar);
+        btnCancelar = (Button) rootView.findViewById(R.id.btnAgregarAtributosCancelar);
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().finish();
+                dismiss();
             }
         });
 
-
-
-
-        return v;
+        //Agrego el Titulo
+        getDialog().setTitle(R.string.tituloFragmentAgregarAtributo);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(ArrayList<String> listadoAtributo) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction(listadoAtributo);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        /*if (context instanceof  ListadoDeStringListener)
+        {
+            mListener = (ListadoDeStringListener) context;
+        }*/
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -159,6 +192,8 @@ public class AgregarAtributosFragment extends DialogFragment {
         mListener = null;
     }
 
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -170,14 +205,9 @@ public class AgregarAtributosFragment extends DialogFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(ArrayList<String> listadoAtributo);
     }
 
-    public ArrayList<String> darAtributosPorAgregar()
-    {
-        return null;
-    }
 
 
 }

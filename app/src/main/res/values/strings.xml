@@ -18,8 +18,14 @@
 
     <string name="tituloFragmentAgregarAtributo">Agregar Atributo</string>
     <string name="subTituloFragmentAgregarAtributo">Ingrese Atributo</string>
+    <string name="preTextoMuchosFragmentAgregarAtributo">Estos elementos </string>
+    <string name="postTextoMuchosFragmentAgregarAtributo"> se encuentra repetidos.</string>
+    <string name="preTextoUnicoFragmentAgregarAtributo">Este elemento </string>
+    <string name="postTextoUnicoFragmentAgregarAtributo">se encuentra repetido.</string>
+
     <string name="errorAgregarAtributoYaIngresado">El Atributo ingresado ya se encuentra en la lista</string>
     <string name="errorAgregarAtributoVacio">Por favor ingrese un Atributo </string>
+
 
 
     <string name="tituloFragmentModificarAtributo">Modificar Atributo</string>
@@ -27,6 +33,7 @@
     <string name="indicacionFragmentModificarAtributo">El anterior atributo era:</string>
     <string name="errorModificarAtributoYaIngresado">El Atributo ingresado ya se encuentra en la lista</string>
     <string name="errorModificarAtributoVacio">Por favor ingrese un Atributo </string>
+
 
 
     <!--BOTONES ATRIBUTOS-->
