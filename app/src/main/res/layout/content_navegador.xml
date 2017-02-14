@@ -19,10 +19,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tituloAgregarAtributo"
-        android:textSize="24sp" />
+        android:textAppearance="?android:textAppearanceLarge"
+        />
 
     <ListView
         android:entries="@array/Determinantes"
+        android:id="@+id/listViewAtributos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
@@ -38,11 +40,6 @@
         android:paddingTop="8dip"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tituloAgregarAtributo"
-        android:textSize="24sp" />
 
 
 
