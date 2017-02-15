@@ -3,10 +3,17 @@ package layout;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import fedelizondo.basededatos.R;
 
@@ -18,15 +25,20 @@ import fedelizondo.basededatos.R;
  * Use the {@link ModificarAtributosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ModificarAtributosFragment extends Fragment {
+public class ModificarAtributosFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public static final String ATRIBUTO_A_MODIFICAR = "atributoAnterior";
+    public static final String LISTADO_ATRIBUTOS = "listadoAtributo";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String atributoAnterior;
+    private ArrayList<String> listaAtributos;
+
+    private Button btnAceptar;
+    private Button btnCancelar;
+    private EditText etAtributo;
+    private TextView etAtributoAnterior;
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,16 +50,16 @@ public class ModificarAtributosFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param AtributoAnterior Parameter 1.
+     * @param ListadoAtributos Parameter 2.
      * @return A new instance of fragment ModificarAtributosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ModificarAtributosFragment newInstance(String param1, String param2) {
+    public static ModificarAtributosFragment newInstance(String AtributoAnterior, ArrayList<String> ListadoAtributos) {
         ModificarAtributosFragment fragment = new ModificarAtributosFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ATRIBUTO_A_MODIFICAR, AtributoAnterior);
+        args.putStringArrayList(LISTADO_ATRIBUTOS, ListadoAtributos);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,24 +68,79 @@ public class ModificarAtributosFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            atributoAnterior = getArguments().getString(ATRIBUTO_A_MODIFICAR);
+            listaAtributos = getArguments().getStringArrayList(LISTADO_ATRIBUTOS);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_modificar_atributos, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_modificar_atributos, container, false);
+
+        etAtributo = (EditText) rootView.findViewById(R.id.etAtributoIngresadoModificar);
+
+        etAtributoAnterior = (TextView) rootView.findViewById(R.id.etATributoModificar);
+        etAtributoAnterior.setText(atributoAnterior);
+
+        btnAceptar = (Button) rootView.findViewById(R.id.btnModificarAtributosAceptar);
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if( etAtributo.getTextSize() > 0 && !etAtributo.getText().equals("") && !etAtributo.getText().equals(atributoAnterior))
+                {
+
+                    String atributo = etAtributo.getText().toString();
+                    if(!listaAtributos.contains(atributo))
+                    {
+                        if(mListener!= null)
+                            mListener.onFragmentInteraction(atributoAnterior,atributo);
+                        dismiss();
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),
+                                getResources().getString(R.string.errorModificarAtributoYaIngresado),
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                }
+                else
+                {
+                    if(etAtributo.getText().equals(""))
+                    {
+                        Toast.makeText(getContext(),
+                                getResources().getString(R.string.errorModificarAtributoVacio),
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    if(etAtributo.getText().equals(atributoAnterior))
+                    {
+                        Toast.makeText(getContext(),
+                                getResources().getString(R.string.errorModificarAtributoYaIngresado),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+            }
+        });
+
+        btnCancelar = (Button) rootView.findViewById(R.id.btnModificarAtributosCancelar) ;
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        getDialog().setTitle(R.string.tituloFragmentModificarAtributo);
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -103,7 +170,6 @@ public class ModificarAtributosFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String AtributoAnterior,String AtributoModificado);
     }
 }

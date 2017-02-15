@@ -45,10 +45,8 @@ public class AgregarAtributosFragment extends DialogFragment  {
     private OnFragmentInteractionListener mListener;
 
 
-    public final static int OK = 0;
-    public final static int CANCEL = 1;
+
     //private ListadoDeStringListener mListener;
-    private int botonPresionado = CANCEL;
 
     public AgregarAtributosFragment() {
         // Required empty public constructor
@@ -99,10 +97,10 @@ public class AgregarAtributosFragment extends DialogFragment  {
 
         atributos = new ArrayList<String>();
 
-                botonPresionado = OK;
 
 
-                if (atributoPorAgregar.getTextSize() > 0) {
+
+                if (atributoPorAgregar.getTextSize() > 0 && !atributoPorAgregar.getText().equals("")) {
 
                     String atributo = atributoPorAgregar.getText().toString();
                     String arrayAtributo[] = atributo.split(",");
@@ -128,7 +126,8 @@ public class AgregarAtributosFragment extends DialogFragment  {
                                     R.string.postTextoMuchosFragmentAgregarAtributo:
                                     R.string.postTextoUnicoFragmentAgregarAtributo);
 
-                            Toast.makeText(getContext(), preTexto +listaStringRepetidos.toString()+postTexto,
+                            Toast.makeText(getContext(),
+                                    preTexto +" "+listaStringRepetidos.toString()+" "+postTexto,
                                     Toast.LENGTH_LONG).show();
                         }
                     }
@@ -174,10 +173,6 @@ public class AgregarAtributosFragment extends DialogFragment  {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        /*if (context instanceof  ListadoDeStringListener)
-        {
-            mListener = (ListadoDeStringListener) context;
-        }*/
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
