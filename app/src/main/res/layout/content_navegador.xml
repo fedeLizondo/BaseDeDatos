@@ -53,7 +53,5 @@
         android:layout_alignParentEnd="true"
         android:onClick="agregarAtributos"
         />
-
-
-
+  
 </RelativeLayout>
