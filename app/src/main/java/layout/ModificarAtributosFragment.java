@@ -1,7 +1,7 @@
 package layout;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -20,7 +20,7 @@ import fedelizondo.basededatos.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ModificarAtributosFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListenerFragmentModificarAtributo} interface
  * to handle interaction events.
  * Use the {@link ModificarAtributosFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -40,7 +40,7 @@ public class ModificarAtributosFragment extends DialogFragment {
     private EditText etAtributo;
     private TextView etAtributoAnterior;
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListenerFragmentModificarAtributo mListener;
 
     public ModificarAtributosFragment() {
         // Required empty public constructor
@@ -49,9 +49,8 @@ public class ModificarAtributosFragment extends DialogFragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param AtributoAnterior Parameter 1.
-     * @param ListadoAtributos Parameter 2.
+     * @param AtributoAnterior Atributo A MODIFICAR.
+     * @param ListadoAtributos Listado de atributos para prevenir repetidos.
      * @return A new instance of fragment ModificarAtributosFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -97,7 +96,7 @@ public class ModificarAtributosFragment extends DialogFragment {
                     if(!listaAtributos.contains(atributo))
                     {
                         if(mListener!= null)
-                            mListener.onFragmentInteraction(atributoAnterior,atributo);
+                            mListener.OnFragmentInteractionListenerFragmentModificarAtributo(atributoAnterior,atributo);
                         dismiss();
                     }
                     else
@@ -106,7 +105,6 @@ public class ModificarAtributosFragment extends DialogFragment {
                                 getResources().getString(R.string.errorModificarAtributoYaIngresado),
                                 Toast.LENGTH_LONG).show();
                     }
-
                 }
                 else
                 {
@@ -145,18 +143,39 @@ public class ModificarAtributosFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+
+        if (context instanceof OnFragmentInteractionListenerFragmentModificarAtributo) {
+            mListener = (OnFragmentInteractionListenerFragmentModificarAtributo) context;
         }
+        else {
+            if( getTargetFragment() instanceof OnFragmentInteractionListenerFragmentModificarAtributo )
+                mListener = (OnFragmentInteractionListenerFragmentModificarAtributo) getTargetFragment();
+            else
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListenerFragmentModificarAtributo");
+        }
+
     }
+
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void dismiss() {
+        if(mListener!=null)
+            mListener.OnFragmentInteractionListenerCancelModificarAtributo();
+        super.dismiss();
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        if(mListener!=null)
+            mListener.OnFragmentInteractionListenerCancelModificarAtributo();
+        super.onCancel(dialog);
     }
 
     /**
@@ -169,7 +188,8 @@ public class ModificarAtributosFragment extends DialogFragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String AtributoAnterior,String AtributoModificado);
+    public interface OnFragmentInteractionListenerFragmentModificarAtributo {
+        void OnFragmentInteractionListenerFragmentModificarAtributo(String AtributoAnterior,String AtributoModificado);
+        void OnFragmentInteractionListenerCancelModificarAtributo();
     }
 }

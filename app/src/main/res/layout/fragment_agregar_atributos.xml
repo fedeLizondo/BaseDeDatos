@@ -1,18 +1,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        android:background="#2d84a3ff"
-        >
+        android:layout_margin="12dp"
+        android:padding="8dp"
+        tools:ignore="UselessParent">
         <!-- TITULO -->
-        <LinearLayout
+        <!--LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/colorPrimary"
@@ -22,7 +22,6 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@color/colorPrimaryDark"
-
                 />
 
             <TextView
@@ -35,7 +34,7 @@
                 android:textStyle="bold"
                 android:textSize="24sp" />
 
-        </LinearLayout>
+        </LinearLayout-->
 
         <!-- INPUT -->
         <LinearLayout
@@ -75,18 +74,20 @@
             >
             <Button
                 android:id="@+id/btnAgregarAtributosAgregar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/agregarAtributo"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"
+                style="@style/Widget.AppCompat.Button.Borderless" />
             <Button
                 android:id="@+id/btnAgregarAtributosCancelar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/cancelar"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"
+                style="@style/Widget.AppCompat.Button.Borderless" />
 
         </LinearLayout>
 
