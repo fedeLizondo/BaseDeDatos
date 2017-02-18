@@ -2,13 +2,18 @@ package fedelizondo.basededatos;
 
 import android.app.FragmentTransaction;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,7 +34,7 @@ import layout.AtributosFragment;
 import layout.ModificarAtributosFragment;
 
 public class MainActivity extends AppCompatActivity implements
-       AtributosFragment.OnFragmentInteractionListener {
+       AtributosFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
 
 
     private Toolbar toolbar;
@@ -46,9 +52,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navegador);//content_navegador);//activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_navegador);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -61,20 +67,19 @@ public class MainActivity extends AppCompatActivity implements
         administradora.agregarAtributos("c");
 
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });*/
     }
 
     protected void setFragment(Fragment fragment) {
@@ -107,6 +112,47 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+            Toast.makeText(MainActivity.this, "CAMARA", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_gallery) {
+            Toast.makeText(MainActivity.this, "GALERIA", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_slideshow) {
+            Toast.makeText(MainActivity.this, "SLIDESHO", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_manage) {
+            Toast.makeText(MainActivity.this, "NAVMANAGE", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_share) {
+            Toast.makeText(MainActivity.this, "SHARE", Toast.LENGTH_LONG).show();
+
+        } else if (id == R.id.nav_send) {
+            Toast.makeText(MainActivity.this, "SEND", Toast.LENGTH_LONG).show();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //                  Place Holder Fragment                                                     //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -168,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements
             return 3;
         }
 
-        @Override
+        /*@Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
@@ -179,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements
                     return "SECTION 3";
             }
             return null;
-        }
+        }*/
     }
 
     @Override
@@ -193,7 +239,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteractionModificarAtributos(String AtributoAnterior, String AtributoNuevo) {
         administradora.modificarAtributo(AtributoAnterior,AtributoNuevo);
-
     }
 
     @Override

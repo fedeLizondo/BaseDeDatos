@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.ScaleAnimation;
 
 import java.util.ArrayList;
 
@@ -147,6 +149,7 @@ public class AtributosFragment extends Fragment implements
         {
             mListener.onFragmentInteractionModificarAtributos(AtributoAnterior,AtributoModificado);
         }
+
     }
 
     @Override
@@ -165,13 +168,22 @@ public class AtributosFragment extends Fragment implements
 
     private void initViews(View view)
     {
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarAtributo);
+        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarAtributo);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AgregarAtributos();
             }
         });
+
+        ScaleAnimation animation = new ScaleAnimation(0,1,0,1);
+        animation.setFillBefore(true);
+        animation.setFillAfter(true);
+        animation.setFillEnabled(true);
+        animation.setDuration(300);
+        animation.setInterpolator(new OvershootInterpolator());
+        fab.startAnimation(animation);
+
         recyclerViewAtributos = (RecyclerView) view.findViewById(R.id.rv_Atributos);
         recyclerViewAtributos.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity().getApplicationContext());
