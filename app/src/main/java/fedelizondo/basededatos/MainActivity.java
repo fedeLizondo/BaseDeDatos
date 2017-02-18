@@ -72,8 +72,7 @@ public class MainActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });*/
     }
@@ -183,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-
     @Override
     public void onFragmentInteractionAgregarAtributos(ArrayList<String> listadoAtributo) {
         for(String string:listadoAtributo)
@@ -202,8 +200,5 @@ public class MainActivity extends AppCompatActivity implements
     public void onFragmentInteractionEliminarAtributos(String AtributoAEliminar) {
         administradora.eliminarAtributo(AtributoAEliminar);
     }
-
-
-
 
 }
