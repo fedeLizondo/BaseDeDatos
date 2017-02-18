@@ -1,46 +1,47 @@
 package fedelizondo.basededatos;
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.support.v4.app.DialogFragment;
+import android.app.FragmentTransaction;
+
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import Adapters.OnSwipeTouchListener;
-import Adapters.StringAdapter;
-import Interfaces.ListadoDeStringListener;
 import LogicaNegocio.Administradora;
 import layout.AgregarAtributosFragment;
-import layout.AgregarAtributosFragment.OnFragmentInteractionListener;
+import layout.AtributosFragment;
 import layout.ModificarAtributosFragment;
 
-public class MainActivity extends AppCompatActivity implements AgregarAtributosFragment.OnFragmentInteractionListener,ModificarAtributosFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements
+       AtributosFragment.OnFragmentInteractionListener {
 
 
     private Toolbar toolbar;
-    private ListView listViewAtributos;
     private Administradora administradora = Administradora.getInstance();
 
-    //PARA EL ELIMINAR CON SWIPE
-    private boolean mSwiping = false;
-    private boolean mItemPressed = false;
-    private static int SWIPE_DURATION = 250;
-    private static int MOVE_DURATION = 150;
-    HashMap<Long,Integer> mItemIdTopMap = new HashMap<Long,Integer>();
+
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    /**
+     * The {@link ViewPager} that will host the section contents.
+     */
+    private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,128 +49,159 @@ public class MainActivity extends AppCompatActivity implements AgregarAtributosF
         setContentView(R.layout.activity_navegador);//content_navegador);//activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        administradora.agregarAtributos("a");
+        administradora.agregarAtributos("b");
+        administradora.agregarAtributos("c");
+
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });*/
     }
 
-
-
-    public void agregarAtributos(View view)
-    {
-        Toast.makeText(MainActivity.this.getBaseContext(), "This is my Toast message!",
-                Toast.LENGTH_LONG).show();
-        //Dialog dialog = new Dialog(MainActivity.this);
-        //dialog.setTitle(R.string.tituloFragmentAgregarAtributo);
-        //dialog.setContentView(R.layout.fragment_agregar_atributos);
-
+    protected void setFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        AgregarAtributosFragment dialog = new AgregarAtributosFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(AgregarAtributosFragment.ARG_PARAM1,administradora.darListadoAtributos());
-        dialog.setArguments(bundle);
-
-        dialog.show(fragmentManager,"Fragment");
-
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.replace(android.R.id.content, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
-    public void onFragmentInteraction(ArrayList<String> listadoAtributo) {
-        for (String string:listadoAtributo) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_atributos, container, false);
+            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            return rootView;
+        }
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return AtributosFragment.newInstance(administradora.darListadoAtributos());
+            //return PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "SECTION 1";
+                case 1:
+                    return "SECTION 2";
+                case 2:
+                    return "SECTION 3";
+            }
+            return null;
+        }
+    }
+
+
+    @Override
+    public void onFragmentInteractionAgregarAtributos(ArrayList<String> listadoAtributo) {
+        for(String string:listadoAtributo)
+        {
             administradora.agregarAtributos(string);
         }
-        listViewAtributos = (ListView) findViewById(R.id.listViewAtributos);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,administradora.darListadoAtributos());
-        //StringAdapter arrayAdapter = new StringAdapter(MainActivity.this,administradora.darListadoAtributos(),mTouchListener);
-
-        listViewAtributos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                ModificarAtributosFragment dialog = new ModificarAtributosFragment();
-
-                Bundle bundle = new Bundle();
-                String atributoAModificar = administradora.darListadoAtributos().get(position);
-                bundle.putString(ModificarAtributosFragment.ATRIBUTO_A_MODIFICAR,atributoAModificar);
-                bundle.putStringArrayList(ModificarAtributosFragment.LISTADO_ATRIBUTOS,administradora.darListadoAtributos());
-                dialog.setArguments(bundle);
-
-                dialog.show(fragmentManager,"Fragment");
-            }
-        });
-
-        listViewAtributos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("DATA ID",id+"");
-
-                String atributoABorrar = administradora.darListadoAtributos().get(position);
-                administradora.eliminarAtributo(atributoABorrar);
-
-                    listViewAtributos = (ListView) findViewById(R.id.listViewAtributos);
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,administradora.darListadoAtributos());
-                    //StringAdapter arrayAdapter = new StringAdapter(MainActivity.this,administradora.darListadoAtributos(),mTouchListener);
-                    listViewAtributos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            ModificarAtributosFragment dialog = new ModificarAtributosFragment();
-
-                            Bundle bundle = new Bundle();
-                            String atributoAModificar = administradora.darListadoAtributos().get(position);
-                            bundle.putString(ModificarAtributosFragment.ATRIBUTO_A_MODIFICAR,atributoAModificar);
-                            bundle.putStringArrayList(ModificarAtributosFragment.LISTADO_ATRIBUTOS,administradora.darListadoAtributos());
-                            dialog.setArguments(bundle);
-
-                            dialog.show(fragmentManager,"Fragment");
-                        }
-                    });
-
-                    listViewAtributos.setAdapter(arrayAdapter);
-
-
-
-                return  false;
-            }
-        });
-
-        listViewAtributos.setAdapter(arrayAdapter);
     }
-
-    public void modificarAtributo(View view)
-    {
-
-    }
-
 
     @Override
-    public void onFragmentInteraction(String AtributoAnterior, String AtributoModificado) {
+    public void onFragmentInteractionModificarAtributos(String AtributoAnterior, String AtributoNuevo) {
+        administradora.modificarAtributo(AtributoAnterior,AtributoNuevo);
 
-        administradora.eliminarAtributo(AtributoAnterior);
-        administradora.agregarAtributos(AtributoModificado);
-
-        listViewAtributos = (ListView) findViewById(R.id.listViewAtributos);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,administradora.darListadoAtributos());
-        //StringAdapter arrayAdapter = new StringAdapter(MainActivity.this,administradora.darListadoAtributos(),mTouchListener);
-        listViewAtributos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                ModificarAtributosFragment dialog = new ModificarAtributosFragment();
-
-                Bundle bundle = new Bundle();
-                String atributoAModificar = administradora.darListadoAtributos().get(position);
-                bundle.putString(ModificarAtributosFragment.ATRIBUTO_A_MODIFICAR,atributoAModificar);
-                bundle.putStringArrayList(ModificarAtributosFragment.LISTADO_ATRIBUTOS,administradora.darListadoAtributos());
-                dialog.setArguments(bundle);
-
-                dialog.show(fragmentManager,"Fragment");
-            }
-        });
-
-        listViewAtributos.setAdapter(arrayAdapter);
     }
 
+    @Override
+    public void onFragmentInteractionEliminarAtributos(String AtributoAEliminar) {
+        administradora.eliminarAtributo(AtributoAEliminar);
+    }
 
 
 

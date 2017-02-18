@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import Interfaces.ListadoDeStringListener;
+
 import fedelizondo.basededatos.R;
 
 /**
@@ -98,8 +98,6 @@ public class AgregarAtributosFragment extends DialogFragment  {
         atributos = new ArrayList<String>();
 
 
-
-
                 if (atributoPorAgregar.getTextSize() > 0 && !atributoPorAgregar.getText().equals("")) {
 
                     String atributo = atributoPorAgregar.getText().toString();
@@ -144,7 +142,8 @@ public class AgregarAtributosFragment extends DialogFragment  {
                 }
                 else
                 {
-                    //TODO MOSTRAR MENSAJE DE ERROR QUE EL TEXTO ESTA VACIO
+                    String mensaje = getResources().getString(R.string.errorAgregarAtributoVacio);
+                    Toast.makeText(getContext(),mensaje,Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -176,8 +175,12 @@ public class AgregarAtributosFragment extends DialogFragment  {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
+
+            if( getTargetFragment() instanceof OnFragmentInteractionListener )
+                mListener = (OnFragmentInteractionListener) getTargetFragment();
+            else
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListenerFragmentModificarAtributo");
         }
     }
 
