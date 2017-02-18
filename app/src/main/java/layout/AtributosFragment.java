@@ -72,7 +72,6 @@ public class AtributosFragment extends Fragment implements
         if (getArguments() != null) {
             listaAtributos = getArguments().getStringArrayList(LISTADO_ATRIBUTOS);
         }
-
     }
 
     @Override
@@ -83,13 +82,6 @@ public class AtributosFragment extends Fragment implements
         initViews(view);
         return view;
     }
-
-    /*
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }*/
 
     @Override
     public void onAttach(Context context) {
@@ -107,6 +99,41 @@ public class AtributosFragment extends Fragment implements
         super.onDetach();
         mListener = null;
     }
+
+
+    public void AgregarAtributos()
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        AgregarAtributosFragment dialog = new AgregarAtributosFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(AgregarAtributosFragment.ARG_PARAM1,listaAtributos);
+
+        dialog.setArguments(bundle);
+        dialog.setTargetFragment(AtributosFragment.this,1235);
+        dialog.show(fragmentManager,"AgregarAtributo");
+    }
+
+    public void ModificarAtributos(String atributo)
+    {
+        FragmentManager fragmentManager =  this.getChildFragmentManager();  //getActivity().getSupportFragmentManager();
+        ModificarAtributosFragment dialog = new ModificarAtributosFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(ModificarAtributosFragment.LISTADO_ATRIBUTOS,listaAtributos);
+        bundle.putString(ModificarAtributosFragment.ATRIBUTO_A_MODIFICAR,atributo);
+
+        dialog.setArguments(bundle);
+        dialog.setTargetFragment(AtributosFragment.this,1234);
+        dialog.show(fragmentManager,"ModificarAtributo");
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteractionAgregarAtributos(ArrayList<String> listadoAtributo);
+        void onFragmentInteractionModificarAtributos(String AtributoAnterior,String AtributoNuevo);
+        void onFragmentInteractionEliminarAtributos(String AtributoAEliminar);
+    }
+
 
     @Override
     public void OnFragmentInteractionListenerFragmentModificarAtributo(String AtributoAnterior, String AtributoModificado) {
@@ -127,38 +154,14 @@ public class AtributosFragment extends Fragment implements
         dataAdapter.updateDataSource(listaAtributos);
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteractionAgregarAtributos(ArrayList<String> listadoAtributo);
-        void onFragmentInteractionModificarAtributos(String AtributoAnterior,String AtributoNuevo);
-        void onFragmentInteractionEliminarAtributos(String AtributoAEliminar);
-    }
-
-
-
     @Override
     public void onFragmentInteraction(ArrayList<String> listadoAtributo) {
-
         for (String string : listadoAtributo) {
                 dataAdapter.addItem(string);
             }
-
         if(mListener !=null)
             mListener.onFragmentInteractionAgregarAtributos(listadoAtributo);
-
-
     }
-
 
     private void initViews(View view)
     {
@@ -238,35 +241,5 @@ public class AtributosFragment extends Fragment implements
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerViewAtributos);
     }
-
-
-    public void AgregarAtributos()
-    {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        AgregarAtributosFragment dialog = new AgregarAtributosFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(AgregarAtributosFragment.ARG_PARAM1,listaAtributos);
-
-        dialog.setArguments(bundle);
-        dialog.setTargetFragment(AtributosFragment.this,1235);
-        dialog.show(fragmentManager,"AgregarAtributo");
-    }
-
-    public void ModificarAtributos(String atributo)
-    {
-        FragmentManager fragmentManager =  this.getChildFragmentManager();  //getActivity().getSupportFragmentManager();
-        ModificarAtributosFragment dialog = new ModificarAtributosFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(ModificarAtributosFragment.LISTADO_ATRIBUTOS,listaAtributos);
-        bundle.putString(ModificarAtributosFragment.ATRIBUTO_A_MODIFICAR,atributo);
-
-        dialog.setArguments(bundle);
-        dialog.setTargetFragment(AtributosFragment.this,1234);
-        dialog.show(fragmentManager,"ModificarAtributo");
-
-    }
-
 
 }
