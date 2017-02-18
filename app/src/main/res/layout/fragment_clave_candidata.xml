@@ -5,9 +5,82 @@
     tools:context="layout.ClaveCandidataFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/linear_layout">
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Seleccionada"
+                    android:id="@+id/Seleccionada"
+                    android:textSize="20sp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+
+                    />
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView"
+                    android:layout_toRightOf="@id/Seleccionada"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorAccent"
+
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/colorDivider"
+                android:dividerHeight="1dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/linear_layout2"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/superClaves"
+                android:id="@+id/superClaves"
+                android:textSize="20sp"
+                android:layout_margin="@dimen/activity_horizontal_margin"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/colorDivider"
+                android:dividerHeight="1dp"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

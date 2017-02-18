@@ -5,9 +5,44 @@
     tools:context="layout.ClausuraFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/linear_layout"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seleccionarClausura"
+            android:id="@+id/seleccionarClausura"
+            android:textSize="20sp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_weight="0"
+            />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/colorDivider"
+            android:dividerHeight="1dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:text="Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:textSize="16sp"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorText_Icons"
+            android:layout_weight="0"
+            />
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -56,6 +56,20 @@
         <item>UREYGHSOABCD -> GRETIOHGT</item>
     </string-array>
 
+
+    <!-- CLAVES CANDIDATAS -->
+    <string name="Seleccionada">Seleccionada:</string>
+    <string name="superClaves">Super Claves</string>
+
+    <!-- CÁLCULO DE CLAUSURAS -->
+    <string name="seleccionarClausura">Seleccione atributos para calcular clausura</string>
+
+    <!-- DEPENDENCIAS FUNCIONALES -->
+    <string name="listaDependencias">Lista de dependencias funcionales</string>
+
+    <!-- TABLEAUX -->
+    <string name="pasosTableaux">Pasos</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
