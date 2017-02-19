@@ -5,25 +5,30 @@
     android:layout_height="match_parent"
     tools:context="layout.AtributosFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+<LinearLayout
 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/ll_FragmentAtributos"
+    >
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="12dp"
+        android:textAlignment="center"
         android:text="@string/tituloAgregarAtributo"
         android:textAppearance="?android:textAppearanceLarge"
         android:layout_weight="0"
         />
 
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_Atributos"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:dividerHeight="1dp"
             style="@android:style/Widget.DeviceDefault.ExpandableListView"
             android:divider="@android:color/darker_gray"
@@ -48,7 +53,8 @@
         android:headerDividersEnabled="false"
         android:paddingTop="8dip"
         /-->
-    </LinearLayout>
+
+</LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         app:fabSize="normal"
@@ -57,10 +63,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@id/ll_FragmentAtributos"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-
         />
 
-</RelativeLayout>
+    </RelativeLayout>
+

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -72,13 +73,9 @@ public class AgregarAtributosFragment extends DialogFragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             listadoAtributo = getArguments().getStringArrayList(ARG_PARAM1);
         }
-
-
-
     }
 
     @Override
@@ -88,16 +85,14 @@ public class AgregarAtributosFragment extends DialogFragment  {
         final View rootView = inflater.inflate(R.layout.fragment_agregar_atributos, container, false);
 
         atributoPorAgregar = (EditText) rootView.findViewById(R.id.etAtributoPorAgregar);
-
+        atributoPorAgregar.setText("");
 
         btnAgregar = (Button) rootView.findViewById(R.id.btnAgregarAtributosAgregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-        atributos = new ArrayList<String>();
-
-
+                atributos = new ArrayList<String>();
                 if (atributoPorAgregar.getTextSize() > 0 && !atributoPorAgregar.getText().equals("")) {
 
                     String atributo = atributoPorAgregar.getText().toString();
@@ -105,45 +100,38 @@ public class AgregarAtributosFragment extends DialogFragment  {
 
                     ArrayList<String> listaStringRepetidos = new ArrayList<String>();
 
-                    if (listadoAtributo!=null && !listadoAtributo.isEmpty()) {
-                        for (String string : arrayAtributo)
-                        {
-                            if( !listadoAtributo.contains(string) )
+                    if (listadoAtributo != null && !listadoAtributo.isEmpty()) {
+                        for (String string : arrayAtributo) {
+                            if (!listadoAtributo.contains(string))
                                 atributos.add(string);
                             else
                                 listaStringRepetidos.add(string);
                         }
 
-                        if(!listaStringRepetidos.isEmpty())
-                        {
-                            String preTexto = getResources().getString( (listaStringRepetidos.size()>1)?
+                        if (!listaStringRepetidos.isEmpty()) {
+                            String preTexto = getResources().getString((listaStringRepetidos.size() > 1) ?
                                     R.string.preTextoMuchosFragmentAgregarAtributo :
                                     R.string.preTextoUnicoFragmentAgregarAtributo);
 
-                            String postTexto = getResources().getString( (listaStringRepetidos.size() > 1)?
-                                    R.string.postTextoMuchosFragmentAgregarAtributo:
+                            String postTexto = getResources().getString((listaStringRepetidos.size() > 1) ?
+                                    R.string.postTextoMuchosFragmentAgregarAtributo :
                                     R.string.postTextoUnicoFragmentAgregarAtributo);
 
                             Toast.makeText(getContext(),
-                                    preTexto +" "+listaStringRepetidos.toString()+" "+postTexto,
+                                    preTexto + " " + listaStringRepetidos.toString() + " " + postTexto,
                                     Toast.LENGTH_LONG).show();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         for (String s : arrayAtributo) {
                             atributos.add(s);
                         }
                     }
-
-                    if(mListener!= null)
+                    if (mListener != null)
                         mListener.onFragmentInteraction(atributos);
                     dismiss();
-                }
-                else
-                {
+                } else {
                     String mensaje = getResources().getString(R.string.errorAgregarAtributoVacio);
-                    Toast.makeText(getContext(),mensaje,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), mensaje, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -190,18 +178,6 @@ public class AgregarAtributosFragment extends DialogFragment  {
         mListener = null;
     }
 
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(ArrayList<String> listadoAtributo);
     }
