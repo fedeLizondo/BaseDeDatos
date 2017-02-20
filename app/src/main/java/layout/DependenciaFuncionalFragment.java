@@ -1,6 +1,8 @@
 package layout;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,9 +10,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -22,46 +25,46 @@ import android.view.animation.ScaleAnimation;
 
 import java.util.ArrayList;
 
-import fedelizondo.basededatos.DataAdapter;
+import LogicaNegocio.Administradora;
+import LogicaNegocio.DependenciaFuncional;
+import fedelizondo.basededatos.AdapterDF;
+
+import fedelizondo.basededatos.AgregarDependenciaFuncional;
+import fedelizondo.basededatos.MainActivity;
+import fedelizondo.basededatos.ModificarDependeciaFuncional;
 import fedelizondo.basededatos.R;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link DependenciaFuncionalFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link DependenciaFuncionalFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class DependenciaFuncionalFragment extends Fragment {
 
-public class AtributosFragment extends Fragment implements
-        AgregarAtributosFragment.OnFragmentInteractionListener,
-        ModificarAtributosFragment.OnFragmentInteractionListenerFragmentModificarAtributo {
-
-    public static final String LISTADO_ATRIBUTOS = "listadoAtributos";
     public static String TAG ="ATRIBUTOS";
 
-    private ArrayList<String> listaAtributos;
-
-    //private ListView listViewAtributos;
     private RecyclerView recyclerViewAtributos;
-    private DataAdapter dataAdapter;
+    private AdapterDF dataAdapter;
 
     private View view;
     private Paint p = new Paint();
 
+    private ArrayList<DependenciaFuncional> lDependenciasFuncional;
+    private ArrayList<String> lAtributos;
+
     private OnFragmentInteractionListener mListener;
-    private ModificarAtributosFragment.OnFragmentInteractionListenerFragmentModificarAtributo listenerFragmentModificarAtributo;
+    private Administradora administradora;
 
-
-    public AtributosFragment() {
+    public DependenciaFuncionalFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param listadoAtributos listado de atributos pasada por Main.
-     * @return A new instance of fragment AtributosFragment.
-     */
-
-    public static AtributosFragment newInstance(ArrayList<String> listadoAtributos) {
-        AtributosFragment fragment = new AtributosFragment();
+    public static DependenciaFuncionalFragment newInstance() {
+        DependenciaFuncionalFragment fragment = new DependenciaFuncionalFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList(LISTADO_ATRIBUTOS, listadoAtributos);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,19 +72,26 @@ public class AtributosFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            listaAtributos = getArguments().getStringArrayList(LISTADO_ATRIBUTOS);
-        }
+            lDependenciasFuncional = new ArrayList<>();
+            lAtributos = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_atributos, container, false);
+        if( getActivity() instanceof MainActivity)
+        {
+            administradora = ((MainActivity) getActivity()).administradora;
+            lDependenciasFuncional = administradora.darListadoDependenciasFuncional();
+            lAtributos = administradora.darListadoAtributos();
+        }
+        view = inflater.inflate(R.layout.fragment_dependencia_funcional, container, false);
         initViews(view);
         return view;
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -100,80 +110,45 @@ public class AtributosFragment extends Fragment implements
         mListener = null;
     }
 
-
-    public void AgregarAtributos()
-    {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        AgregarAtributosFragment dialog = new AgregarAtributosFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(AgregarAtributosFragment.ARG_PARAM1,listaAtributos);
-
-        dialog.setArguments(bundle);
-        dialog.setTargetFragment(AtributosFragment.this,1235);
-        dialog.show(fragmentManager,"AgregarAtributo");
-    }
-
-    public void ModificarAtributos(String atributo)
-    {
-        FragmentManager fragmentManager =  this.getChildFragmentManager();  //getActivity().getSupportFragmentManager();
-        ModificarAtributosFragment dialog = new ModificarAtributosFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(ModificarAtributosFragment.LISTADO_ATRIBUTOS,listaAtributos);
-        bundle.putString(ModificarAtributosFragment.ATRIBUTO_A_MODIFICAR,atributo);
-
-        dialog.setArguments(bundle);
-        dialog.setTargetFragment(AtributosFragment.this,1234);
-        dialog.show(fragmentManager,"ModificarAtributo");
-    }
-
     public interface OnFragmentInteractionListener {
-        void onFragmentInteractionAgregarAtributos(ArrayList<String> listadoAtributo);
-        void onFragmentInteractionModificarAtributos(String AtributoAnterior,String AtributoNuevo);
-        void onFragmentInteractionEliminarAtributos(String AtributoAEliminar);
+        void onFragmentInteractionDFAgregar( DependenciaFuncional dfAgregada );
+        void onFragmentInteractionDFModificar(  DependenciaFuncional dfVieja , DependenciaFuncional dfNueva );
+        void onFragmentInteractionDFEliminar( DependenciaFuncional dfEliminada );
     }
 
 
-    @Override
-    public void OnFragmentInteractionListenerFragmentModificarAtributo(String AtributoAnterior, String AtributoModificado) {
-        int index = listaAtributos.indexOf(AtributoAnterior);
-        listaAtributos.remove(index);
-        listaAtributos.add(index,AtributoModificado);
-
-        dataAdapter.updateItem(index,AtributoModificado);
-
-        if(mListener != null)
+    public void AgregarDF()
+    {
+        if(administradora != null){ //!lAtributos.isEmpty()) {
+            Intent intent = new Intent(getActivity(), AgregarDependenciaFuncional.class);
+            intent.putStringArrayListExtra(AgregarDependenciaFuncional.LISTAATRIBUTOS, administradora.darListadoAtributos());
+            startActivityForResult(intent,1);
+        }
+        else
         {
-            mListener.onFragmentInteractionModificarAtributos(AtributoAnterior,AtributoModificado);
+            String mensaje = getResources().getString(R.string.ErrorDependenciaFuncionalNoHayAtributos);
+            Snackbar.make(view,mensaje,Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         }
     }
 
-    @Override
-    public void OnFragmentInteractionListenerCancelModificarAtributo() {
-        dataAdapter.updateDataSource(listaAtributos);
+    public void ModificarDF(int index)
+    {
+        if(administradora != null){ //!lAtributos.isEmpty()) {
+            Intent intent = new Intent(getActivity(), ModificarDependeciaFuncional.class);
+            intent.putExtra(ModificarDependeciaFuncional.INDEXAMODIFICAR, index);
+            startActivityForResult(intent,1);
+        }
     }
 
-    @Override
-    public void onFragmentInteraction(ArrayList<String> listadoAtributo) {
-
-        if(mListener !=null)
-            mListener.onFragmentInteractionAgregarAtributos(listadoAtributo);
-
-        for (String string : listadoAtributo) {
-                dataAdapter.addItem(string);
-            }
-
-
-    }
 
     private void initViews(View view)
     {
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarAtributo);
+        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarDependeciaFuncional);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AgregarAtributos();
+                AgregarDF();
             }
         });
 
@@ -185,11 +160,11 @@ public class AtributosFragment extends Fragment implements
         animation.setInterpolator(new OvershootInterpolator());
         fab.startAnimation(animation);
 
-        recyclerViewAtributos = (RecyclerView) view.findViewById(R.id.rv_Atributos);
+        recyclerViewAtributos = (RecyclerView) view.findViewById(R.id.rv_DependenciaFuncional);
         recyclerViewAtributos.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity().getApplicationContext());
         recyclerViewAtributos.setLayoutManager(layoutManager);
-        dataAdapter = new DataAdapter(listaAtributos);
+        dataAdapter = new AdapterDF( lDependenciasFuncional );
         recyclerViewAtributos.setAdapter(dataAdapter);
         dataAdapter.notifyDataSetChanged();
         initSwipe();
@@ -206,19 +181,18 @@ public class AtributosFragment extends Fragment implements
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                String atributo = listaAtributos.get(position);
+                lDependenciasFuncional = administradora.darListadoDependenciasFuncional();
+                DependenciaFuncional df = lDependenciasFuncional.get(position);
 
                 if (direction == ItemTouchHelper.LEFT){
                     dataAdapter.removeItem(position);
-                    listaAtributos.remove(atributo);
-
                     if (mListener != null) {
-                        mListener.onFragmentInteractionEliminarAtributos( atributo );
+                        mListener.onFragmentInteractionDFEliminar( df );
                     }
                 }
                 else
                 {
-                    ModificarAtributos(atributo);
+                    ModificarDF(position);
                 }
             }
 
@@ -255,4 +229,9 @@ public class AtributosFragment extends Fragment implements
         itemTouchHelper.attachToRecyclerView(recyclerViewAtributos);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        dataAdapter.updateDataSource(administradora.darListadoDependenciasFuncional());
+    }
 }

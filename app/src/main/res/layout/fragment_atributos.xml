@@ -15,14 +15,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:padding="12dp"
         android:textAlignment="center"
         android:text="@string/tituloAgregarAtributo"
         android:textAppearance="?android:textAppearanceLarge"
         android:layout_weight="0"
         />
-
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_Atributos"

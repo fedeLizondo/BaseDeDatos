@@ -3,43 +3,82 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Atributos" />
+            android:id="@+id/nav_atributo"
+            android:icon="@drawable/ic_forward_black_24dp"
+            android:title="@string/tituloAtributo" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Dependencia Funcional" />
+            android:id="@+id/nav_dependencia"
+            android:icon="@drawable/ic_forward_black_24dp"
+            android:title="@string/tituloDependenciaFuncional" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Clausura" />
+            android:id="@+id/nav_clausura"
+            android:icon="@drawable/ic_forward_black_24dp"
+            android:title="@string/tituloClausura" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Claves" />
-        <item android:title="Forma Normal"
-            android:id="@+id/nav_fm" />
-        <item android:title="Tablaux"
-            android:id="@+id/nav_tab" />
+            android:id="@+id/nav_claveCandidata"
+            android:icon="@drawable/ic_forward_black_24dp"
+            android:title="@string/tituloClaveCandidata" />
+
+        <item
+            android:id="@+id/nav_fmin"
+            android:icon="@drawable/ic_forward_black_24dp"
+            android:title="@string/tituloFMin"/>
+
+        <item
+            android:id="@+id/nav_formaNormal"
+            android:title="@string/tituloFormaNormal"
+            android:icon="@drawable/ic_forward_black_24dp"/>
+
+        <item
+            android:id="@+id/nav_tableaux"
+            android:title="@string/tituloTableaux"
+            android:icon="@drawable/ic_forward_black_24dp"/>
+        <item
+            android:id="@+id/nav_calculoEficiente"
+            android:icon="@drawable/ic_forward_black_24dp"
+            android:title="@string/tituloCalculoEficiente" />
+        <item
+            android:id="@+id/nav_calculoSinPerdida"
+            android:icon="@drawable/ic_forward_black_24dp"
+            android:title="@string/tituloCalculoSinPerdida" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/tituloEjemplos">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Cálculo Eficiente"
-                android:enabled="false" />
-            <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_Ejemplo1"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Cálculo sin perdida información"
-                android:enabled="false" />
-            <item android:title="Ayuda"
-                android:id="@+id/nav_ayuda"
-                android:icon="@android:drawable/ic_menu_help" />
+                android:title="@string/Ejemplo1"
+                android:enabled="true"
+                 />
+            <item
+                android:id="@+id/nav_Ejemplo2"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/Ejemplo2"
+                />
+            <item
+                android:id="@+id/nav_Ejemplo3"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/Ejemplo3"
+                />
+            <item
+                android:id="@+id/nav_Ejemplo4"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/Ejemplo4"
+                />
+            <item
+                android:id="@+id/nav_Ejemplo5"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/Ejemplo5"
+                />
+
+
         </menu>
     </item>
+
+    <item
+        android:id="@+id/nav_ayuda"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="Ayuda" />
 
 </menu>

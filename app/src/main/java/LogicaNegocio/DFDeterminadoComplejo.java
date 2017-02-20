@@ -57,14 +57,6 @@ public class DFDeterminadoComplejo extends DependenciaFuncional {
 
     @Override
     public String toString() {
-       /*
-           String s=this.determinante+" -> ";
-            for (String d : determinado) {
-                s+=d+",";
-            }
-            if(s.endsWith(",")){s=s.substring(0,s.length()-2);}
-            return  s;
-        */
 
         return determinante+" -> "+determinado;
     }
@@ -82,13 +74,13 @@ public class DFDeterminadoComplejo extends DependenciaFuncional {
             DependenciaFuncional DF = (DependenciaFuncional) o;
             ArrayList<String> lDeterminantes = DF.getDeterminante();
             ArrayList<String> lDeterminado = DF.getDeterminado();
-            int i = 0;
-            int tam = this.determinado.size();
-            while ( i < tam && lDeterminado.contains(this.determinado.get(i)))
-            {
-                i++;
-            }
-            return  ( i == tam ) && lDeterminantes.contains(this.determinante);
+
+            boolean contieneDeterminante = lDeterminantes.contains(determinante);
+            boolean contieneDeterminado = this.determinado.containsAll(lDeterminado);
+            boolean mismoTamanioDeterminante = lDeterminantes.size() == 1;
+            boolean mismoTamanioDeterminado = this.determinado.size() == lDeterminado.size();
+
+            return  contieneDeterminante && contieneDeterminado && mismoTamanioDeterminado && mismoTamanioDeterminante ;
         }
         return false;
     }
