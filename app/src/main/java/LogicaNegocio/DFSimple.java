@@ -55,12 +55,16 @@ public class DFSimple extends DependenciaFuncional{
     @Override
     public boolean equals(Object o) {
         if(o == this){ return true; }
-        if (o != null && o instanceof DependenciaFuncional)
-        {
-                DependenciaFuncional DF = (DependenciaFuncional) o;
-                ArrayList<String> lDeterminantes = DF.getDeterminante();
-                ArrayList<String> lDeterminado = DF.getDeterminado();
-                return lDeterminantes.contains(this.determinante) && lDeterminado.contains(this.determinado);
+        if (o != null && o instanceof DependenciaFuncional) {
+            DependenciaFuncional DF = (DependenciaFuncional) o;
+            ArrayList<String> lDeterminantes = DF.getDeterminante();
+            ArrayList<String> lDeterminado = DF.getDeterminado();
+            boolean contieneDeterminante = lDeterminantes.contains(determinante);
+            boolean contieneDeterminado =  lDeterminado.contains(this.determinado);
+            boolean mismoTamanioDeterminante = lDeterminantes.size() == 1;
+            boolean mismoTamanioDeterminado = lDeterminado.size() == 1;
+
+            return contieneDeterminante && contieneDeterminado && mismoTamanioDeterminado && mismoTamanioDeterminante;
         }
         return false;
     }

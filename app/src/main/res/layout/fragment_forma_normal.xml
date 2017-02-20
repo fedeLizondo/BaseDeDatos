@@ -4,10 +4,40 @@
     android:layout_height="match_parent"
     tools:context="layout.FormaNormalFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_tituloFNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:textColor="@color/colorText_Icons"
+            android:background="@color/colorPrimary"
+            android:textAlignment="center"
+            android:text="@string/tituloFormaNormal" />
+        <!--TextView
+            android:id="@+id/tv_subTituloFMIN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:textAlignment="center"
+            android:text="@string/subTituloFMin" /-->
+
+        <TextView
+            android:id="@+id/tv_cuerpoFNormal"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="" />
+
+    </LinearLayout>
+
 
 </FrameLayout>

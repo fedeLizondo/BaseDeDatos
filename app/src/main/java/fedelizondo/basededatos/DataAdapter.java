@@ -41,8 +41,18 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     }
 
     public void addItem(String itemString) {
-        ListaDatos.add(itemString);
-        notifyItemInserted(ListaDatos.size());
+        if(!ListaDatos.contains(itemString))
+        {
+            ListaDatos.add(itemString);
+            notifyItemInserted(ListaDatos.size());
+        }
+    }
+
+    public void addItem(ArrayList<String> listItemString)
+    {
+        int inicial = ListaDatos.size();
+        ListaDatos.addAll(listItemString);
+        notifyItemRangeInserted(inicial,ListaDatos.size());
     }
 
     public void removeItem(int position) {

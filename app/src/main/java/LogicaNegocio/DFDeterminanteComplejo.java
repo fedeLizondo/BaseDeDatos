@@ -70,13 +70,13 @@ public class DFDeterminanteComplejo extends DependenciaFuncional {
             DependenciaFuncional DF = (DependenciaFuncional) o;
             ArrayList<String> lDeterminantes = DF.getDeterminante();
             ArrayList<String> lDeterminado = DF.getDeterminado();
-            int i = 0;
-            int tam = this.determinante.size();
-            while ( i < tam && lDeterminantes.contains(this.determinante.get(i)))
-            {
-                i++;
-            }
-            return  ( i == tam ) && lDeterminado.contains(this.determinado);
+
+            boolean contieneDeterminante = this.determinante.containsAll(lDeterminantes);
+            boolean contieneDeterminado = lDeterminado.contains(this.determinado);
+            boolean mismoTamanioDeterminante = this.determinante.size() == lDeterminantes.size();
+            boolean mismoTamanioDeterminado = lDeterminado.size() == 1;
+
+            return  contieneDeterminante && contieneDeterminado && mismoTamanioDeterminado && mismoTamanioDeterminante ;
         }
         return false;
     }

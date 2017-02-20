@@ -8,15 +8,36 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AgregarDependenciaFuncional"
+            android:label="@string/title_activity_agregar_dependencia_funcional"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fedelizondo.basededatos.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ModificarDependeciaFuncional"
+            android:label="@string/title_activity_modificar_dependecia_funcional"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CalcularClausura"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_calcular_clausura"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

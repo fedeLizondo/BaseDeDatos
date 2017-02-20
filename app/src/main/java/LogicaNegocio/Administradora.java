@@ -1,21 +1,21 @@
 package LogicaNegocio;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-/**
- * Created by federicolizondo on 25/01/17.
- */
-public class Administradora {
+
+public class Administradora implements Serializable{
 
     private static Administradora ourInstance = new Administradora();
 
@@ -78,6 +78,31 @@ public class Administradora {
 
 
     //DEPENDENCIAS FUNCIONAL
+
+    public DependenciaFuncional crearDependenciaFuncional( ArrayList<String> determinate, ArrayList<String> determinado)
+    {
+        DependenciaFuncional df = null;
+
+        if( determinate!=null && determinado != null && !determinate.isEmpty() && !determinado.isEmpty()) {
+            if (determinate.size() > 1)
+            {
+                if (determinado.size() > 1)
+                    df = new DFCompleja(determinate, determinado);
+                 else
+                    df = new DFDeterminanteComplejo(determinate,determinado.get(0));
+            }
+            else
+            {
+                if(determinado.size()>1)
+                    df = new DFDeterminadoComplejo(determinate.get(0),determinado);
+                else
+                    df = new DFSimple(determinate.get(0),determinado.get(0));
+            }
+        }
+        return df;
+    }
+
+
     public void agregarDependenciaFuncional(DependenciaFuncional dependenciaFuncional){
         if( dependenciaFuncional!=null && !lDependenciasFuncionales.contains(dependenciaFuncional))
         {
@@ -88,7 +113,7 @@ public class Administradora {
     public void modificarDependenciaFuncional(DependenciaFuncional dependenciaFuncionalAntigua,DependenciaFuncional dependenciaFuncionalNueva){
         if(lDependenciasFuncionales.contains(dependenciaFuncionalAntigua)&&!lDependenciasFuncionales.contains(dependenciaFuncionalNueva))
         {
-            int pos=lDependenciasFuncionales.indexOf(dependenciaFuncionalAntigua);
+            int pos = lDependenciasFuncionales.indexOf(dependenciaFuncionalAntigua);
             lDependenciasFuncionales.remove(dependenciaFuncionalAntigua);
             lDependenciasFuncionales.add(pos, dependenciaFuncionalNueva);
         }
@@ -109,11 +134,11 @@ public class Administradora {
     //CLAVE CANDIDATAS
     public ArrayList<ArrayList<String>> calcularClavesCandidatas() {
 
-        //TODO ARREGLAR CLAVES CANDIDATAS
         ArrayList<String> lposibles;
         ArrayList<String> lprefijoClave = new ArrayList<String>( lAtributos);
         ArrayList<String> determinante=new ArrayList<String>();
         ArrayList<String> determinado = new ArrayList<String>();
+        claves.clear();
 
        //Obtengo todos los Determinantes y todos los Determinados
         for (DependenciaFuncional df : lDependenciasFuncionales) {
@@ -143,6 +168,7 @@ public class Administradora {
         //ELIMINÓ CLAVES NO CANDIDATAS
         ArrayList<ArrayList<String>> lAuxClave = new ArrayList<ArrayList<String>>(claves);
         ArrayList<ArrayList<String>> lAuxClave2 = new ArrayList<ArrayList<String>>(claves);
+
         for (ArrayList<String> clave : lAuxClave2) {
             for (ArrayList<String> string : lAuxClave) {
                 if (string.containsAll(clave) && clave.size() < string.size())
@@ -155,7 +181,6 @@ public class Administradora {
 
     private void calcularClavesRecursivo( ArrayList<String> lPrefijos, ArrayList<String> lAtributosPosibles ){
 
-        //TODO FIX CALCULO RECURSIVO POR ALGUNA RAZON SE CUELGA
         if( lAtributosPosibles!= null &&!lAtributosPosibles.isEmpty() ) {
             ArrayList<String> lAuxPrefijos = new ArrayList<String>((ArrayList<String>) lPrefijos.clone());
             ArrayList<String> lAuxAtributosPosibles = new ArrayList<String>((ArrayList<String>) lAtributosPosibles.clone());
@@ -207,8 +232,6 @@ public class Administradora {
 
     public ArrayList<String> calcularClausura(ArrayList<String> AtributoACalcular ){
 
-        //TODO VERIFICAR CALCULAR CLAUSURA
-
         if (lDependenciasFuncionales.isEmpty() || AtributoACalcular.isEmpty()) {
             return new ArrayList<String>();
         }
@@ -234,8 +257,17 @@ public class Administradora {
             }
         }
         lClausura = new ArrayList<String>(new HashSet<String>(lClausura));
-
         return lClausura;
+    }
+
+    public void cambiarClaveCandidata(ArrayList<String> claveCandidata)
+    {
+        //TODO AL CAMBIAR TODO LO POSTERIOR DEBE CAMBIAR
+    }
+
+    public ArrayList<ArrayList<String>> darSuperClaves()
+    {
+        return claves;
     }
 
     //FORMA NORMAL
@@ -352,7 +384,6 @@ public class Administradora {
 
         return descomposicion;
     }
-
 
     public ArrayList<ArrayList<DependenciaFuncional>> calcularDescomposicionFNBC() {
 
@@ -701,6 +732,18 @@ public class Administradora {
         return cambios;
     }
 
+    public int estadoCambiosAdministradora()
+    {
+        if( lAtributos.isEmpty() )
+            return 1;
+        if( lDependenciasFuncionales.isEmpty())
+            return 2;
+        if( claves.isEmpty())
+            return 4;
+        return 0;
+    }
+
+/*
     public void guardarArchivo(String nombreArchivo, String directorio, Context context) {
         JSONObject job = new JSONObject();
 
@@ -801,6 +844,6 @@ public class Administradora {
         }
 
 
-    }
+    }*/
 
 }

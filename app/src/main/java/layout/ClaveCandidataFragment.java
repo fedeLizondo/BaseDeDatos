@@ -7,47 +7,38 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import LogicaNegocio.Administradora;
+import fedelizondo.basededatos.MainActivity;
 import fedelizondo.basededatos.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ClaveCandidataFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ClaveCandidataFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ClaveCandidataFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View view;
+    private ListView listaCC;
+    private ListView listaSuperClaves;
+    private TextView tvCCSeleccionada;
+    private ArrayList<ArrayList<String>> ListadoClavesCandidatas;
+    private ArrayList<ArrayList<String>> ListadoSuperClaves;
 
-    private OnFragmentInteractionListener mListener;
+    private ArrayList<String> Clavecandidata;
+    private Administradora administradora;
 
     public ClaveCandidataFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ClaveCandidataFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ClaveCandidataFragment newInstance(String param1, String param2) {
+
+    public static ClaveCandidataFragment newInstance() {
         ClaveCandidataFragment fragment = new ClaveCandidataFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,55 +46,77 @@ public class ClaveCandidataFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        if(getContext() instanceof MainActivity)
+            administradora = ((MainActivity) getContext()).administradora;
+        else
+            administradora = Administradora.getInstance();
+
+        Clavecandidata = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_clave_candidata, container, false);
+        view = inflater.inflate(R.layout.fragment_clave_candidata, container, false);
+
+        initView(view);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+
+    public void initView(View view)
+    {
+        tvCCSeleccionada = (TextView) view.findViewById(R.id.tv_ccSeleccionada);
+        listaCC = (ListView) view.findViewById(R.id.lv_ClaveCandidata);
+
+        ListadoClavesCandidatas = administradora.calcularClavesCandidatas();
+        if(ListadoClavesCandidatas!=null && !ListadoClavesCandidatas.isEmpty())
+            Clavecandidata = ListadoClavesCandidatas.get(0);
+
+        ArrayAdapter ccAdaper = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,convertirAArrayList(ListadoClavesCandidatas));
+        listaCC.setAdapter(ccAdaper);
+        listaCC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Clavecandidata = ListadoClavesCandidatas.get(position);
+                administradora.cambiarClaveCandidata(Clavecandidata);//TODO MODIFICAR NO HACE CAMBIOS
+            }
+        });
+
+        listaSuperClaves = (ListView) view.findViewById(R.id.lv_SuperClave);
+        ListadoSuperClaves = administradora.darSuperClaves();
+        ArrayAdapter skAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,convertirAArrayList(ListadoSuperClaves));
+        listaSuperClaves.setAdapter(skAdapter);
+
+        if(!Clavecandidata.isEmpty())
+            tvCCSeleccionada.setText(Clavecandidata.toString().replace('[',' ').replace(']',' '));
     }
+
+    private ArrayList<String> convertirAArrayList(ArrayList<ArrayList<String>> clave)
+    {
+        ArrayList<String> resultado = new ArrayList();
+
+        if(clave!=null)
+        for (ArrayList<String> item :clave)
+        {
+            String itemAuxiliar =  item.toString().replace('[',' ').replace(']',' ');
+            resultado.add(itemAuxiliar);
+        }
+        return resultado;
+    }
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListenerFragmentModificarAtributo");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }

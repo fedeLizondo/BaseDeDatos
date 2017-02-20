@@ -45,27 +45,14 @@ public class AgregarAtributosFragment extends DialogFragment  {
 
     private OnFragmentInteractionListener mListener;
 
-
-
-    //private ListadoDeStringListener mListener;
-
     public AgregarAtributosFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-
-     * @return A new instance of fragment AgregarAtributosFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AgregarAtributosFragment newInstance(String param1) {
+    public static AgregarAtributosFragment newInstance(ArrayList<String> param1) {
         AgregarAtributosFragment fragment = new AgregarAtributosFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putStringArrayList(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,9 +68,40 @@ public class AgregarAtributosFragment extends DialogFragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_agregar_atributos, container, false);
 
+        final View rootView = inflater.inflate(R.layout.fragment_agregar_atributos, container, false);
+        InitView(rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+
+            if( getTargetFragment() instanceof OnFragmentInteractionListener )
+                mListener = (OnFragmentInteractionListener) getTargetFragment();
+            else
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListenerFragmentModificarAtributo");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(ArrayList<String> listadoAtributo);
+    }
+
+    public void InitView(View rootView)
+    {
         atributoPorAgregar = (EditText) rootView.findViewById(R.id.etAtributoPorAgregar);
         atributoPorAgregar.setText("");
 
@@ -143,45 +161,9 @@ public class AgregarAtributosFragment extends DialogFragment  {
                 dismiss();
             }
         });
-
         //Agrego el Titulo
         getDialog().setTitle(R.string.tituloFragmentAgregarAtributo);
-        return rootView;
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(ArrayList<String> listadoAtributo) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(listadoAtributo);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-
-            if( getTargetFragment() instanceof OnFragmentInteractionListener )
-                mListener = (OnFragmentInteractionListener) getTargetFragment();
-            else
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListenerFragmentModificarAtributo");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(ArrayList<String> listadoAtributo);
-    }
-
 
 
 }

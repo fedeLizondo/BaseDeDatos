@@ -5,8 +5,20 @@
     <string name="action_settings">Configuración</string>
 
     <string name="aceptar">Aceptar</string>
+    <string name="entendido">Entendido</string>
+    <string name="volver">Volver</string>
     <string name="cancelar">Cancelar</string>
     <string name="salir">Salir</string>
+
+
+    <!-- MENU DEL NAVEGATION DRAWER -->
+    <string name="tituloEjemplos">Ejemplos</string>
+    <string name="Ejemplo1">Tableaux</string>
+    <string name="Ejemplo2">Perdida de Información</string>
+    <string name="Ejemplo3">Claves Candidata</string>
+    <string name="Ejemplo4">Fmin (Teoria)</string>
+    <string name="Ejemplo5">C.C. y Fmin </string>
+
 
     <!--_________________________________________________________________________-->
     <!--|                                                                       |-->
@@ -27,13 +39,11 @@
     <string name="errorAgregarAtributoVacio">Por favor ingrese un Atributo </string>
 
 
-
     <string name="tituloFragmentModificarAtributo">Modificar Atributo</string>
     <string name="subtituloFragmentModificarAtributo">Modificar Atributo</string>
     <string name="indicacionFragmentModificarAtributo">El anterior atributo era:</string>
     <string name="errorModificarAtributoYaIngresado">El Atributo ingresado ya se encuentra en la lista</string>
     <string name="errorModificarAtributoVacio">Por favor ingrese un Atributo </string>
-
 
 
     <!--BOTONES ATRIBUTOS-->
@@ -43,33 +53,59 @@
 
     <!--_________________________________________________________________________-->
     <!--|                                                                       |-->
-    <!--|                       DETERMINANTES                                   |-->
+    <!--|                       DEPENDENCIA FUNCIONAL                           |-->
     <!--|_______________________________________________________________________|-->
 
     <string-array name="Determinantes"></string-array>
+    <string-array name="ListaDF"></string-array>
+    <string name="listaDependencias">Lista de dependencias funcionales</string>
 
-    <string-array name="ListaDF">
-        <item>ABCD -> BCD</item>
-        <item>DEG -> DSAD</item>
-        <item>AFJU -> FGHT</item>
-        <item>UREHY -> RYU</item>
-        <item>UREYGHSOABCD -> GRETIOHGT</item>
-    </string-array>
+    <string name="tituloDeterminante">Determinante</string>
+    <string name="tituloDeterminado">Determinado</string>
+    <string name="tituloDependenciaFuncional">Dependencia Funcional</string>
+    <string name="tituloAgregarDependenciaFuncional">Agregar Dependencia Funcional</string>
+    <string name="tituloModificarDependenciaFuncional">Modificar Dependencia Funcional</string>
+
+
+    <string name="ErrorDependenciaFuncionalRepetida">La dependendecia funcional se encuentra repetida</string>
+    <string name="ErrorDependenciaFuncionalNoHayAtributos">No hay atributos agregados</string>
+    <string name="ErrorDFNoHayDeterminanteSeleccionados">No hay Determinate Seleccionado</string>
+    <string name="ErrorDFNoHayDeterminadoSeleccionados">No hay Determinado Seleccionado</string>
 
 
     <!-- CLAVES CANDIDATAS -->
+    <string name="tituloClaveCandidata">Clave Candidata</string>
     <string name="Seleccionada">Seleccionada:</string>
-    <string name="superClaves">Super Claves</string>
+    <string name="superClaves">Super Claves: </string>
+
 
     <!-- CÁLCULO DE CLAUSURAS -->
+    <string name="tituloClausura">Clausura</string>
     <string name="seleccionarClausura">Seleccione atributos para calcular clausura</string>
+    <string name="btnCalcularClausura">Calcular Clausura</string>
+    <string name="tituloCalcularClausura">Calcular Clausura</string>
 
-    <!-- DEPENDENCIAS FUNCIONALES -->
-    <string name="listaDependencias">Lista de dependencias funcionales</string>
+
+    <!-- F MIN -->
+    <string name="tituloFMin">F min</string>
+    <string name="subTituloFMin">F min = </string>
 
     <!-- TABLEAUX -->
+    <string name="tituloTableaux">Tableaux</string>
     <string name="pasosTableaux">Pasos</string>
+
+
+    <!-- FORMA NORMAL -->
+    <string name="tituloFormaNormal">Forma Normal</string>
+    <string name="tituloCalculoEficiente">Cálculo Eficiente</string>
+    <string name="tituloCalculoSinPerdida">Cálculo Sin Perdida de Información</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_agregar_dependencia_funcional">AgregarDependenciaFuncional</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_modificar_dependecia_funcional">ModificarDependeciaFuncional
+    </string>
+    <string name="title_activity_calcular_clausura">CalcularClausura</string>
 </resources>
