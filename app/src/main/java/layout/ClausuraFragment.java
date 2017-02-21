@@ -90,7 +90,7 @@ public class ClausuraFragment extends Fragment {
         btnCalcular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ACA DEBERIA MOSTRAR EL OTRO FRAGMENT CON EL RESULTADO O PODRIA SER UN DIALOG BOX
+
                 if(!atributosSeleccionados.isEmpty()) {
                     ArrayList<String> resultado = administradora.calcularClausura(atributosSeleccionados);
                     Intent i = new Intent(getActivity(),CalcularClausura.class);
@@ -106,17 +106,10 @@ public class ClausuraFragment extends Fragment {
             }
         });
 
-        ScaleAnimation animation = new ScaleAnimation(0,1,0,1);
-        animation.setFillBefore(true);
-        animation.setFillAfter(true);
-        animation.setFillEnabled(true);
-        animation.setDuration(300);
-        animation.setInterpolator(new OvershootInterpolator());
-        btnCalcular.setAnimation(animation);
 
         listView = (ListView) view.findViewById(R.id.lv_AtributosClausura);
-        ArrayAdapter adapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_checked,ListadoAtributos);
-        listView.setAdapter(adapter);
+
+        update();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -142,6 +135,36 @@ public class ClausuraFragment extends Fragment {
 
     }
 
+
+    public void update()
+    {
+        if(btnCalcular!=null && view != null)
+        {
+
+            ScaleAnimation animation = new ScaleAnimation(0,1,0,1);
+            animation.setFillBefore(true);
+            animation.setFillAfter(true);
+            animation.setFillEnabled(true);
+            animation.setDuration(300);
+            animation.setInterpolator(new OvershootInterpolator());
+            btnCalcular.setAnimation(animation);
+
+            if(!ListadoAtributos.equals(administradora.darListadoAtributos()) ) {
+                ListadoAtributos = administradora.darListadoAtributos();
+                ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_checked,ListadoAtributos);
+                listView.setAdapter(adapter);
+            }
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+        {
+            update();
+        }
+    }
 
     @Override
     public void onDetach() {

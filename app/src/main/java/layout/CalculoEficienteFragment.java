@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import LogicaNegocio.Administradora;
+import LogicaNegocio.DependenciaFuncional;
 import fedelizondo.basededatos.MainActivity;
 import fedelizondo.basededatos.R;
 
@@ -19,6 +22,7 @@ public class CalculoEficienteFragment extends Fragment {
     private Administradora administradora;
     private TextView tvContenido;
 
+    private ArrayList<ArrayList<DependenciaFuncional>> lSubEsquemas;
     private View view;
 
     public CalculoEficienteFragment() {
@@ -54,11 +58,30 @@ public class CalculoEficienteFragment extends Fragment {
         if(view != null)
         {
             tvContenido = (TextView) view.findViewById(R.id.contenido);
+            update();
 
-            String contenido = administradora.calcularDescomposicion3FN().toString();
-            //TODO MODIFICAR EL TEXTO PARA QUE QUEDE MAS ACORDE A LOS SUB ESQUEMAS
-            tvContenido.setText(contenido);
         }
     }
 
+    public void update()
+    {
+        if(tvContenido!=null)
+        {
+            ArrayList<ArrayList<DependenciaFuncional>> aux = administradora.calcularDescomposicion3FN();
+            if(lSubEsquemas == null || !lSubEsquemas.equals(aux))
+            {
+                lSubEsquemas = aux;
+                String contenido = aux.toString();
+                //TODO MODIFICAR EL TEXTO PARA QUE QUEDE MAS ACORDE A LOS SUB ESQUEMAS
+                tvContenido.setText(contenido);
+            }
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser)
+            update();
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 }

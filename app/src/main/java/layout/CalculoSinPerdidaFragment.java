@@ -21,7 +21,7 @@ public class CalculoSinPerdidaFragment extends Fragment {
 
     private Administradora administradora;
     private TextView tvContenido;
-
+    private ArrayList<ArrayList<DependenciaFuncional>> lSubEsquemas;
     private View view;
     public CalculoSinPerdidaFragment() {
         // Required empty public constructor
@@ -54,14 +54,33 @@ public class CalculoSinPerdidaFragment extends Fragment {
 
     public void initView(View view)
     {
-        if(view != null)
-        {
             tvContenido = (TextView) view.findViewById(R.id.contenido);
-
             String contenido = administradora.calcularDescomposicionFNBC().toString();
             //TODO MODIFICAR EL TEXTO PARA QUE QUEDE MAS ACORDE A LOS SUB ESQUEMAS
             tvContenido.setText(contenido);
-        }
+
     }
 
+    public void update()
+    {
+        if(tvContenido!=null)
+        {
+            ArrayList<ArrayList<DependenciaFuncional>> aux = administradora.calcularDescomposicionFNBC();
+            if(lSubEsquemas == null || !lSubEsquemas.equals(aux))
+            {
+                lSubEsquemas = aux;
+                String contenido = aux.toString();
+                //TODO MODIFICAR EL TEXTO PARA QUE QUEDE MAS ACORDE A LOS SUB ESQUEMAS
+                tvContenido.setText(contenido);
+            }
+        }
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser)
+            update();
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 }

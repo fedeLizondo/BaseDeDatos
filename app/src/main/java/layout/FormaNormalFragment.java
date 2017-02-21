@@ -19,6 +19,7 @@ public class FormaNormalFragment extends Fragment {
 
 
     private Administradora administradora;
+    private TextView contenido;
 
     public FormaNormalFragment() {
         // Required empty public constructor
@@ -51,35 +52,22 @@ public class FormaNormalFragment extends Fragment {
 
         View view =inflater.inflate(R.layout.fragment_forma_normal, container, false);
 
-        TextView contenido = (TextView) view.findViewById(R.id.tv_cuerpoFNormal);
-        FormaNormal fn = administradora.calcularFormaNormal();
-        contenido.setText(fn.JustificaMiFN().toString());
+        contenido = (TextView) view.findViewById(R.id.tv_cuerpoFNormal);
         return view;
     }
 
+    public void update()
+    {
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+        FormaNormal fn = administradora.calcularFormaNormal();
+        if(contenido!=null)
+        contenido.setText(fn.JustificaMiFN().toString());
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser)
+            update();
+        super.setUserVisibleHint(isVisibleToUser);
     }
 }

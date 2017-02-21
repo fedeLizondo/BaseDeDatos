@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:layout_weight="0"
         >
 
@@ -26,9 +27,12 @@
             android:id="@+id/tv_ccSeleccionada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
             android:text=""
             android:textStyle="bold"
+            android:textAlignment="viewStart"
+            android:layout_gravity="start"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@color/colorAccent" />
     </LinearLayout>
@@ -40,6 +44,8 @@
                 android:divider="@color/colorDivider"
                 android:layout_weight="10"
                 android:dividerHeight="1dp"
+                android:textAlignment="viewStart"
+                android:layout_gravity="start"
                 />
 
 
@@ -47,6 +53,8 @@
                 android:layout_weight="0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:text="@string/superClaves"
                 android:id="@+id/superClaves"
                 android:textAppearance="?android:textAppearanceLarge"

@@ -300,7 +300,7 @@ public class Administradora implements Serializable{
     }
 
     private FormaNormal determinarFormaNormalDF(DependenciaFuncional df, ArrayList<String> clave) {
-        if (df == null || clave == null)
+        if ( df == null || clave == null )
             return null;
 
         ArrayList<String> determinante = df.getDeterminante();

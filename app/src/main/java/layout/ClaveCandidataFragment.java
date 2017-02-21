@@ -52,6 +52,8 @@ public class ClaveCandidataFragment extends Fragment {
             administradora = Administradora.getInstance();
 
         Clavecandidata = new ArrayList<>();
+        ListadoSuperClaves = new ArrayList<>();
+        ListadoClavesCandidatas = new ArrayList<>();
     }
 
     @Override
@@ -69,28 +71,8 @@ public class ClaveCandidataFragment extends Fragment {
     {
         tvCCSeleccionada = (TextView) view.findViewById(R.id.tv_ccSeleccionada);
         listaCC = (ListView) view.findViewById(R.id.lv_ClaveCandidata);
-
-        ListadoClavesCandidatas = administradora.calcularClavesCandidatas();
-        if(ListadoClavesCandidatas!=null && !ListadoClavesCandidatas.isEmpty())
-            Clavecandidata = ListadoClavesCandidatas.get(0);
-
-        ArrayAdapter ccAdaper = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,convertirAArrayList(ListadoClavesCandidatas));
-        listaCC.setAdapter(ccAdaper);
-        listaCC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Clavecandidata = ListadoClavesCandidatas.get(position);
-                administradora.cambiarClaveCandidata(Clavecandidata);//TODO MODIFICAR NO HACE CAMBIOS
-            }
-        });
-
         listaSuperClaves = (ListView) view.findViewById(R.id.lv_SuperClave);
-        ListadoSuperClaves = administradora.darSuperClaves();
-        ArrayAdapter skAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,convertirAArrayList(ListadoSuperClaves));
-        listaSuperClaves.setAdapter(skAdapter);
-
-        if(!Clavecandidata.isEmpty())
-            tvCCSeleccionada.setText(Clavecandidata.toString().replace('[',' ').replace(']',' '));
+        update();
     }
 
     private ArrayList<String> convertirAArrayList(ArrayList<ArrayList<String>> clave)
@@ -106,17 +88,45 @@ public class ClaveCandidataFragment extends Fragment {
         return resultado;
     }
 
+    private void update()
+    {
+        if( ListadoClavesCandidatas == null || !ListadoClavesCandidatas.equals( administradora.calcularClavesCandidatas() )) {
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+            ListadoClavesCandidatas = administradora.calcularClavesCandidatas();
+            if (ListadoClavesCandidatas != null && !ListadoClavesCandidatas.isEmpty())
+                Clavecandidata = ListadoClavesCandidatas.get(0);
+            ArrayAdapter ccAdaper = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, convertirAArrayList(ListadoClavesCandidatas));
+            listaCC.setAdapter(ccAdaper);
+
+            listaCC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Clavecandidata = ListadoClavesCandidatas.get(position);
+                    tvCCSeleccionada.setText(Clavecandidata.toString().replace('[',' ').replace(']',' '));
+                    administradora.cambiarClaveCandidata(Clavecandidata);//TODO MODIFICAR NO HACE CAMBIOS
+                }
+            });
+        }
+
+        if( ListadoSuperClaves == null || !ListadoSuperClaves.equals(administradora.darSuperClaves()))
+        {
+            ListadoSuperClaves = administradora.darSuperClaves();
+            ArrayAdapter skAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,convertirAArrayList(ListadoSuperClaves));
+            listaSuperClaves.setAdapter(skAdapter);
+        }
+
+        if(!Clavecandidata.isEmpty())
+            tvCCSeleccionada.setText(Clavecandidata.toString().replace('[',' ').replace(']',' '));
+
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser)
+        {
+            update();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
 
     }
-
-
 }

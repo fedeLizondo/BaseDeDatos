@@ -48,12 +48,21 @@ public class TableauxFragment extends Fragment {
         return view;
     }
 
+
     public void initView(View view)
     {
-        if(view != null)
-        {
-            
-        }
+
     }
 
+    public void update()
+    {
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser)
+            update();
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 }

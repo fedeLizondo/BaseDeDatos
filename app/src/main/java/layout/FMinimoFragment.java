@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import LogicaNegocio.Administradora;
+import LogicaNegocio.DependenciaFuncional;
 import fedelizondo.basededatos.MainActivity;
 import fedelizondo.basededatos.R;
 
@@ -18,6 +21,7 @@ public class FMinimoFragment extends Fragment {
 
     private Administradora administradora;
     private TextView contenido;
+    private ArrayList<DependenciaFuncional> dependenciasFuncionales;
 
     public FMinimoFragment() {
         // Required empty public constructor
@@ -52,25 +56,24 @@ public class FMinimoFragment extends Fragment {
 
         contenido = (TextView) view.findViewById(R.id.tv_cuerpoFMIN);
 
-
-
-        String dependencias = "{ "+administradora.calcularFmin().toString()+" }";
-
-        contenido.setText(dependencias);
+        update();
         return view;
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void update()
+    {
+        ArrayList<DependenciaFuncional> aux = administradora.calcularFmin();
+        if(dependenciasFuncionales == null || dependenciasFuncionales.equals(aux))
+        dependenciasFuncionales = aux;
+        String dependencias = "{ "+dependenciasFuncionales.toString().replace('[',' ').replace(']',' ')+" }";
+        if(contenido != null)
+        contenido.setText(dependencias);
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser)
+            update();
+        super.setUserVisibleHint(isVisibleToUser);
     }
-
-
 }

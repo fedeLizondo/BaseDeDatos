@@ -93,32 +93,17 @@ public class DependenciaFuncionalFragment extends Fragment {
         return view;
     }
 
-
-    @Override
-    public void onAttachFragment(Fragment childFragment) {
-        super.onAttachFragment(childFragment);
-        if(fab!=null){
-            ScaleAnimation animation = new ScaleAnimation(0,1,0,1);
-            animation.setFillBefore(true);
-            animation.setFillAfter(true);
-            animation.setFillEnabled(true);
-            animation.setDuration(500);
-            animation.setInterpolator(new OvershootInterpolator());
-            fab.startAnimation(animation);
-        }
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser)
         {
             if(fab!=null){
-                ScaleAnimation animation = new ScaleAnimation(4,1,4,1);
+                ScaleAnimation animation = new ScaleAnimation((float)0.5,1,(float)0.5,1);
                 animation.setFillBefore(true);
                 animation.setFillAfter(true);
                 animation.setFillEnabled(true);
-                animation.setDuration(300);
+                animation.setDuration(150);
                 animation.setInterpolator(new OvershootInterpolator());
                 fab.startAnimation(animation);
             }
@@ -184,13 +169,13 @@ public class DependenciaFuncionalFragment extends Fragment {
             }
         });
 
-        ScaleAnimation animation = new ScaleAnimation(0,1,0,1);
+        /*ScaleAnimation animation = new ScaleAnimation(0,1,0,1);
         animation.setFillBefore(true);
         animation.setFillAfter(true);
         animation.setFillEnabled(true);
         animation.setDuration(500);
         animation.setInterpolator(new OvershootInterpolator());
-        fab.startAnimation(animation);
+        fab.startAnimation(animation);*/
 
         recyclerViewAtributos = (RecyclerView) view.findViewById(R.id.rv_DependenciaFuncional);
         recyclerViewAtributos.setHasFixedSize(true);

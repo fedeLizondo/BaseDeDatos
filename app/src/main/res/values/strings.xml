@@ -76,7 +76,7 @@
 
     <!-- CLAVES CANDIDATAS -->
     <string name="tituloClaveCandidata">Clave Candidata</string>
-    <string name="Seleccionada">Seleccionada:</string>
+    <string name="Seleccionada">C.C Seleccionada:</string>
     <string name="superClaves">Super Claves: </string>
 
 
@@ -103,7 +103,7 @@
     <!--CALCULO EFICIENTE -->
     <string name="tituloCalculoEficiente">Cálculo Eficiente</string>
     <string name="subTituloCalculoEficiente">Sub Esquemas :</string>
-    <!-- CALCULO SIN PERDIDA DE INFROMACION-->
+    <!-- CALCULO SIN PERDIDA DE INFORMACION-->
     <string name="tituloCalculoSinPerdida">Cálculo Sin Perdida de Información</string>
     <string name="subTituloCalculoSinPerdida">Sub Esquemas :</string>
 
