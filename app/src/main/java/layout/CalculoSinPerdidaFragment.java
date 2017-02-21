@@ -9,23 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import LogicaNegocio.Administradora;
+import LogicaNegocio.DependenciaFuncional;
 import fedelizondo.basededatos.MainActivity;
 import fedelizondo.basededatos.R;
 
 
-public class TableauxFragment extends Fragment {
+public class CalculoSinPerdidaFragment extends Fragment {
 
     private Administradora administradora;
+    private TextView tvContenido;
 
     private View view;
-
-    public TableauxFragment() {
+    public CalculoSinPerdidaFragment() {
         // Required empty public constructor
     }
 
-    public static TableauxFragment newInstance() {
-        TableauxFragment fragment = new TableauxFragment();
+    public static CalculoSinPerdidaFragment newInstance() {
+        CalculoSinPerdidaFragment fragment = new CalculoSinPerdidaFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -42,8 +47,7 @@ public class TableauxFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_tableaux, container, false);
+        view = inflater.inflate(R.layout.fragment_calculo_sin_perdida, container, false);
         initView(view);
         return view;
     }
@@ -52,7 +56,11 @@ public class TableauxFragment extends Fragment {
     {
         if(view != null)
         {
-            
+            tvContenido = (TextView) view.findViewById(R.id.contenido);
+
+            String contenido = administradora.calcularDescomposicionFNBC().toString();
+            //TODO MODIFICAR EL TEXTO PARA QUE QUEDE MAS ACORDE A LOS SUB ESQUEMAS
+            tvContenido.setText(contenido);
         }
     }
 

@@ -54,7 +54,7 @@ public class DFCompleja extends DependenciaFuncional {
 
     @Override
     public String toString() {
-        return determinante + " -> " + determinado;
+        return determinante.toString().replace('[',' ').replace(']',' ') + " -> " + determinado.toString().replace('[',' ').replace(']',' ');
     }
 
     @Override

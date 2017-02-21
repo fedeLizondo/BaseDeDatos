@@ -14,18 +14,19 @@ import fedelizondo.basededatos.MainActivity;
 import fedelizondo.basededatos.R;
 
 
-public class TableauxFragment extends Fragment {
+public class CalculoEficienteFragment extends Fragment {
 
     private Administradora administradora;
+    private TextView tvContenido;
 
     private View view;
 
-    public TableauxFragment() {
+    public CalculoEficienteFragment() {
         // Required empty public constructor
     }
 
-    public static TableauxFragment newInstance() {
-        TableauxFragment fragment = new TableauxFragment();
+    public static CalculoEficienteFragment newInstance() {
+        CalculoEficienteFragment fragment = new CalculoEficienteFragment();
         return fragment;
     }
 
@@ -43,7 +44,7 @@ public class TableauxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_tableaux, container, false);
+        view = inflater.inflate(R.layout.fragment_calculo_eficiente, container, false);
         initView(view);
         return view;
     }
@@ -52,7 +53,11 @@ public class TableauxFragment extends Fragment {
     {
         if(view != null)
         {
-            
+            tvContenido = (TextView) view.findViewById(R.id.contenido);
+
+            String contenido = administradora.calcularDescomposicion3FN().toString();
+            //TODO MODIFICAR EL TEXTO PARA QUE QUEDE MAS ACORDE A LOS SUB ESQUEMAS
+            tvContenido.setText(contenido);
         }
     }
 

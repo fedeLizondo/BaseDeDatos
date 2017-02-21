@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -48,6 +49,7 @@ public class DependenciaFuncionalFragment extends Fragment {
 
     private RecyclerView recyclerViewAtributos;
     private AdapterDF dataAdapter;
+    private FloatingActionButton fab;
 
     private View view;
     private Paint p = new Paint();
@@ -92,6 +94,36 @@ public class DependenciaFuncionalFragment extends Fragment {
     }
 
 
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        if(fab!=null){
+            ScaleAnimation animation = new ScaleAnimation(0,1,0,1);
+            animation.setFillBefore(true);
+            animation.setFillAfter(true);
+            animation.setFillEnabled(true);
+            animation.setDuration(500);
+            animation.setInterpolator(new OvershootInterpolator());
+            fab.startAnimation(animation);
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser)
+        {
+            if(fab!=null){
+                ScaleAnimation animation = new ScaleAnimation(4,1,4,1);
+                animation.setFillBefore(true);
+                animation.setFillAfter(true);
+                animation.setFillEnabled(true);
+                animation.setDuration(300);
+                animation.setInterpolator(new OvershootInterpolator());
+                fab.startAnimation(animation);
+            }
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -144,7 +176,7 @@ public class DependenciaFuncionalFragment extends Fragment {
 
     private void initViews(View view)
     {
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarDependeciaFuncional);
+        fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarDependeciaFuncional);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
