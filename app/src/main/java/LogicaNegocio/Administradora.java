@@ -46,8 +46,6 @@ public class Administradora implements Serializable{
     }
 
     //ATRIBUTOS
-
-    //throws Exception
     public void agregarAtributos(String atributo) {
 
         if ( !lAtributos.contains(atributo)) {
@@ -76,11 +74,9 @@ public class Administradora implements Serializable{
         return (ArrayList<String>) lAtributos.clone();
     }
 
-
     //DEPENDENCIAS FUNCIONAL
 
-    public DependenciaFuncional crearDependenciaFuncional( ArrayList<String> determinate, ArrayList<String> determinado)
-    {
+    public DependenciaFuncional crearDependenciaFuncional( ArrayList<String> determinate, ArrayList<String> determinado){
         DependenciaFuncional df = null;
 
         if( determinate!=null && determinado != null && !determinate.isEmpty() && !determinado.isEmpty()) {
@@ -101,7 +97,6 @@ public class Administradora implements Serializable{
         }
         return df;
     }
-
 
     public void agregarDependenciaFuncional(DependenciaFuncional dependenciaFuncional){
         if( dependenciaFuncional!=null && !lDependenciasFuncionales.contains(dependenciaFuncional))
@@ -139,6 +134,12 @@ public class Administradora implements Serializable{
         ArrayList<String> determinante=new ArrayList<String>();
         ArrayList<String> determinado = new ArrayList<String>();
         claves.clear();
+
+        if( lDependenciasFuncionales.isEmpty())
+        {
+            claves.add(lAtributos);
+            return claves;
+        }
 
        //Obtengo todos los Determinantes y todos los Determinados
         for (DependenciaFuncional df : lDependenciasFuncionales) {
@@ -319,7 +320,7 @@ public class Administradora implements Serializable{
 
             tam = determinante.size();
             i = 0;
-            while (i < tam && !clave.contains(determinado.get(i))) {
+            while (i < tam && !clave.contains(determinante.get(i))) {
                 i++;
             }
             //SI EL DETERMINANTE NO CONTIENE PARTE DE LA CLAVE CAND ESTA EN 2FN
@@ -328,7 +329,6 @@ public class Administradora implements Serializable{
             //SI NO ESTA EN NINGUNA DE LAS FORMAS ANTERIORES SI O SI DEBE ESTAR EN 1FN
             return new PrimeraFormaNormal(df);
         }
-
     }
 
     public boolean tieneDescomposicion3FN() {
@@ -475,7 +475,7 @@ public class Administradora implements Serializable{
         ArrayList<DependenciaFuncional> aux2 = new ArrayList<DependenciaFuncional>();
         aux2.addAll(lDependenciasFuncionales);
 
-        //Cargo la lista Auxiliar de DF con las DF para Fmin (Quedan o DF simples o DF con determinante complejo)
+        //Cargo la lista Auxiliar de DF con las DF para Fmin (Quedan DF simples o DF con determinante complejo)
         for (DependenciaFuncional DependenciaFuncional : lDependenciasFuncionales) {
             lAuxDependenciaFuncional.addAll(DependenciaFuncional.convertirAFmin());
         }
@@ -732,14 +732,11 @@ public class Administradora implements Serializable{
         return cambios;
     }
 
-    public int estadoCambiosAdministradora()
-    {
+    public int estadoCambiosAdministradora(){
         if( lAtributos.isEmpty() )
             return 1;
         if( lDependenciasFuncionales.isEmpty())
             return 2;
-        if( claves.isEmpty())
-            return 4;
         return 0;
     }
 

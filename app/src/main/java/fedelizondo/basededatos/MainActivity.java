@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import LogicaNegocio.DFSimple;
 import LogicaNegocio.DependenciaFuncional;
 import layout.AgregarAtributosFragment;
 import layout.AtributosFragment;
+import layout.CalculoEficienteFragment;
+import layout.CalculoSinPerdidaFragment;
 import layout.ClausuraFragment;
 import layout.ClaveCandidataFragment;
 import layout.DependenciaFuncionalFragment;
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final short CALCULO_SIN_PERDIDA = 8;
     private static final short HEAT = 9;
 
-    private static final short TOTAL_FRAGMENTS = 8;
+    private static final short TOTAL_FRAGMENTS = 9;
 
 
     private short posicionActual = 0;
@@ -105,8 +108,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        int index = 1;
-
+        int index = 0;
 
         switch (id) {
             case R.id.nav_atributo:
@@ -136,16 +138,32 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.nav_calculoSinPerdida:
                 index = CALCULO_SIN_PERDIDA;
                 break;
+            ///////////////////////////////////////
+            //DESDE ACA COMIENZAN LOS EJEMPLOS  //
+            //////////////////////////////////////
+            case R.id.nav_Ejemplo1:
+                index = ATRIBUTO;
+                //administradora.setEjemplo1();
+                break;
+            case R.id.nav_Ejemplo2:
+                index = ATRIBUTO;
+                break;
+            case R.id.nav_Ejemplo3:
+                index = ATRIBUTO;
+                break;
+            case R.id.nav_Ejemplo4:
+                index = ATRIBUTO;
+                break;
+            case R.id.nav_Ejemplo5:
+                index = ATRIBUTO;
+                break;
             default: index = posicionActual;
                 break;
         }
 
+        mViewPager.setCurrentItem(index) ;
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        if(index>=0)
-        {
-            mViewPager.setCurrentItem(0);
-        }
         return true;
     }
 
@@ -179,37 +197,38 @@ public class MainActivity extends AppCompatActivity implements
             // getItem is called to instantiate the fragment for the given page.
             boolean hayCambios = true;
             Fragment fragment;
+
             switch (position) {
                 case ATRIBUTO:
-                        return AtributosFragment.newInstance(administradora.darListadoAtributos());
-
+                    fragment = AtributosFragment.newInstance(administradora.darListadoAtributos());
+                    break;
                 case DEPENDENCIA_FUNCIONAL:
-                        return DependenciaFuncionalFragment.newInstance();
-
+                    fragment = DependenciaFuncionalFragment.newInstance();
+                    break;
                 case CLAUSURA:
-                       return ClausuraFragment.newInstance(administradora.darListadoAtributos());
-
+                    fragment = ClausuraFragment.newInstance(administradora.darListadoAtributos());
+                    break;
                 case CLAVE:
                     fragment = ClaveCandidataFragment.newInstance();
                     break;
-
                 case FMIN:
                     fragment = FMinimoFragment.newInstance();
                     break;
                 case FORMA_NORMAL:
                     fragment = FormaNormalFragment.newInstance();
                     break;
-                /*
-                case TABLEAUX:
+               case TABLEAUX:
                     fragment = TableauxFragment.newInstance();
                     break;
                 case CALCULO_EFICIENTE:
-                    fragment = CalculoEficienteFragment();
+                    fragment = CalculoEficienteFragment.newInstance();
                     break;
-                case CALCULO_SIN_PERDIDA
-                    fragment = CalculoSinPerdidaFragment();
+                case CALCULO_SIN_PERDIDA:
+                    fragment =  CalculoSinPerdidaFragment.newInstance();
                     break;
-                case HEAT:*/
+                case HEAT:
+                    //fragment = HeatFragment();
+                    //break;
                 default:
                     hayCambios = false;
                     //fragment = this.getItem(posicionActual);
@@ -217,31 +236,63 @@ public class MainActivity extends AppCompatActivity implements
                     //break;
             }
 
-            /*if(hayCambios)
-                posicionActual = (short) position;*/
-
+            if(hayCambios)
+                posicionActual = (short) position;
             return fragment;
         }
 
         @Override
-        public int getCount() {
-           /* int cantidad = administradora.estadoCambiosAdministradora();
-
-            if( cantidad == 0 )
-                cantidad = TOTAL_FRAGMENTS+1;
-
-            for(int i = 0; i<cantidad;i++) {
-                navigationView.getMenu().getItem(i).setEnabled(true);
-            }
-
-            for (int i = cantidad;i<TOTAL_FRAGMENTS;i++)
-            {
-                navigationView.getMenu().getItem(i).setEnabled(false);
-            }*/
-
-            return 6;//cantidad;
-
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            navigationView.getMenu().getItem(position).setChecked(true);
+            toolbar.setTitle(darTitulo(position));
         }
+
+        @Override
+        public int getCount() {
+            return TOTAL_FRAGMENTS;
+        }
+
+    }
+
+
+    public int darTitulo(int index)
+    {
+        int codRecurso = R.string.app_name;
+        switch (index) {
+            case ATRIBUTO:
+                codRecurso = R.string.tituloAtributo;
+                break;
+            case DEPENDENCIA_FUNCIONAL:
+                codRecurso = R.string.tituloDependenciaFuncional;
+                break;
+            case CLAUSURA:
+                codRecurso = R.string.tituloClausura;
+                break;
+            case CLAVE:
+                codRecurso = R.string.tituloClaveCandidata;
+                break;
+            case FMIN:
+                codRecurso = R.string.tituloFMin;
+                break;
+            case FORMA_NORMAL:
+                codRecurso = R.string.tituloFormaNormal;
+                break;
+            case TABLEAUX:
+                codRecurso = R.string.tituloTableaux;
+                break;
+            case CALCULO_EFICIENTE:
+                codRecurso = R.string.tituloCalculoEficiente;
+                break;
+            case CALCULO_SIN_PERDIDA:
+                codRecurso = R.string.tituloCalculoSinPerdida;
+                break;
+            //TODO AGREGAR HEAT
+            default:
+                codRecurso = R.string.app_name;
+                break;
+        }
+        return codRecurso;
     }
 
     @Override
@@ -250,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements
         {
             administradora.agregarAtributos(string);
         }
+
     }
 
     @Override
@@ -260,11 +312,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteractionEliminarAtributos(String atributoAEliminar) {
         administradora.eliminarAtributo(atributoAEliminar);
+
     }
 
     @Override
     public void onFragmentInteractionDFAgregar(DependenciaFuncional dfAgregada) {
         administradora.agregarDependenciaFuncional(dfAgregada);
+
     }
 
     @Override
@@ -275,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteractionDFEliminar(DependenciaFuncional dfEliminada) {
         administradora.eliminarDependenciaFuncional(dfEliminada);
+
     }
 
 

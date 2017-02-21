@@ -79,6 +79,6 @@
     <item
         android:id="@+id/nav_ayuda"
         android:icon="@android:drawable/ic_menu_help"
-        android:title="Ayuda" />
+        android:title="@string/ayuda" />
 
 </menu>

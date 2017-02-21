@@ -120,7 +120,6 @@ public class ModificarDependeciaFuncional extends AppCompatActivity  implements
         if(Determinante.isEmpty() && Determinado.isEmpty())
             titulo = getResources().getString(R.string.tituloModificarDependenciaFuncional);
         toolbar.setTitle(titulo);
-
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -143,20 +142,19 @@ public class ModificarDependeciaFuncional extends AppCompatActivity  implements
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
+                default:
                 case 0:
                     return getResources().getString(R.string.tituloDeterminante);
                 case 1:
                     return getResources().getString(R.string.tituloDeterminado);
-
             }
-            return null;
         }
+
     }
 }
