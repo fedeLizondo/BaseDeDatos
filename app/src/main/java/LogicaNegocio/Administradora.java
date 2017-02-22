@@ -495,7 +495,7 @@ public class Administradora implements Serializable {
             DependenciaFuncional dfSinRedundante = null;
             ArrayList<String> determinante = original.getDeterminante();
             String determinado = original.getDeterminado().get(0);
-            ArrayList<String> nuevoDeterminate = calcularRedundanciaDeterminante(null,determinante,determinado);
+            ArrayList<String> nuevoDeterminate = original.getDeterminante(); //calcularRedundanciaDeterminante(null,determinante,determinado);
 
             if(nuevoDeterminate.equals(determinante))
             {
