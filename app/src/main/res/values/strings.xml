@@ -94,6 +94,21 @@
     <!-- TABLEAUX -->
     <string name="tituloTableaux">Tableaux</string>
     <string name="pasosTableaux">Pasos</string>
+    <string name="tituloEsquemas">Listado de Esquemas</string>
+    <string name="tituloAgregarEsquema">Esquemas</string>
+    <string name="btnCalculoTableux">Calcular Tableaux</string>
+    <string name="ErrorTableauxEsquemasVacios">No hay esquemas ingresados</string>
+    <string name="ErrorEsquemasVacio">No Hay elemento seleccionado</string>
+    <string name="seleccionarEsquema">Seleccione elemento del esquema</string>
+    <string name="ErrorEsquemasRepetido">El esquema ingresado se encuentra repetido</string>
+    <string name="ErrorTableauxNoHayAtributos">No hay atributos ingresados para calcular tableaux</string>
+    <string name="ErrorTableauxNoHayDF">No hay dependencias funcionales para calcular tableaux</string>
+    <string name="tituloTableauxResultado">Resultado</string>
+    <string name="tituloTableauxPasos">Pasos</string>
+    <string name="subtituloTableauxCalculo">El resultado es :</string>
+    <string name="subTituloTableuxTienePerdida">Tiene Perdida de información</string>
+    <string name="subTituloTableuxNoTienePerdida"><b>No</b> tiene Perdida de información</string>
+
 
 
     <!-- FORMA NORMAL -->
@@ -107,6 +122,7 @@
     <string name="tituloCalculoSinPerdida">Cálculo Sin Perdida de Información</string>
     <string name="subTituloCalculoSinPerdida">Sub Esquemas :</string>
 
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_agregar_dependencia_funcional">AgregarDependenciaFuncional</string>
@@ -114,4 +130,7 @@
     <string name="title_activity_modificar_dependecia_funcional">ModificarDependeciaFuncional
     </string>
     <string name="title_activity_calcular_clausura">CalcularClausura</string>
+    <string name="title_activity_agregar_esquemas">AgregarEsquemas</string>
+    <string name="title_activity_calculo_tableaux">CalculoTableaux</string>
+    <string name="title_activity_modificar_esquema">ModificarEsquema</string>
 </resources>

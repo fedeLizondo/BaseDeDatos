@@ -58,7 +58,6 @@ public class ClausuraFragment extends Fragment {
         }
         atributosSeleccionados = new ArrayList<>();
         indexSeleccionado = new ArrayList<>();
-
     }
 
     @Override
@@ -109,7 +108,10 @@ public class ClausuraFragment extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.lv_AtributosClausura);
 
+        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_checked,ListadoAtributos);
+        listView.setAdapter(adapter);
         update();
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -140,7 +142,6 @@ public class ClausuraFragment extends Fragment {
     {
         if(btnCalcular!=null && view != null)
         {
-
             ScaleAnimation animation = new ScaleAnimation(0,1,0,1);
             animation.setFillBefore(true);
             animation.setFillAfter(true);
@@ -149,8 +150,10 @@ public class ClausuraFragment extends Fragment {
             animation.setInterpolator(new OvershootInterpolator());
             btnCalcular.setAnimation(animation);
 
-            if(!ListadoAtributos.equals(administradora.darListadoAtributos()) ) {
-                ListadoAtributos = administradora.darListadoAtributos();
+            ArrayList<String> aux = administradora.darListadoAtributos();
+
+            if( ListadoAtributos.size() != aux.size() || !ListadoAtributos.containsAll(aux) ) {
+                ListadoAtributos = aux;
                 ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_checked,ListadoAtributos);
                 listView.setAdapter(adapter);
             }
@@ -159,11 +162,11 @@ public class ClausuraFragment extends Fragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser)
         {
             update();
         }
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     @Override

@@ -61,7 +61,6 @@ public class ClaveCandidataFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_clave_candidata, container, false);
-
         initView(view);
         return view;
     }

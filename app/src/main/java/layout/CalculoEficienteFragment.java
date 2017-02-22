@@ -59,7 +59,6 @@ public class CalculoEficienteFragment extends Fragment {
         {
             tvContenido = (TextView) view.findViewById(R.id.contenido);
             update();
-
         }
     }
 

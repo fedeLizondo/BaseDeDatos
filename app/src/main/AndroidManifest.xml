@@ -35,8 +35,22 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CalcularClausura"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_calcular_clausura"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AgregarEsquemas"
+            android:label="@string/title_activity_agregar_esquemas"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CalculoTableaux"
+            android:label="@string/title_activity_calculo_tableaux"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ModificarEsquema"
+            android:label="@string/title_activity_modificar_esquema"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

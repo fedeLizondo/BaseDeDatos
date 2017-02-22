@@ -50,14 +50,6 @@ public class AtributosFragment extends Fragment implements
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param listadoAtributos listado de atributos pasada por Main.
-     * @return A new instance of fragment AtributosFragment.
-     */
-
     public static AtributosFragment newInstance(ArrayList<String> listadoAtributos) {
         AtributosFragment fragment = new AtributosFragment();
         Bundle args = new Bundle();
