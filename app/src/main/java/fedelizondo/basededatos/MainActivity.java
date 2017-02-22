@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import LogicaNegocio.Administradora;
+import LogicaNegocio.DFDeterminanteComplejo;
 import LogicaNegocio.DFSimple;
 import LogicaNegocio.DependenciaFuncional;
 import layout.AgregarAtributosFragment;
@@ -91,6 +92,11 @@ public class MainActivity extends AppCompatActivity implements
         mViewPager.setAdapter(mSectionsPagerAdapter);
         navigationView.getMenu().getItem(0).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
+
+
+        //TODO Ejemplo de Tableaux
+        administradora.ejemploTableaux();
+        //FIN TODO
 
     }
 

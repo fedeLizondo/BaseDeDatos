@@ -125,15 +125,15 @@ public class CalculoTableaux extends AppCompatActivity {
             resultado[0][0] = "  ";
             //RELLENO LA PRIMERA FILA CON LOS TITULOS
             ArrayList<String> atributos = administradora.darListadoAtributos();
-            for(int i = 1;i < (columnas + 1);i++)
+            for(int i = 0;i < (columnas);i++)
             {
-                resultado[0][i] = atributos.get(i-1);
+                resultado[0][i+1] = atributos.get(i);
             }
             //RELLENO LA PRIMERA COLUMNA CON LOS ESQUEMAS
             ArrayList<ArrayList<String>> esq = esquemas.getEsquemas();
-            for(int i = 1;i < (filas + 1);i++)
+            for(int i = 0;i < (filas );i++)
             {
-                resultado[i][0] = esq.get(i-1).toString().replace('[',' ').replace(']',' ');
+                resultado[i+1][0] = esq.get(i).toString().replace('[',' ').replace(']',' ');
             }
 
             for( int i = 0 ; i < (filas) ; i++ )

@@ -71,7 +71,10 @@ public class AtributosFragment extends Fragment implements
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_atributos, container, false);
+
         initViews(view);
+
+
         return view;
     }
 

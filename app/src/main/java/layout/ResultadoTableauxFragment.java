@@ -82,7 +82,7 @@ public class ResultadoTableauxFragment extends Fragment {
 
             ultimoTableaux = ((CalculoTableaux) getContext()).ConversorATextoMatrixCompleta(ultimoItem-1);
 
-            fillTable(fila,columna,ultimoTableaux,tableLayout);
+            fillTable(fila+1,columna+1,ultimoTableaux,tableLayout);
 
 
            /*for (int i = 0 ;i < fila; i++)
@@ -123,13 +123,16 @@ public class ResultadoTableauxFragment extends Fragment {
                 TextView edit = new TextView(getContext());
                 edit.setInputType(InputType.TYPE_CLASS_TEXT);
                 edit.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-
+                edit.setTextSize(20);
                 edit.setText(matrix[i][j]);
-
+                edit.setPadding(8,4,8,4);
+                edit.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                 edit.setKeyListener(null);
                 row.addView(edit);
+
             }
             table.addView(row);
+            table.setStretchAllColumns(true);
         }
     }
 
