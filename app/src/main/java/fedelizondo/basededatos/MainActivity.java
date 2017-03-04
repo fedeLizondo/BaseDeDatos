@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
         //TODO Ejemplo de Tableaux
-        administradora.ejemploTableaux();
+        administradora.ejemploCCyFMIN();
         //FIN TODO
 
     }

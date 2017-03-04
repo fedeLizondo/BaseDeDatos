@@ -1,22 +1,9 @@
 package LogicaNegocio;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
-
-import fedelizondo.basededatos.CalcularClausura;
-import layout.ClausuraFragment;
 
 
 public class Administradora implements Serializable {
@@ -162,7 +149,6 @@ public class Administradora implements Serializable {
 
         calcularClavesRecursivo(lprefijoClave, lposibles);
 
-
         //ELIMINÓ CLAVES NO CANDIDATAS
         ArrayList<ArrayList<String>> lAuxClave = new ArrayList<ArrayList<String>>(claves);
         ArrayList<ArrayList<String>> lAuxClave2 = new ArrayList<ArrayList<String>>(claves);
@@ -224,7 +210,7 @@ public class Administradora implements Serializable {
         return false;
     }
 
-    public ArrayList<String> calcularClausura(ArrayList<String> AtributoACalcular) {
+    public ArrayList<String> calcularClausura(ArrayList<String> AtributoACalcular){
 
         if (lDependenciasFuncionales.isEmpty() || AtributoACalcular.isEmpty()) {
             return new ArrayList<String>();
@@ -243,10 +229,35 @@ public class Administradora implements Serializable {
                 if (lClausura.containsAll(df.getDeterminante()) && !lClausura.containsAll(df.getDeterminado())) {
                     tengoCambio = true;
                     lClausura.addAll(df.getDeterminado());
-                    lClausura = new ArrayList<String>(new HashSet<String>(lClausura));
+                    //lClausura = new ArrayList<String>(new HashSet<String>(lClausura));
                 }
             }
         }
+        lClausura = new ArrayList<String>(new HashSet<String>(lClausura));
+        return lClausura;
+    }
+
+    public ArrayList<String> calcularClausuraDependenciasLimitadas(ArrayList<String> AtributoACalcular, ArrayList<DependenciaFuncional> dependenciaFuncionales){
+        if(dependenciaFuncionales.isEmpty() || AtributoACalcular.isEmpty())
+            return new ArrayList<String>();
+
+        ArrayList<String> lClausura = new ArrayList<>();
+        lClausura.addAll(AtributoACalcular);
+
+        boolean hayCambios = true;
+        while(hayCambios)
+        {
+            hayCambios = false;
+
+            for(DependenciaFuncional df : dependenciaFuncionales)
+            {
+                if(lClausura.containsAll(df.getDeterminante())&& !lClausura.containsAll(df.getDeterminado())){
+                    hayCambios = true;
+                    lClausura.addAll(df.getDeterminado());
+                }
+            }
+        }
+
         lClausura = new ArrayList<String>(new HashSet<String>(lClausura));
         return lClausura;
     }
@@ -456,133 +467,117 @@ public class Administradora implements Serializable {
         fmin.clear();
 
         ArrayList<DependenciaFuncional> dependenciaFuncional = new ArrayList<>();
+        ArrayList<DependenciaFuncional> dfEliminarRedundantes = new ArrayList<>();
         ArrayList<DependenciaFuncional> dfSinRedundanciaIzq = new ArrayList<>();
 
 
-        //Elimino redundancia del lado derecho
+        //Elimino redundancia del determinado
         for (DependenciaFuncional df:lDependenciasFuncionales) {
             dependenciaFuncional.addAll(df.convertirAFmin());
         }
 
-        //Elimino redundancia del lado izquierdo
-        for(DependenciaFuncional df:dependenciaFuncional)
+        dfEliminarRedundantes = (ArrayList<DependenciaFuncional>) dependenciaFuncional.clone();
+
+        //Elimino redundancia del determinante
+        for(DependenciaFuncional df: dependenciaFuncional)
         {
             if(df.soyDeterminanteComplejo())
             {
-
-                DependenciaFuncional dfAux = darDFSinRedundante(df);
-                if( dfAux!= null )
-                    dfSinRedundanciaIzq.add(dfAux);
+                int index = dfEliminarRedundantes.indexOf(df);
+                dfEliminarRedundantes.remove(index);
+                DependenciaFuncional guardar = darDFSinRedundanteIZQ(df,dfEliminarRedundantes);
+                if(!guardar.equals(df))
+                {
+                    dfEliminarRedundantes.add(index,guardar);
+                }
+                else
+                {
+                    dfEliminarRedundantes.add(index,df);
+                }
+                dfSinRedundanciaIzq.add(guardar);
             }
             else
                 dfSinRedundanciaIzq.add(df);
         }
 
-        //Elimino Elementos Repetidos
+        dfEliminarRedundantes = (ArrayList<DependenciaFuncional>) dfSinRedundanciaIzq.clone();
 
-        for (DependenciaFuncional df: dfSinRedundanciaIzq  ) {
-            if(  ! fmin.contains(df) || df != null)
-                    fmin.add(df);
+        //dfSinRedundanciaIzq = new ArrayList<DependenciaFuncional>(new HashSet<DependenciaFuncional>(dfSinRedundanciaIzq));
+
+        for(DependenciaFuncional df: dfSinRedundanciaIzq)
+        {
+            if(df != null && !fmin.contains(df) &&  !soyDFRedundante(df,dfEliminarRedundantes) )
+            {
+                fmin.add(df);
+            }
+            else
+                dfEliminarRedundantes.remove(df);
         }
 
 
         return fmin;
     }
 
-    private DependenciaFuncional darDFSinRedundante(DependenciaFuncional original)
-    {
-        if(original != null) {
-            DependenciaFuncional dfSinRedundante = null;
-            ArrayList<String> determinante = original.getDeterminante();
-            String determinado = original.getDeterminado().get(0);
-            ArrayList<String> nuevoDeterminate = original.getDeterminante(); //calcularRedundanciaDeterminante(null,determinante,determinado);
+    private boolean soyDFRedundante(final DependenciaFuncional dependenciaFuncional,final ArrayList<DependenciaFuncional> lDependenciasFuncionales){
+        if(dependenciaFuncional.getDeterminante().containsAll(dependenciaFuncional.getDeterminado()))
+            return true;
 
-            if(nuevoDeterminate.equals(determinante))
-            {
-                return original;
-            }
-            else
-            {
-                    if(nuevoDeterminate != null || !nuevoDeterminate.isEmpty() )
-                {
-                    if( nuevoDeterminate.size() > 1 )
-                    {
-                        dfSinRedundante = new DFDeterminanteComplejo(nuevoDeterminate,determinado);
-                    }
-                    else
-                    {
-                        dfSinRedundante = new DFSimple(nuevoDeterminate.get(0),determinado);
-                    }
-                }
-            }
+        ArrayList<String> ClausuraConDF  = calcularClausuraDependenciasLimitadas(dependenciaFuncional.getDeterminante(),lDependenciasFuncionales);
+        ArrayList<DependenciaFuncional> lSINDependeciaFuncional = (ArrayList<DependenciaFuncional>) lDependenciasFuncionales.clone();
+        lSINDependeciaFuncional.remove(dependenciaFuncional);
+        ArrayList<String> ClausuraSinDF  = calcularClausuraDependenciasLimitadas(dependenciaFuncional.getDeterminante(),lSINDependeciaFuncional);
 
-            return dfSinRedundante;
-        }
-        else
-            return original;
+        return ClausuraSinDF.containsAll(ClausuraConDF);
     }
 
-    private ArrayList<String> calcularRedundanciaDeterminante(ArrayList<String> Prefijo, ArrayList<String> Determinante, String Determinado) {
+    private DependenciaFuncional darDFSinRedundanteIZQ(DependenciaFuncional original,ArrayList<DependenciaFuncional> lDependenciasFuncionales){
+        ArrayList<String> Prefijo = new ArrayList<>();
+        String Determinado = original.getDeterminado().get(0);
 
-        if(Prefijo == null)
-            Prefijo = new ArrayList<>();
-        ArrayList<ArrayList<String>> todos = calcularRedundancias(null,(ArrayList<String>) Prefijo.clone(),(ArrayList<String>)Determinante.clone(),Determinado);
+        ArrayList<String> Determinante = calcularRedundanciaDeterminante(Prefijo,original.getDeterminante(),Determinado,lDependenciasFuncionales);
 
-        ArrayList<String> resultado = new ArrayList<>();
-
-
-
-        for(ArrayList<String> determinante:todos)
+        if(!Determinante.isEmpty() && !Determinante.equals(original.getDeterminante()))
         {
-            if( calcularClausura(determinante).contains(Determinado) || resultado.isEmpty() || (resultado.size() > determinante.size() && !determinante.isEmpty()))
+            DependenciaFuncional df;
+
+            if( Determinante.size() > 1)
+               df = new DFDeterminanteComplejo(Determinante,Determinado);
+            else
+                df = new DFSimple(Determinante.get(0),Determinado);
+
+            return df;
+        }
+        return  original;
+    }
+
+    private ArrayList<String> calcularRedundanciaDeterminante(final ArrayList<String> Prefijo, final ArrayList<String> Determinante,final String Determinado,ArrayList<DependenciaFuncional> lDependenciasFuncionales) {
+        ArrayList<String> resultado = new ArrayList<>();
+        if(Determinante != null)
+        {
+            ArrayList<String> copiaDeterminante = new ArrayList<String>(Determinante);
+            ArrayList<String> otroResultado = new ArrayList<>();
+
+            for (String atributo:Determinante)
             {
-                resultado = determinante;
+                Prefijo.add(atributo);
+                copiaDeterminante.remove(atributo);
+                if (calcularClausuraDependenciasLimitadas(Prefijo, lDependenciasFuncionales).contains(Determinado) &&
+                        (resultado.isEmpty() || resultado.size() > Prefijo.size()))
+                {
+                    resultado = (ArrayList<String>)Prefijo.clone();
+                }
+
+                otroResultado = calcularRedundanciaDeterminante(Prefijo,copiaDeterminante,Determinado,lDependenciasFuncionales);
+
+                if(resultado.isEmpty()||!otroResultado.isEmpty() && otroResultado.size() < resultado.size())
+                    resultado = otroResultado;
+
+                Prefijo.remove(atributo);
             }
         }
 
         return resultado;
     }
-
-
-    public ArrayList<ArrayList<String>> calcularRedundancias(ArrayList<ArrayList<String>>resultado,ArrayList<String> Prefijo,ArrayList<String> Determinante,String Determinado )
-    {
-        if(resultado == null)
-            resultado = new ArrayList<ArrayList<String>>();
-        if(Prefijo == null)
-            Prefijo = new ArrayList<>();
-
-         if(Determinante!= null && !Determinante.isEmpty()) {
-            for (String s : Determinante)
-            {
-                Prefijo.add(s);
-                ArrayList<String> DeterminanteAux = new ArrayList<>();
-
-
-                if( calcularClausura(DeterminanteAux).contains(Determinado) )
-                {
-                    if(!resultado.contains(DeterminanteAux))
-                    resultado.add(DeterminanteAux);
-                }
-
-                if( calcularClausura(Prefijo).contains(Determinado) )
-                {
-                    if(!resultado.contains(Prefijo))
-                        resultado.add(Prefijo);
-                }
-
-                DeterminanteAux.remove(s);
-                ArrayList<ArrayList<String>> datosAux = calcularRedundancias(resultado,(ArrayList<String>) Prefijo.clone(),(ArrayList<String>) DeterminanteAux.clone() ,Determinado );
-                if(!datosAux.isEmpty())
-                resultado.addAll(datosAux);
-
-                Prefijo.remove(s);
-            }
-
-        }
-
-        return resultado;
-    }
-
 
     //TABLEAUX
     public ArrayList<String[][]> calcularTableaux(ArrayList<ArrayList<String>> subEsquemas) {
@@ -633,24 +628,6 @@ public class Administradora implements Serializable {
             }
             indexEsquema++;
         }
-/*
-        for (ArrayList<String> se : subEsquemas) {
-            for (indexAtributo = 0; indexAtributo < tamAtributos; indexAtributo++) {
-                if (se.contains(lAtributos.get(indexAtributo))) {
-                    tabla[indexEsquema][indexAtributo] = "A" + (indexAtributo);
-                    cantidadAxFila[indexEsquema] += 1;
-
-                    if (cantidadAxFila[indexEsquema] == tamSubEsquema)
-                        lineaCompleta = true;
-                } else {
-                    tabla[indexEsquema][indexAtributo] = "b";
-                }
-            }
-            indexEsquema++;
-        }*/
-
-
-
 
 
         //Cargo la primera tabla Al ArrayContenedor de Tablas
@@ -777,12 +754,13 @@ public class Administradora implements Serializable {
         return cambios;
     }
 
+
+    //OTRAS OPCIONES
     public boolean hayCambios(){
         return false;//TODO IMPLEMENTAR CAMBIOS
     }
 
-    private void clean()
-    {
+    private void clean(){
         lAtributos.clear();
         lDependenciasFuncionales.clear();
         cambiosTableaux.clear();
@@ -790,8 +768,8 @@ public class Administradora implements Serializable {
         formaNormal = null;
     }
 
-    public void ejemploTableaux()
-    {
+    //EJEMPLOS
+    public void ejemploTableaux(){
         clean();
         agregarAtributos("a");
         agregarAtributos("b");
@@ -811,6 +789,47 @@ public class Administradora implements Serializable {
         determinante.clear();
         determinante.add("c");determinante.add("e");
         agregarDependenciaFuncional(new DFDeterminanteComplejo( determinante,"a"));
+
+        //TODO AGREGAR SUB ESQUEMAS
+
+    }
+
+    public void ejemploCCyFMIN(){
+        clean();
+        agregarAtributos("a");
+        agregarAtributos("b");
+        agregarAtributos("c");
+        agregarAtributos("d");
+        agregarAtributos("e");
+        agregarAtributos("f");
+        agregarAtributos("g");
+        ArrayList<String> Determinante = new ArrayList<>();
+        ArrayList<String> Determinado = new ArrayList<>();
+
+        //1ra Dependencia Funcional
+        Determinante.add("a");Determinante.add("b");
+        Determinado.add("c");Determinado.add("a");
+        agregarDependenciaFuncional(new DFCompleja((ArrayList<String>)Determinante.clone(),(ArrayList<String>)Determinado.clone()));
+        Determinante.clear();Determinado.clear();
+
+        //2da DF
+        agregarDependenciaFuncional(new DFSimple("c","a"));
+
+        //3ra DF
+        Determinante.add("d");Determinante.add("e");
+        agregarDependenciaFuncional(new DFDeterminanteComplejo((ArrayList<String>)Determinante.clone(),"f"));
+        Determinante.clear();
+
+        //4ta DF
+        Determinado.add("d");Determinado.add("f");
+        agregarDependenciaFuncional(new DFDeterminadoComplejo("e",(ArrayList<String>)Determinado.clone()));
+        Determinado.clear();
+
+        //5ta DF
+        Determinado.add("d");Determinado.add("e");
+        agregarDependenciaFuncional(new DFDeterminadoComplejo("f",(ArrayList<String>)Determinado.clone()));
+        Determinado.clear();
+
     }
 
 /*

@@ -131,14 +131,14 @@ public class CalculoTableaux extends AppCompatActivity {
             }
             //RELLENO LA PRIMERA COLUMNA CON LOS ESQUEMAS
             ArrayList<ArrayList<String>> esq = esquemas.getEsquemas();
-            for(int i = 0;i < (filas );i++)
+            for(int i = 0;i < filas ;i++)
             {
                 resultado[i+1][0] = esq.get(i).toString().replace('[',' ').replace(']',' ');
             }
 
-            for( int i = 0 ; i < (filas) ; i++ )
+            for( int i = 0 ; i < filas ; i++ )
             {
-                for(int j= 0; j <(columnas) ; j++)
+                for(int j= 0; j < columnas ; j++)
                 {
                        resultado [i+1][j+1] = pasoTableaux[i][j] ;
                 }
