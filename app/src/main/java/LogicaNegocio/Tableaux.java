@@ -1,6 +1,8 @@
 package LogicaNegocio;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by federicolizondo on 05/03/17.
@@ -15,7 +17,7 @@ public class Tableaux {
     private int[] cantidadAxFila;
     private boolean lineaCompleta;
 
-    public Tableaux(Esquemas esquema, ArrayList<String> atributos, ArrayList<DependenciaFuncional> dependenciaFuncionales) {
+    public Tableaux(final Esquemas esquema,final ArrayList<String> atributos,final ArrayList<DependenciaFuncional> dependenciaFuncionales) {
         this.esquema = esquema;
         this.atributos = atributos;
         this.dependenciaFuncionales = dependenciaFuncionales;
@@ -55,9 +57,10 @@ public class Tableaux {
 
     private void calcularPasos()
     {
-        //TODO TERMINAR DE IMPLEMENTAR LOS CAMBIOS
+
         boolean hayCambios = true;
         String[][] tabla = primerPaso().getPaso();
+        int sizeEsquema = esquema.getEsquemas().size();
 
         while ( hayCambios && !lineaCompleta )
         {
@@ -65,13 +68,74 @@ public class Tableaux {
 
             for(DependenciaFuncional df:dependenciaFuncionales)
             {
-                for (int indexEsquema = 0; indexEsquema < esquema.getEsquemas().size(); indexEsquema++)
+                //TODO VERIFICAR SI 2 LISTAS CON LOS MISMOS VALORES LO TOMAN COMO LISTA DISTINTAS
+                //SI ES ASI ,CONVERTIR LA LISTAS EN UN STRING 
+                HashMap<ArrayList<String>, String> valoresReemplazo = new HashMap<ArrayList<String>, String>();
+
+                ArrayList<Coordenada> cambios = new ArrayList<>();
+
+                ArrayList<String> Determinante = df.getDeterminante();
+                ArrayList<String> Determinado = df.getDeterminado();
+
+                ArrayList<Integer> posicionDeterminante = new ArrayList<>();
+                for(String elemento:Determinante)
                 {
+                    posicionDeterminante.add(atributos.indexOf(elemento));
+                }
 
-                    for (int indexAtributo = 0; indexAtributo < atributos.size(); indexAtributo++) {
+                int posicionDeterminado = atributos.indexOf(Determinado.get(0));
 
-                    }//FIN DE ATRIBUTOS
+                for (int indexEsquema = 0; indexEsquema < sizeEsquema ; indexEsquema++)
+                {
+                    ArrayList<String> componenteDeterminante = new ArrayList<>();
+
+                    for(Integer index:posicionDeterminante)
+                    {
+                        componenteDeterminante.add(tabla[indexEsquema][index]);
+                    }
+                    String componenteDeterminado = tabla[indexEsquema][posicionDeterminado];
+
+                    if(valoresReemplazo.containsKey(componenteDeterminante))
+                    {
+                       hayCambios = true;
+
+                       String componenteDeterminadoHash = valoresReemplazo.get(componenteDeterminante);
+                       if(!componenteDeterminadoHash.equals(componenteDeterminado))
+                       {
+                           if(componenteDeterminado.contains("A") && componenteDeterminadoHash.contains("b"))
+                           {
+                               //cambios.add(new Coordenada(indexEsquema,posicionDeterminado));
+                               valoresReemplazo.remove(componenteDeterminante);
+                               valoresReemplazo.put(componenteDeterminante,componenteDeterminado);
+
+                               for(int i = 0;i<indexEsquema;i++) {
+                                   ArrayList<String> componenteDeterminanteAux = new ArrayList<>();
+                                   for (Integer index : posicionDeterminante) {
+                                       componenteDeterminanteAux.add(tabla[indexEsquema][index]);
+                                   }
+                                   if (componenteDeterminante.containsAll(componenteDeterminanteAux))
+                                   {
+                                       cambios.add(new Coordenada(i,posicionDeterminado));
+                                       tabla[indexEsquema][posicionDeterminado] = componenteDeterminado;
+                                   }
+                               }
+                           }
+                           else
+                           {
+                               cambios.add(new Coordenada(indexEsquema,posicionDeterminado));
+                               tabla[indexEsquema][posicionDeterminado] = componenteDeterminadoHash;
+                           }
+                       }
+                    }
+                    else
+                    {
+                        valoresReemplazo.put(componenteDeterminante,componenteDeterminado);
+                    }
+                    //ArrayList<String> esq = esquema.getEsquemas().get(indexEsquema);
                 }//FIN DE ESQUEMAS
+
+                PasoTableaux pasoTableaux = new PasoTableaux((String[][]) tabla.clone(),df,cambios);
+                pasosTableaux.add(pasoTableaux);
             }//FIN DE DEPENDENCIAS FUNCIONALES
 
         }//FIN DEL WHILE

@@ -22,6 +22,34 @@ public class PasoTableaux  {
         return paso;
     }
 
+    public String[][] imprimirEsquema(final ArrayList<String> Atributos,final Esquemas esquemas)
+    {
+        int sizeFila = esquemas.getEsquemas().size()+1;
+        int sizeColumna = Atributos.size()+1;
+        String[][] resultado = new String[sizeFila][sizeColumna];
+
+        for(int columna = 0;columna<sizeColumna;columna++)
+        {
+            resultado[0][columna+1] = Atributos.get(columna);
+        }
+
+        int fila = 1;
+        for(ArrayList<String> esquema : esquemas.getEsquemas())
+        {
+            resultado[fila][0] = esquema.toString();
+        }
+
+        for (fila = 0;fila<sizeFila;fila++)
+        {
+            for (int columna = 0;columna<sizeColumna;columna++)
+            {
+                resultado[fila+1][columna+1] = paso[fila][columna];
+            }
+        }
+
+        return resultado;
+    }
+
     public DependenciaFuncional getDependenciaFuncional() {
         return dependenciaFuncional;
     }

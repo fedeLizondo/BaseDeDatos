@@ -15,7 +15,7 @@ public class DFDeterminanteComplejo extends DependenciaFuncional {
     {
         super();
         this.determinante = Determinantes;
-        this.determinado= Determinado;
+        this.determinado = Determinado;
     }
 
     @Override
