@@ -45,7 +45,7 @@ public class Tableaux {
                     tabla[indexEsquema][indexAtributo] = " A" + (indexAtributo + 1) + " ";
                     cantidadAxFila[indexEsquema] += 1;
                     //Verifico si tengo una Fila Compuestas Por A
-                    if (cantidadAxFila[indexEsquema] == tamSubEsquema)
+                    if (cantidadAxFila[indexEsquema] == tamAtributos)
                         lineaCompleta = true;
                 } else
                     tabla[indexEsquema][indexAtributo] = "b" + (indexEsquema + 1) + "," + (indexAtributo + 1);
@@ -61,15 +61,20 @@ public class Tableaux {
         boolean hayCambios = true;
         String[][] tabla = primerPaso().getPaso();
         int sizeEsquema = esquema.getEsquemas().size();
-
+        int sizeDependenciaFuncional = dependenciaFuncionales.size();
+        int indexDF = 0;
         while ( hayCambios && !lineaCompleta )
         {
             hayCambios = false;
 
-            for(DependenciaFuncional df:dependenciaFuncionales)
+            while (indexDF<sizeDependenciaFuncional && !lineaCompleta)
+            //for(DependenciaFuncional df:dependenciaFuncionales)
             {
+                DependenciaFuncional df = dependenciaFuncionales.get(indexDF);
+                indexDF++;
+
                 //TODO VERIFICAR SI 2 LISTAS CON LOS MISMOS VALORES LO TOMAN COMO LISTA DISTINTAS
-                //SI ES ASI ,CONVERTIR LA LISTAS EN UN STRING 
+                //SI ES ASI ,CONVERTIR LA LISTAS EN UN STRING
                 HashMap<ArrayList<String>, String> valoresReemplazo = new HashMap<ArrayList<String>, String>();
 
                 ArrayList<Coordenada> cambios = new ArrayList<>();
@@ -104,7 +109,6 @@ public class Tableaux {
                        {
                            if(componenteDeterminado.contains("A") && componenteDeterminadoHash.contains("b"))
                            {
-                               //cambios.add(new Coordenada(indexEsquema,posicionDeterminado));
                                valoresReemplazo.remove(componenteDeterminante);
                                valoresReemplazo.put(componenteDeterminante,componenteDeterminado);
 
@@ -117,6 +121,7 @@ public class Tableaux {
                                    {
                                        cambios.add(new Coordenada(i,posicionDeterminado));
                                        tabla[indexEsquema][posicionDeterminado] = componenteDeterminado;
+                                       cantidadAxFila[indexEsquema]++;
                                    }
                                }
                            }
@@ -124,6 +129,8 @@ public class Tableaux {
                            {
                                cambios.add(new Coordenada(indexEsquema,posicionDeterminado));
                                tabla[indexEsquema][posicionDeterminado] = componenteDeterminadoHash;
+                               cantidadAxFila[indexEsquema]++;
+
                            }
                        }
                     }
@@ -134,8 +141,19 @@ public class Tableaux {
                     //ArrayList<String> esq = esquema.getEsquemas().get(indexEsquema);
                 }//FIN DE ESQUEMAS
 
+
+
                 PasoTableaux pasoTableaux = new PasoTableaux((String[][]) tabla.clone(),df,cambios);
                 pasosTableaux.add(pasoTableaux);
+
+                for(Integer cantidadFila : cantidadAxFila)
+                {
+                    if(lineaCompleta != true)
+                    {
+                        lineaCompleta = ( cantidadFila == atributos.size() );
+                    }
+                }
+
             }//FIN DE DEPENDENCIAS FUNCIONALES
 
         }//FIN DEL WHILE

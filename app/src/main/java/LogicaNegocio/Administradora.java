@@ -23,6 +23,9 @@ public class Administradora implements Serializable {
     private FormaNormal formaNormal;
     private boolean tableauxHayPerdidaDeInformacion;
 
+    //----------------------------------------------
+    private Tableaux tableaux2;
+
     private Administradora() {
 
         Runtime garbage = Runtime.getRuntime();
@@ -35,6 +38,7 @@ public class Administradora implements Serializable {
         formaNormal = null;
         tableauxHayPerdidaDeInformacion = true;
         cambiosTableaux = new ArrayList<ArrayList<ArrayList<Integer>>>();
+        tableaux2 = null;
     }
 
     //ATRIBUTOS
@@ -726,6 +730,16 @@ public class Administradora implements Serializable {
             }//Cierra el For DE DEPENDENCIAS FUNCIONALES
         }
         return tableaux;
+    }
+
+    //TODO ELIMINAR
+    public Tableaux calcularTableaux(Esquemas esquemas )
+    {
+
+       // if(tableaux2 == null) //TODO DESCOMENTAR LINEA
+            tableaux2 = new Tableaux(esquemas,lAtributos,fmin);
+
+        return  tableaux2;
     }
 
     public boolean isTableauxHayPerdidaDeInformacion() {

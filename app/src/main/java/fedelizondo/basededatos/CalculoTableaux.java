@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import LogicaNegocio.Administradora;
 import LogicaNegocio.Esquemas;
+import LogicaNegocio.Tableaux;
 import layout.PasosTableauxFragment;
 import layout.ResultadoTableauxFragment;
 
@@ -72,6 +73,9 @@ public class CalculoTableaux extends AppCompatActivity {
             esquemas = new Esquemas(new ArrayList<ArrayList<String>>());
         }
         administradora  = Administradora.getInstance();
+
+        Tableaux tableaux1 = administradora.calcularTableaux(esquemas);
+
 
         tableaux = administradora.calcularTableaux(esquemas.getEsquemas());
         filas = esquemas.getEsquemas().size();
