@@ -63,10 +63,8 @@ public class ModificarEsquema extends AppCompatActivity {
             }
         }
 
-
         Esquemas aux = (Esquemas) getIntent().getSerializableExtra(ESQUEMA);
         lEsquemas = aux.getEsquemas();
-
 
         tv_AgregarEsquema = (TextView) findViewById(R.id.tv_ModificarEsquema);
 

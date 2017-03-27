@@ -34,16 +34,14 @@ public class CalculoTableaux extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
-    private Administradora administradora;
-
+    public Administradora administradora;
 
     private int cantidadTotalPasos;
     private Esquemas esquemas;
 
-    public ArrayList<String[][]> tableaux;
+    //public ArrayList<String[][]> tableaux;
 
-
-
+    Tableaux tableaux;
     private int filas ;
     private int columnas;
 
@@ -70,17 +68,14 @@ public class CalculoTableaux extends AppCompatActivity {
         if (getIntent().hasExtra(ESQUEMAS)) {
             esquemas = (Esquemas) getIntent().getSerializableExtra(ESQUEMAS);
         } else {
-            esquemas = new Esquemas(new ArrayList<ArrayList<String>>());
+            esquemas = new Esquemas();
         }
         administradora  = Administradora.getInstance();
 
-        Tableaux tableaux1 = administradora.calcularTableaux(esquemas);
-
-
-        tableaux = administradora.calcularTableaux(esquemas.getEsquemas());
+        tableaux = administradora.calcularTableaux();
         filas = esquemas.getEsquemas().size();
         columnas = administradora.darListadoAtributos().size();
-        cantidadTotalPasos = tableaux.size();
+        cantidadTotalPasos = administradora.darCantidadPasos();
 
     }
 
@@ -118,45 +113,9 @@ public class CalculoTableaux extends AppCompatActivity {
         }
     }
 
-
-    public String[][] ConversorATextoMatrixCompleta(int indexPaso)
-    {
-
-        if(esquemas != null && filas > 0 && columnas >0)
-        {
-            String[][] pasoTableaux = tableaux.get(indexPaso);
-            String[][] resultado = new String[filas+1][columnas+1];
-            resultado[0][0] = "  ";
-            //RELLENO LA PRIMERA FILA CON LOS TITULOS
-            ArrayList<String> atributos = administradora.darListadoAtributos();
-            for(int i = 0;i < (columnas);i++)
-            {
-                resultado[0][i+1] = atributos.get(i);
-            }
-            //RELLENO LA PRIMERA COLUMNA CON LOS ESQUEMAS
-            ArrayList<ArrayList<String>> esq = esquemas.getEsquemas();
-            for(int i = 0;i < filas ;i++)
-            {
-                resultado[i+1][0] = esq.get(i).toString().replace('[',' ').replace(']',' ');
-            }
-
-            for( int i = 0 ; i < filas ; i++ )
-            {
-                for(int j= 0; j < columnas ; j++)
-                {
-                       resultado [i+1][j+1] = pasoTableaux[i][j] ;
-                }
-            }
-            return resultado;
-        }
-        else
-            return null;
-    }
-
     public int getFilas() {
         return filas;
     }
-
     public int getColumnas() {
         return columnas;
     }

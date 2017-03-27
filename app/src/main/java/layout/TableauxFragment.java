@@ -25,7 +25,6 @@ import LogicaNegocio.Administradora;
 import LogicaNegocio.Esquemas;
 import fedelizondo.basededatos.AgregarEsquemas;
 import fedelizondo.basededatos.CalculoTableaux;
-import fedelizondo.basededatos.DataAdapter;
 import fedelizondo.basededatos.EsquemaAdapter;
 import fedelizondo.basededatos.MainActivity;
 import fedelizondo.basededatos.ModificarEsquema;
@@ -43,7 +42,6 @@ public class TableauxFragment extends Fragment {
 
     private EsquemaAdapter dataAdapter;
     private ArrayList<ArrayList<String>> lEsquemas;
-    private ArrayList<String[][]> tableaux;
 
     private Paint p = new Paint();
     public TableauxFragment() {
@@ -58,13 +56,15 @@ public class TableauxFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lEsquemas = new ArrayList<>();
+
 
         if (getContext() instanceof MainActivity) {
             administradora = ((MainActivity)getContext()).administradora;
         }
         else
             administradora = Administradora.getInstance();
+
+        lEsquemas = administradora.darEsquemas();
     }
 
     @Override
@@ -103,10 +103,9 @@ public class TableauxFragment extends Fragment {
                     if (lEsquemas != null && !lEsquemas.isEmpty()) {
 
                         Intent i = new Intent(getActivity(), CalculoTableaux.class);
-                        Esquemas esquemaAux = new Esquemas(lEsquemas);
+                        Esquemas esquemaAux = administradora.darEsquema();
                         i.putExtra(CalculoTableaux.ESQUEMAS,esquemaAux);
                         startActivity(i);
-
 
                     } else {
                         final Snackbar snackbar = Snackbar.make(getView(), R.string.ErrorTableauxEsquemasVacios, Snackbar.LENGTH_INDEFINITE);
@@ -145,7 +144,7 @@ public class TableauxFragment extends Fragment {
                             snackbar.show();
                         } else {
                             Intent i = new Intent(getActivity(), AgregarEsquemas.class);
-                            Esquemas esquema = new Esquemas(lEsquemas);
+                            Esquemas esquema = administradora.darEsquema();
                             i.putExtra(AgregarEsquemas.ESQUEMA, esquema);
                             i.putExtra(AgregarEsquemas.ATRIBUTOS, administradora.darListadoAtributos());
                             startActivityForResult(i, 101);
@@ -173,6 +172,7 @@ public class TableauxFragment extends Fragment {
 
                 if (direction == ItemTouchHelper.LEFT){
                     dataAdapter.removeItem(position);
+                    administradora.eliminarEsquema(esquema);
                     lEsquemas.remove(esquema);
                 }
                 else
@@ -217,7 +217,7 @@ public class TableauxFragment extends Fragment {
     public void ModificarEsquema(ArrayList<String> esquemaAModificar,int index)
     {
         Intent i = new Intent(getActivity(),ModificarEsquema.class);
-        Esquemas esquema = new Esquemas(lEsquemas);
+        Esquemas esquema = administradora.darEsquema();
         i.putExtra(ModificarEsquema.ESQUEMA,esquema);
         i.putExtra(ModificarEsquema.INDEX,index);
         i.putExtra(ModificarEsquema.ATRIBUTOS,administradora.darListadoAtributos());
@@ -240,25 +240,27 @@ public class TableauxFragment extends Fragment {
         {
             if(data.hasExtra(AgregarEsquemas.ESQUEMA_RESULTADO) && lEsquemas!=null)
             {
-                ArrayList<String> esquemaResutaldo = data.getStringArrayListExtra(AgregarEsquemas.ESQUEMA_RESULTADO);
-                //lEsquemas.add( esquemaResutaldo );
-                dataAdapter.addItem(esquemaResutaldo);
+                ArrayList<String> esquemaResultado = data.getStringArrayListExtra(AgregarEsquemas.ESQUEMA_RESULTADO);
+                lEsquemas.add(esquemaResultado); //TODO LINEA QUE SE PUEDE ELIMINAR
+                administradora.agregarEsquema(esquemaResultado);
+                dataAdapter.addItem(esquemaResultado);
             }
         }
         if(resultCode == 2)
         {
             if(data.hasExtra(ModificarEsquema.ESQUEMA_RESULTADO) && lEsquemas!=null)
             {
-                ArrayList<String> esquemaResutaldo = data.getStringArrayListExtra(ModificarEsquema.ESQUEMA_RESULTADO);
+                ArrayList<String> esquemaResultado = data.getStringArrayListExtra(ModificarEsquema.ESQUEMA_RESULTADO);
                 int posicion = data.getIntExtra(ModificarEsquema.INDEX,-1);
                 if(posicion>=0){
-                    lEsquemas.remove(posicion);
-                    lEsquemas.add( posicion,esquemaResutaldo );
-                    dataAdapter.updateItem(posicion,esquemaResutaldo);
+                    lEsquemas.remove(posicion);                //TODO ELIMINAR
+                    lEsquemas.add( posicion,esquemaResultado );//TODO ELIMINAR
+                    administradora.modificarEsquema(administradora.darEsquemas().get(posicion),esquemaResultado);
+                    dataAdapter.updateItem(posicion,esquemaResultado);
                 }
             }
         }
-        if(lEsquemas!=null)
+        if(lEsquemas!=null) //TODO MODIFICAR
             dataAdapter.updateDataSource(lEsquemas);
     }
 }

@@ -93,11 +93,9 @@ public class MainActivity extends AppCompatActivity implements
         navigationView.getMenu().getItem(0).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
-
         //TODO Ejemplo de Tableaux
         administradora.ejemploCCyFMIN();
         //FIN TODO
-
     }
 
     protected void setFragment(Fragment fragment) {
@@ -258,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements
         public int getCount() {
             return TOTAL_FRAGMENTS;
         }
-
     }
 
 
@@ -307,7 +304,6 @@ public class MainActivity extends AppCompatActivity implements
         {
             administradora.agregarAtributos(string);
         }
-
     }
 
     @Override

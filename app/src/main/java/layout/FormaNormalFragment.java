@@ -25,8 +25,6 @@ public class FormaNormalFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
     public static FormaNormalFragment newInstance() {
         FormaNormalFragment fragment = new FormaNormalFragment();
         Bundle args = new Bundle();
@@ -58,10 +56,9 @@ public class FormaNormalFragment extends Fragment {
 
     public void update()
     {
-
         FormaNormal fn = administradora.calcularFormaNormal();
         if(contenido!=null)
-        contenido.setText(fn.JustificaMiFN().toString());
+            contenido.setText(fn.JustificaMiFN().toString());
     }
 
     @Override

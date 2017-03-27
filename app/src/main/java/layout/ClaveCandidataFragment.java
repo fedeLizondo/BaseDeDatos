@@ -89,11 +89,11 @@ public class ClaveCandidataFragment extends Fragment {
 
     private void update()
     {
-        if( ListadoClavesCandidatas == null || !ListadoClavesCandidatas.equals( administradora.calcularClavesCandidatas() )) {
 
             ListadoClavesCandidatas = administradora.calcularClavesCandidatas();
-            if (ListadoClavesCandidatas != null && !ListadoClavesCandidatas.isEmpty())
-                Clavecandidata = ListadoClavesCandidatas.get(0);
+            //if (ListadoClavesCandidatas != null && !ListadoClavesCandidatas.isEmpty())
+            Clavecandidata = administradora.darClaveCandidataSeleccionada(); //ListadoClavesCandidatas.get(0);
+
             ArrayAdapter ccAdaper = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, convertirAArrayList(ListadoClavesCandidatas));
             listaCC.setAdapter(ccAdaper);
 
@@ -102,17 +102,13 @@ public class ClaveCandidataFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Clavecandidata = ListadoClavesCandidatas.get(position);
                     tvCCSeleccionada.setText(Clavecandidata.toString().replace('[',' ').replace(']',' '));
-                    administradora.cambiarClaveCandidata(Clavecandidata);//TODO MODIFICAR NO HACE CAMBIOS
+                    administradora.cambiarClaveCandidata(Clavecandidata);
                 }
             });
-        }
 
-        if( ListadoSuperClaves == null || !ListadoSuperClaves.equals(administradora.darSuperClaves()))
-        {
             ListadoSuperClaves = administradora.darSuperClaves();
             ArrayAdapter skAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,convertirAArrayList(ListadoSuperClaves));
             listaSuperClaves.setAdapter(skAdapter);
-        }
 
         if(!Clavecandidata.isEmpty())
             tvCCSeleccionada.setText(Clavecandidata.toString().replace('[',' ').replace(']',' '));
@@ -126,6 +122,5 @@ public class ClaveCandidataFragment extends Fragment {
             update();
         }
         super.setUserVisibleHint(isVisibleToUser);
-
     }
 }

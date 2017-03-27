@@ -62,13 +62,13 @@ public class Tableaux {
         String[][] tabla = primerPaso().getPaso();
         int sizeEsquema = esquema.getEsquemas().size();
         int sizeDependenciaFuncional = dependenciaFuncionales.size();
-        int indexDF = 0;
+
         while ( hayCambios && !lineaCompleta )
         {
             hayCambios = false;
+            int indexDF = 0;
 
             while (indexDF<sizeDependenciaFuncional && !lineaCompleta)
-            //for(DependenciaFuncional df:dependenciaFuncionales)
             {
                 DependenciaFuncional df = dependenciaFuncionales.get(indexDF);
                 indexDF++;
@@ -100,6 +100,7 @@ public class Tableaux {
                     }
                     String componenteDeterminado = tabla[indexEsquema][posicionDeterminado];
 
+                    //TODO VERIFICAR
                     if(valoresReemplazo.containsKey(componenteDeterminante))
                     {
                        hayCambios = true;
@@ -130,7 +131,6 @@ public class Tableaux {
                                cambios.add(new Coordenada(indexEsquema,posicionDeterminado));
                                tabla[indexEsquema][posicionDeterminado] = componenteDeterminadoHash;
                                cantidadAxFila[indexEsquema]++;
-
                            }
                        }
                     }
@@ -138,10 +138,7 @@ public class Tableaux {
                     {
                         valoresReemplazo.put(componenteDeterminante,componenteDeterminado);
                     }
-                    //ArrayList<String> esq = esquema.getEsquemas().get(indexEsquema);
                 }//FIN DE ESQUEMAS
-
-
 
                 PasoTableaux pasoTableaux = new PasoTableaux((String[][]) tabla.clone(),df,cambios);
                 pasosTableaux.add(pasoTableaux);
@@ -153,14 +150,19 @@ public class Tableaux {
                         lineaCompleta = ( cantidadFila == atributos.size() );
                     }
                 }
-
             }//FIN DE DEPENDENCIAS FUNCIONALES
-
         }//FIN DEL WHILE
-
-
     }
 
+    public int darFilas()
+    {
+        return esquema.getEsquemas().size();
+    }
+
+    public int darColumnas()
+    {
+        return atributos.size();
+    }
 
     public PasoTableaux getPaso(int index)
     {
@@ -181,5 +183,7 @@ public class Tableaux {
     {
         return !lineaCompleta;
     }
+
+    public int cantidadDePasos(){return  pasosTableaux.size();}
 
 }

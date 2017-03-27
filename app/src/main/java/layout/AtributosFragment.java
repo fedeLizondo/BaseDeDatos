@@ -69,12 +69,8 @@ public class AtributosFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_atributos, container, false);
-
         initViews(view);
-
-
         return view;
     }
 
@@ -158,8 +154,6 @@ public class AtributosFragment extends Fragment implements
         for (String string : listadoAtributo) {
                 dataAdapter.addItem(string);
             }
-
-
     }
 
     private void initViews(View view)
@@ -249,5 +243,4 @@ public class AtributosFragment extends Fragment implements
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerViewAtributos);
     }
-
 }

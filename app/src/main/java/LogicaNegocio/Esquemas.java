@@ -11,14 +11,38 @@ public class Esquemas implements Serializable {
 
     private ArrayList<ArrayList<String>> esquemas;
 
-    public Esquemas(ArrayList<ArrayList<String>> esquemas)
+
+    public Esquemas()
     {
-        this.esquemas = esquemas;
+        esquemas = new ArrayList<>();
     }
+
+    public void agregarEsquema(ArrayList<String> esquema)
+    {
+        if(esquema!=null && !esquema.contains(esquema))
+            esquemas.add(esquema);
+    }
+
+    public void modificarEsquema(ArrayList<String> esquemaAnterior,ArrayList<String> esquemaNuevo)
+    {
+        if(esquemaAnterior!=null && esquemaNuevo != null && esquemas.contains(esquemaAnterior) && !esquemas.contains(esquemaNuevo))
+        {
+            int index = esquemas.indexOf(esquemaAnterior);
+            esquemas.remove(index);
+            esquemas.add(index,esquemaNuevo);
+        }
+    }
+
+    public void eliminarEsquema(ArrayList<String> esquema)
+    {
+        if(esquemas.contains(esquema))
+            esquemas.remove(esquema);
+    }
+
 
     public ArrayList<ArrayList<String>> getEsquemas()
     {
-        return esquemas;
+        return (ArrayList<ArrayList<String>>)esquemas.clone();
     }
 
 }
