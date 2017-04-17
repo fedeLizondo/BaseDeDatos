@@ -31,7 +31,6 @@ import fedelizondo.basededatos.R;
 
 public class ResultadoTableauxFragment extends Fragment {
 
-
     private Administradora administradora;
     private String[][] ultimoTableaux;
     private View view;
@@ -123,7 +122,6 @@ public class ResultadoTableauxFragment extends Fragment {
             row = new TableRow(getActivity());
             row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-
             for (int j = 0; j < columna; j++) {
                 TextView edit = new TextView(getContext());
                 edit.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -142,6 +140,4 @@ public class ResultadoTableauxFragment extends Fragment {
             table.setStretchAllColumns(true);
         }
     }
-
-
 }

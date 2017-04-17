@@ -32,19 +32,53 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginTop="15dp"/>
-        </LinearLayout>
 
+
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/txtDependenciaFuncional"
+            android:text="Son todos gatos"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="20sp"
+            android:paddingLeft="10dp"/>
         <!--GridView
             android:id="@+id/gv_Tableaux"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             /-->
 
-        <TableLayout
-            android:id="@+id/gv_Tableaux"
+        <ScrollView
+            android:id="@+id/scrollView1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </TableLayout>
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal" >
+
+                        <TableLayout
+                            android:id="@+id/tl_Tableaux"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" >
+                        </TableLayout>
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
