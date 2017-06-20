@@ -33,12 +33,10 @@
                 android:layout_weight="1"
                 android:layout_marginTop="15dp"/>
 
-
-
         </LinearLayout>
         <TextView
             android:id="@+id/txtDependenciaFuncional"
-            android:text="Son todos gatos"
+            android:text="TextoPruebaTableaux"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
