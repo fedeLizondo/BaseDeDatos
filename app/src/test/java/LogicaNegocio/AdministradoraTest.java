@@ -113,7 +113,7 @@ public class AdministradoraTest {
         admin.agregarDependenciaFuncional(new DFDeterminanteComplejo(
                 new ArrayList<String>(){{ add("C");add("E");}},"A"));
 
-        assertEquals("[A -> C, B -> C, C -> D, [D, E] -> C, [C, E] -> A]",admin.darListadoDependenciasFuncional().toString() );
+        assertEquals("[A -> C, B -> C, C -> D,  D, E  -> C,  C, E  -> A]",admin.darListadoDependenciasFuncional().toString() );
 
     }
 
@@ -148,12 +148,31 @@ public class AdministradoraTest {
         assertEquals("[A, B, C, D, E]",admin.calcularClausura(aux).toString());
 
     }
-/*
+
     @Test
     public void calcularUniverso() throws Exception {
 
-    }
+        //El metodo calcularUniverso lo que hace es , a partir de una clave ver si se obtiene el universo
+        Administradora adm = Administradora.getInstanceForTesting();
+        ArrayList<String> clave= new ArrayList<>();
+        adm.agregarAtributos("a");
+        adm.agregarDependenciaFuncional(new DFSimple("a","a"));//a -> a
+        clave.add("a");
+        //Pruebo el caso en el que tengo  un atributo y una clave compuesta por ese atributo
+        assertEquals(true,adm.calcularUniverso(clave));
 
+        adm = Administradora.getInstanceForTesting();
+        adm.agregarAtributos("a");
+        adm.agregarAtributos("b");
+        adm.agregarDependenciaFuncional(new DFSimple("a","a"));
+        clave = new ArrayList<>();
+        clave.add("a");
+        //Pruebo el caso donde tengo mas de un atributo  que deberia ser falso
+        assertEquals(false,adm.calcularUniverso(clave));
+
+
+    }
+/*
     @Test
     public void calcularClausura() throws Exception {
 

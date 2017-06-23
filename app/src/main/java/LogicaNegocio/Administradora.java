@@ -13,6 +13,11 @@ public class Administradora implements Serializable {
         return ourInstance;
     }
 
+    public static Administradora getInstanceForTesting()
+    {
+        return  new Administradora();
+    }
+
     private ArrayList<String> lAtributos;
     private ArrayList<DependenciaFuncional> lDependenciasFuncionales;
     private ArrayList<ArrayList<String>> claves;
