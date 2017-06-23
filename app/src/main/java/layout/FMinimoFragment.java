@@ -62,6 +62,8 @@ public class FMinimoFragment extends Fragment {
 
     public void update()
     {
+        if(administradora== null)
+            administradora = Administradora.getInstance();
         ArrayList<DependenciaFuncional> aux = administradora.calcularFmin();
         if(dependenciasFuncionales == null || dependenciasFuncionales.equals(aux))
         dependenciasFuncionales = aux;

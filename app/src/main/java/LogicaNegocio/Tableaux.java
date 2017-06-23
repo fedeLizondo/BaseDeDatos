@@ -100,11 +100,11 @@ public class Tableaux {
                     String componenteDeterminado = tabla[indexEsquema][posicionDeterminado];
 
                     //TODO VERIFICAR
-                    if(valoresReemplazo.containsKey(componenteDeterminante))
+                    if(valoresReemplazo.containsKey(componenteDeterminante.toString()))
                     {
                        hayCambios = true;
 
-                       String componenteDeterminadoHash = valoresReemplazo.get(componenteDeterminante);
+                       String componenteDeterminadoHash = valoresReemplazo.get(componenteDeterminante.toString());
                        if(!componenteDeterminadoHash.equals(componenteDeterminado))
                        {
                            if(componenteDeterminado.contains("A") && componenteDeterminadoHash.contains("b"))

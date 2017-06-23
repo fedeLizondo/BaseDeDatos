@@ -42,6 +42,8 @@ public class CalculoEficienteFragment extends Fragment {
         }
         else
             administradora = Administradora.getInstance();
+
+
     }
 
     @Override
@@ -64,7 +66,7 @@ public class CalculoEficienteFragment extends Fragment {
 
     public void update()
     {
-        if(tvContenido!=null)
+        if(tvContenido!=null && administradora!=null)
         {
             ArrayList<ArrayList<DependenciaFuncional>> aux = administradora.calcularDescomposicion3FN();
             if(lSubEsquemas == null || !lSubEsquemas.equals(aux))

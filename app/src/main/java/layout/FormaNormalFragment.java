@@ -51,13 +51,21 @@ public class FormaNormalFragment extends Fragment {
         View view =inflater.inflate(R.layout.fragment_forma_normal, container, false);
 
         contenido = (TextView) view.findViewById(R.id.tv_cuerpoFNormal);
+        if(administradora!=null) {
+            FormaNormal fn = administradora.calcularFormaNormal();
+            contenido.setText(fn.JustificaMiFN().toString());
+        }
         return view;
     }
 
     public void update()
     {
+        if(administradora == null)
+               administradora = Administradora.getInstance();
+
         FormaNormal fn = administradora.calcularFormaNormal();
-        if(contenido!=null)
+
+        if(contenido!=null &&  fn != null)
             contenido.setText(fn.JustificaMiFN().toString());
     }
 

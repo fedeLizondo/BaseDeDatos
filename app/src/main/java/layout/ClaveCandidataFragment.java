@@ -89,6 +89,7 @@ public class ClaveCandidataFragment extends Fragment {
 
     private void update()
     {
+        if(administradora != null) {
 
             ListadoClavesCandidatas = administradora.calcularClavesCandidatas();
             //if (ListadoClavesCandidatas != null && !ListadoClavesCandidatas.isEmpty())
@@ -101,18 +102,18 @@ public class ClaveCandidataFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Clavecandidata = ListadoClavesCandidatas.get(position);
-                    tvCCSeleccionada.setText(Clavecandidata.toString().replace('[',' ').replace(']',' '));
+                    tvCCSeleccionada.setText(Clavecandidata.toString().replace('[', ' ').replace(']', ' '));
                     administradora.cambiarClaveCandidata(Clavecandidata);
                 }
             });
 
             ListadoSuperClaves = administradora.darSuperClaves();
-            ArrayAdapter skAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,convertirAArrayList(ListadoSuperClaves));
+            ArrayAdapter skAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, convertirAArrayList(ListadoSuperClaves));
             listaSuperClaves.setAdapter(skAdapter);
 
-        if(!Clavecandidata.isEmpty())
-            tvCCSeleccionada.setText(Clavecandidata.toString().replace('[',' ').replace(']',' '));
-
+            if (!Clavecandidata.isEmpty())
+                tvCCSeleccionada.setText(Clavecandidata.toString().replace('[', ' ').replace(']', ' '));
+        }
     }
 
     @Override

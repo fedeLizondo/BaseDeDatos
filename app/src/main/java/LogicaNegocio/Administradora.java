@@ -284,8 +284,7 @@ public class Administradora implements Serializable {
             this.claveCandidata = claveCandidata;
     }
 
-    public ArrayList<String> darClaveCandidataSeleccionada()
-    {
+    public ArrayList<String> darClaveCandidataSeleccionada() {
         return (ArrayList<String>) claveCandidata.clone();
     }
 
@@ -297,6 +296,10 @@ public class Administradora implements Serializable {
     public FormaNormal calcularFormaNormal() {
 
         if(formaNormal == null) {
+
+            calcularFmin();
+            calcularClavesCandidatas();
+
             if (lDependenciasFuncionales.isEmpty() || fmin.isEmpty() || lAtributos.size() <= 2) {
                 formaNormal = new FNBC();
                 return formaNormal;
@@ -364,7 +367,10 @@ public class Administradora implements Serializable {
 
     public ArrayList<ArrayList<DependenciaFuncional>> calcularDescomposicion3FN() {
         if (fmin == null || claves == null || claves.isEmpty())
-            return null;
+        {
+            calcularFmin();
+            calcularClavesCandidatas();
+        };
 
         ArrayList<ArrayList<DependenciaFuncional>> descomposicion = new ArrayList<ArrayList<DependenciaFuncional>>();
         ArrayList<String> clave = claves.get(0);
@@ -409,6 +415,9 @@ public class Administradora implements Serializable {
     }
 
     public ArrayList<ArrayList<DependenciaFuncional>> calcularDescomposicionFNBC() {
+
+        calcularFmin();
+        calcularClavesCandidatas();
 
         int tam = fmin.size();
         int i = 0;
@@ -489,6 +498,7 @@ public class Administradora implements Serializable {
     public ArrayList<DependenciaFuncional> calcularFmin() {
 
         if(fmin.size() == 0) {
+
             ArrayList<DependenciaFuncional> dependenciaFuncional = new ArrayList<>();
             ArrayList<DependenciaFuncional> dfEliminarRedundantes = new ArrayList<>();
             ArrayList<DependenciaFuncional> dfSinRedundanciaIzq = new ArrayList<>();
@@ -612,9 +622,11 @@ public class Administradora implements Serializable {
     //TABLEAUX
     public Tableaux calcularTableaux(){
 
-        if(tableaux == null && esquema != null)
-            tableaux = new Tableaux(esquema,lAtributos,fmin);
-
+        if(tableaux == null && esquema != null) {
+            calcularFmin();
+            calcularClavesCandidatas();
+            tableaux = new Tableaux(esquema, lAtributos, fmin);
+        }
         return tableaux;
     }
 
