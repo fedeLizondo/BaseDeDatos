@@ -66,13 +66,14 @@ public class CalculoEficienteFragment extends Fragment {
 
     public void update()
     {
-        if(tvContenido!=null && administradora!=null)
+        if( tvContenido != null && administradora != null)
         {
             ArrayList<ArrayList<DependenciaFuncional>> aux = administradora.calcularDescomposicion3FN();
             if(lSubEsquemas == null || !lSubEsquemas.equals(aux))
             {
                 lSubEsquemas = aux;
                 String contenido = aux.toString();
+                contenido = contenido.substring(1,contenido.lastIndexOf("]"));
                 //TODO MODIFICAR EL TEXTO PARA QUE QUEDE MAS ACORDE A LOS SUB ESQUEMAS
                 tvContenido.setText(contenido);
             }

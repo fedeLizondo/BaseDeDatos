@@ -158,6 +158,11 @@ public class DependenciaFuncionalFragment extends Fragment {
         }
     }
 
+    public void update()
+    {
+        if(view!=null)
+            initViews(view);
+    }
 
     private void initViews(View view)
     {
@@ -181,7 +186,13 @@ public class DependenciaFuncionalFragment extends Fragment {
         recyclerViewAtributos.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity().getApplicationContext());
         recyclerViewAtributos.setLayoutManager(layoutManager);
+
+        if(administradora!= null)
+            lDependenciasFuncional = administradora.darListadoDependenciasFuncional();
+
         dataAdapter = new AdapterDF( lDependenciasFuncional );
+
+
         recyclerViewAtributos.setAdapter(dataAdapter);
         dataAdapter.notifyDataSetChanged();
         initSwipe();

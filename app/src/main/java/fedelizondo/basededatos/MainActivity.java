@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
         //TODO Ejemplo de Tableaux
-        administradora.ejemploCCyFMIN();
+        administradora.ejemploConPerdidaDeInformacion();//ejemploCCyFMIN();//ejemploTableaux(); //
         //FIN TODO
     }
 
@@ -147,12 +147,14 @@ public class MainActivity extends AppCompatActivity implements
             //////////////////////////////////////
             case R.id.nav_Ejemplo1:
                 index = ATRIBUTO;
-                //administradora.setEjemplo1();
+                administradora.ejemploTableaux();
                 break;
             case R.id.nav_Ejemplo2:
+                administradora.ejemploConPerdidaDeInformacion();
                 index = ATRIBUTO;
                 break;
             case R.id.nav_Ejemplo3:
+                administradora.ejemploPrimerEjercicio();
                 index = ATRIBUTO;
                 break;
             case R.id.nav_Ejemplo4:
@@ -160,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.nav_Ejemplo5:
                 index = ATRIBUTO;
+                administradora.ejemploCCyFMIN();
                 break;
             default: index = posicionActual;
                 break;
@@ -309,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteractionModificarAtributos(String AtributoAnterior, String AtributoNuevo) {
         administradora.modificarAtributo(AtributoAnterior,AtributoNuevo);
+
     }
 
     @Override
@@ -320,12 +324,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onFragmentInteractionDFAgregar(DependenciaFuncional dfAgregada) {
         administradora.agregarDependenciaFuncional(dfAgregada);
-
     }
 
     @Override
     public void onFragmentInteractionDFModificar(DependenciaFuncional dfVieja, DependenciaFuncional dfNueva ) {
         administradora.modificarDependenciaFuncional(dfVieja,dfNueva);
+
     }
 
     @Override

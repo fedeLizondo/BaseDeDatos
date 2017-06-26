@@ -67,6 +67,9 @@ public class FormaNormalFragment extends Fragment {
 
         if(contenido!=null &&  fn != null)
             contenido.setText(fn.JustificaMiFN().toString());
+        if(administradora.darListadoAtributos().size() == 0)
+            contenido.setText("No hay atributos Agregados :S");
+
     }
 
     @Override

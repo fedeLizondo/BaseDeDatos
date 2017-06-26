@@ -62,6 +62,30 @@ public class Administradora implements Serializable {
             lAtributos.remove(atributoViejo);
             lAtributos.add(pos, atributoNuevo);
             hayCambios(Cambios.ATRIBUTOS);
+
+            for(DependenciaFuncional df : (ArrayList<DependenciaFuncional>)lDependenciasFuncionales.clone())
+            {
+                if(df.getDeterminante().contains(atributoViejo) || df.getDeterminado().contains(atributoViejo))
+                {
+                   ArrayList<String> determinante = df.getDeterminante();
+                   ArrayList<String> determinado = df.getDeterminado();
+
+                   if(determinante.contains(atributoViejo) )
+                   {
+                       int indexDeterminante = determinante.indexOf(atributoViejo);
+                       determinante.remove(atributoViejo);
+                       determinante.add(indexDeterminante,atributoNuevo);
+                   }
+                   if(determinado.contains(atributoViejo))
+                   {
+                       int indexDeterminado = determinado.indexOf(atributoViejo);
+                       determinado.remove(atributoViejo);
+                       determinado.add(indexDeterminado,atributoNuevo);
+                   }
+
+                   modificarDependenciaFuncional(df,crearDependenciaFuncional(determinante,determinado));
+                }
+            }
         }
     }
 
@@ -69,6 +93,19 @@ public class Administradora implements Serializable {
         if (lAtributos.contains(atributo)) {
             lAtributos.remove(atributo);
             hayCambios(Cambios.ATRIBUTOS);
+            ArrayList<DependenciaFuncional> eliminar = new ArrayList<>();
+
+            for(DependenciaFuncional df : lDependenciasFuncionales) {
+
+                ArrayList<String> determinante = df.getDeterminante();
+                ArrayList<String> determinado = df.getDeterminado();
+                if(determinante.contains(atributo)||determinado.contains(atributo))
+                {
+                    eliminar.add(df);
+                }
+            }
+            lDependenciasFuncionales.removeAll(eliminar);
+
         }
     }
 
@@ -366,6 +403,11 @@ public class Administradora implements Serializable {
     }
 
     public ArrayList<ArrayList<DependenciaFuncional>> calcularDescomposicion3FN() {
+        if(lAtributos.isEmpty() || lAtributos == null)
+        {
+            return  new ArrayList<ArrayList<DependenciaFuncional>>();
+        }
+
         if (fmin == null || claves == null || claves.isEmpty())
         {
             calcularFmin();
@@ -715,7 +757,31 @@ public class Administradora implements Serializable {
         agregarDependenciaFuncional(new DFDeterminanteComplejo(determinante, "a"));
 
         //TODO AGREGAR SUB ESQUEMAS
+        ArrayList<String>esquema = new ArrayList<>();
+        esquema.add("a");
+        esquema.add("d");
+        agregarEsquema(esquema);
 
+        esquema = new ArrayList<>();
+        esquema.add("a");
+        esquema.add("b");
+        agregarEsquema(esquema);
+
+        esquema = new ArrayList<>();
+        esquema.add("b");
+        esquema.add("e");
+        agregarEsquema(esquema);
+
+        esquema = new ArrayList<>();
+        esquema.add("c");
+        esquema.add("d");
+        esquema.add("e");
+        agregarEsquema(esquema);
+
+        esquema = new ArrayList<>();
+        esquema.add("a");
+        esquema.add("e");
+        agregarEsquema(esquema);
     }
 
     public void ejemploCCyFMIN() {
@@ -759,6 +825,21 @@ public class Administradora implements Serializable {
         Determinado.add("e");
         agregarDependenciaFuncional(new DFDeterminadoComplejo("f", (ArrayList<String>) Determinado.clone()));
         Determinado.clear();
+
+        ArrayList<String>esquema = new ArrayList<>();
+        esquema.add("a");
+        esquema.add("b");
+        agregarEsquema(esquema);
+
+        esquema = new ArrayList<>();
+        esquema.add("c");
+        esquema.add("d");
+        agregarEsquema(esquema);
+
+        esquema = new ArrayList<>();
+        esquema.add("e");
+        esquema.add("f");
+        agregarEsquema(esquema);
 
     }
 
@@ -804,6 +885,35 @@ public class Administradora implements Serializable {
 
     }
 
+    public void ejemploConPerdidaDeInformacion()
+    {
+        clean();
+        agregarAtributos("Ciudad");
+        agregarAtributos("Calle");
+        agregarAtributos("CP");
+
+
+        ArrayList<String> determinante = new ArrayList<String>();
+        determinante.add("Ciudad");
+        determinante.add("Calle");
+
+
+        agregarDependenciaFuncional(new DFDeterminanteComplejo((ArrayList<String>) determinante.clone(), "CP"));
+        agregarDependenciaFuncional(new DFSimple("CP", "Ciudad"));
+
+
+        //TODO AGREGAR SUB ESQUEMAS
+        ArrayList<String>esquema = new ArrayList<>();
+        esquema.add("Ciudad");
+        esquema.add("Calle");
+        agregarEsquema(esquema);
+
+        esquema = new ArrayList<>();
+        esquema.add("Calle");
+        esquema.add("CP");
+        agregarEsquema(esquema);
+
+    }
 
     /*
     public void guardarArchivo(String nombreArchivo, String directorio, Context context) {
