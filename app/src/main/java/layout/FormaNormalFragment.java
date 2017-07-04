@@ -48,12 +48,16 @@ public class FormaNormalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =inflater.inflate(R.layout.fragment_forma_normal, container, false);
+        View view = inflater.inflate(R.layout.fragment_forma_normal, container, false);
 
         contenido = (TextView) view.findViewById(R.id.tv_cuerpoFNormal);
         if(administradora!=null) {
             FormaNormal fn = administradora.calcularFormaNormal();
             contenido.setText(fn.JustificaMiFN().toString());
+
+            if( contenido!=null && administradora.darListadoAtributos().size() == 0)
+                contenido.setText("No hay atributos Agregados :S");
+
         }
         return view;
     }
@@ -65,11 +69,8 @@ public class FormaNormalFragment extends Fragment {
 
         FormaNormal fn = administradora.calcularFormaNormal();
 
-        if(contenido!=null &&  fn != null)
+        if( contenido!=null &&  fn != null)
             contenido.setText(fn.JustificaMiFN().toString());
-        if(administradora.darListadoAtributos().size() == 0)
-            contenido.setText("No hay atributos Agregados :S");
-
     }
 
     @Override

@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
         //TODO Ejemplo de Tableaux
-        administradora.ejemploConPerdidaDeInformacion();//ejemploCCyFMIN();//ejemploTableaux(); //
+        //administradora.ejemploConPerdidaDeInformacion();//ejemploCCyFMIN();//ejemploTableaux(); //
         //FIN TODO
     }
 

@@ -21,6 +21,8 @@ public class Administradora implements Serializable {
     private ArrayList<String> lAtributos;
     private ArrayList<DependenciaFuncional> lDependenciasFuncionales;
     private ArrayList<ArrayList<String>> claves;
+    private ArrayList<ArrayList<String>> superClaves;
+
     private ArrayList<DependenciaFuncional> fmin;
     private FormaNormal formaNormal;
 
@@ -38,6 +40,7 @@ public class Administradora implements Serializable {
         lAtributos = new ArrayList<String>();
         lDependenciasFuncionales = new ArrayList<DependenciaFuncional>();
         claves = new ArrayList<ArrayList<String>>();
+        superClaves = new ArrayList<ArrayList<String>>();
         fmin = new ArrayList<DependenciaFuncional>();
         formaNormal = null;
         tableaux = null;
@@ -204,6 +207,8 @@ public class Administradora implements Serializable {
             ArrayList<ArrayList<String>> lAuxClave = new ArrayList<ArrayList<String>>(claves);
             ArrayList<ArrayList<String>> lAuxClave2 = new ArrayList<ArrayList<String>>(claves);
 
+            superClaves = new ArrayList<ArrayList<String>>(claves);
+
             for (ArrayList<String> clave : lAuxClave2) {
                 for (ArrayList<String> string : lAuxClave) {
                     if (string.containsAll(clave) && clave.size() < string.size())
@@ -233,6 +238,8 @@ public class Administradora implements Serializable {
                     ArrayList<String> aux = new ArrayList<String>();
                     aux.addAll(lAuxPrefijos);
                     claves.add(aux);
+                    if(!superClaves.contains(aux))
+                        superClaves.add(aux);
                 } else
                     calcularClavesRecursivo(lAuxPrefijos, (ArrayList<String>) lAuxAtributosPosibles.clone());
 
@@ -326,7 +333,7 @@ public class Administradora implements Serializable {
     }
 
     public ArrayList<ArrayList<String>> darSuperClaves() {
-        return claves;
+        return superClaves;
     }
 
     //FORMA NORMAL
@@ -713,7 +720,7 @@ public class Administradora implements Serializable {
         {
             default:
             case ATRIBUTOS:
-            case DEPENDECIAS: claveCandidata.clear();
+            case DEPENDECIAS: claveCandidata.clear();superClaves.clear();
             case CLAVECANDIDATA:formaNormal= null;fmin.clear();claves.clear();
             case ESQUEMA: tableaux = null;
         }
@@ -782,6 +789,36 @@ public class Administradora implements Serializable {
         esquema.add("a");
         esquema.add("e");
         agregarEsquema(esquema);
+    }
+
+    public void ejemploConPerdidaDeInformacion()
+    {
+        clean();
+        agregarAtributos("Ciudad");
+        agregarAtributos("Calle");
+        agregarAtributos("CP");
+
+
+        ArrayList<String> determinante = new ArrayList<String>();
+        determinante.add("Ciudad");
+        determinante.add("Calle");
+
+
+        agregarDependenciaFuncional(new DFDeterminanteComplejo((ArrayList<String>) determinante.clone(), "CP"));
+        agregarDependenciaFuncional(new DFSimple("CP", "Ciudad"));
+
+
+        //TODO AGREGAR SUB ESQUEMAS
+        ArrayList<String>esquema = new ArrayList<>();
+        esquema.add("Ciudad");
+        esquema.add("Calle");
+        agregarEsquema(esquema);
+
+        esquema = new ArrayList<>();
+        esquema.add("Calle");
+        esquema.add("CP");
+        agregarEsquema(esquema);
+
     }
 
     public void ejemploCCyFMIN() {
@@ -885,35 +922,7 @@ public class Administradora implements Serializable {
 
     }
 
-    public void ejemploConPerdidaDeInformacion()
-    {
-        clean();
-        agregarAtributos("Ciudad");
-        agregarAtributos("Calle");
-        agregarAtributos("CP");
 
-
-        ArrayList<String> determinante = new ArrayList<String>();
-        determinante.add("Ciudad");
-        determinante.add("Calle");
-
-
-        agregarDependenciaFuncional(new DFDeterminanteComplejo((ArrayList<String>) determinante.clone(), "CP"));
-        agregarDependenciaFuncional(new DFSimple("CP", "Ciudad"));
-
-
-        //TODO AGREGAR SUB ESQUEMAS
-        ArrayList<String>esquema = new ArrayList<>();
-        esquema.add("Ciudad");
-        esquema.add("Calle");
-        agregarEsquema(esquema);
-
-        esquema = new ArrayList<>();
-        esquema.add("Calle");
-        esquema.add("CP");
-        agregarEsquema(esquema);
-
-    }
 
     /*
     public void guardarArchivo(String nombreArchivo, String directorio, Context context) {
