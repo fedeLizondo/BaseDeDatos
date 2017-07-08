@@ -1,6 +1,5 @@
 package layout;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,8 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -45,9 +42,9 @@ import fedelizondo.basededatos.R;
  */
 public class DependenciaFuncionalFragment extends Fragment {
 
-    public static String TAG ="ATRIBUTOS";
+    public static String TAG ="DEPENDENCIA";
 
-    private RecyclerView recyclerViewAtributos;
+    private RecyclerView recyclerViewDependencias;
     private AdapterDF dataAdapter;
     private FloatingActionButton fab;
 
@@ -91,6 +88,21 @@ public class DependenciaFuncionalFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_dependencia_funcional, container, false);
         initViews(view);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        if(recyclerViewDependencias != null)
+        {
+            administradora = Administradora.getInstance();
+            lDependenciasFuncional = administradora.darListadoDependenciasFuncional();
+            lAtributos = administradora.darListadoAtributos();
+            dataAdapter = new AdapterDF( lDependenciasFuncional );
+            recyclerViewDependencias.setAdapter(dataAdapter);
+            dataAdapter.notifyDataSetChanged();
+            initSwipe();
+        }
+        super.onResume();
     }
 
     @Override
@@ -182,18 +194,16 @@ public class DependenciaFuncionalFragment extends Fragment {
         animation.setInterpolator(new OvershootInterpolator());
         fab.startAnimation(animation);*/
 
-        recyclerViewAtributos = (RecyclerView) view.findViewById(R.id.rv_DependenciaFuncional);
-        recyclerViewAtributos.setHasFixedSize(true);
+        recyclerViewDependencias = (RecyclerView) view.findViewById(R.id.rv_DependenciaFuncional);
+        recyclerViewDependencias.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity().getApplicationContext());
-        recyclerViewAtributos.setLayoutManager(layoutManager);
+        recyclerViewDependencias.setLayoutManager(layoutManager);
 
         if(administradora!= null)
             lDependenciasFuncional = administradora.darListadoDependenciasFuncional();
 
         dataAdapter = new AdapterDF( lDependenciasFuncional );
-
-
-        recyclerViewAtributos.setAdapter(dataAdapter);
+        recyclerViewDependencias.setAdapter(dataAdapter);
         dataAdapter.notifyDataSetChanged();
         initSwipe();
     }
@@ -254,7 +264,7 @@ public class DependenciaFuncionalFragment extends Fragment {
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerViewAtributos);
+        itemTouchHelper.attachToRecyclerView(recyclerViewDependencias);
     }
 
     @Override

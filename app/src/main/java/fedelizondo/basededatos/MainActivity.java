@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -93,9 +92,6 @@ public class MainActivity extends AppCompatActivity implements
         navigationView.getMenu().getItem(0).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
-        //TODO Ejemplo de Tableaux
-        //administradora.ejemploConPerdidaDeInformacion();//ejemploCCyFMIN();//ejemploTableaux(); //
-        //FIN TODO
     }
 
     protected void setFragment(Fragment fragment) {
@@ -244,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             if(hayCambios)
-                posicionActual = (short) position;
+               posicionActual = (short) position;
             return fragment;
         }
 

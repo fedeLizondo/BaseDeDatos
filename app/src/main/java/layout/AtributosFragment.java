@@ -22,6 +22,7 @@ import android.view.animation.ScaleAnimation;
 
 import java.util.ArrayList;
 
+import LogicaNegocio.Administradora;
 import fedelizondo.basededatos.DataAdapter;
 import fedelizondo.basededatos.R;
 
@@ -64,6 +65,13 @@ public class AtributosFragment extends Fragment implements
         if (getArguments() != null) {
             listaAtributos = getArguments().getStringArrayList(LISTADO_ATRIBUTOS);
         }
+
+        if( recyclerViewAtributos != null ) {
+            dataAdapter = new DataAdapter(listaAtributos);
+            recyclerViewAtributos.setAdapter(dataAdapter);
+            dataAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -90,6 +98,21 @@ public class AtributosFragment extends Fragment implements
         super.onDetach();
         mListener = null;
     }
+
+
+    @Override
+    public void onResume() {
+        if( recyclerViewAtributos != null ) {
+            listaAtributos = Administradora.getInstance().darListadoAtributos();
+            dataAdapter = new DataAdapter(listaAtributos);
+            recyclerViewAtributos.setAdapter(dataAdapter);
+            dataAdapter.notifyDataSetChanged();
+        }
+
+        super.onResume();
+    }
+
+
 
 
     public void AgregarAtributos()

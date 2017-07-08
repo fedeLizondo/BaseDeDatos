@@ -38,6 +38,7 @@ public class ResultadoTableauxFragment extends Fragment {
     private TableLayout tableLayout;
     private Esquemas esquemas;
     private Tableaux tableaux;
+    private boolean hayPerdidaDeInformacion;
 
     public ResultadoTableauxFragment() {
         // Required empty public constructor
@@ -55,8 +56,7 @@ public class ResultadoTableauxFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-        }
+        hayPerdidaDeInformacion = false;
 
         if (getContext() instanceof MainActivity) {
             administradora = ((MainActivity)getContext()).administradora;
@@ -69,6 +69,7 @@ public class ResultadoTableauxFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_resultado_tableaux, container, false);
         initView(view);
         return view;
@@ -79,7 +80,8 @@ public class ResultadoTableauxFragment extends Fragment {
 
         tableaux = administradora.calcularTableaux();
 
-        tv_Contenido.setText(administradora.hayPerdidaDeInformacion()?R.string.subTituloTableuxTienePerdida:R.string.subTituloTableuxNoTienePerdida);
+        hayPerdidaDeInformacion = administradora.hayPerdidaDeInformacion();
+        tv_Contenido.setText(hayPerdidaDeInformacion?R.string.subTituloTableuxTienePerdida:R.string.subTituloTableuxNoTienePerdida);
         //tv_Contenido.setText(R.string.subTituloTableuxNoTienePerdida);
         // if(administradora.isTableauxHayPerdidaDeInformacion())
         // tv_Contenido.setText(R.string.subTituloTableuxTienePerdida);
@@ -118,6 +120,13 @@ public class ResultadoTableauxFragment extends Fragment {
         TableRow row = new TableRow(getActivity());
         row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
+        ArrayList<Integer> filaCompleta = new ArrayList<>();
+
+        if(!hayPerdidaDeInformacion && tableaux != null)
+        {
+                filaCompleta.add(tableaux.darFilaCompleta()+1);
+        }
+
         for (int i = 0; i < fila; i++) {
             row = new TableRow(getActivity());
             row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -127,14 +136,22 @@ public class ResultadoTableauxFragment extends Fragment {
                 edit.setInputType(InputType.TYPE_CLASS_TEXT);
                 edit.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
                 edit.setTextSize(20);
+
                 if(i == 0 || j==0)
                     edit.setTextColor(Color.BLUE);
+                else
+                {
+                    if (filaCompleta.contains((Integer) i)) {
+                        edit.setTextColor(Color.RED);
+                        edit.setBackgroundColor(Color.argb(127, 255, 194, 73));
+                    }
+                }
+
                 edit.setText(matrix[i][j]);
                 edit.setPadding(8,4,8,4);
                 edit.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                 edit.setKeyListener(null);
                 row.addView(edit);
-
             }
             table.addView(row);
             table.setStretchAllColumns(true);

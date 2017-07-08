@@ -16,6 +16,8 @@ public class Tableaux {
     private ArrayList<DependenciaFuncional> dependenciaFuncionales;
     private int[] cantidadAxFila;
     private boolean lineaCompleta;
+    private int filaCompleta;
+
 
     public Tableaux(final Esquemas esquema,final ArrayList<String> atributos,final ArrayList<DependenciaFuncional> dependenciaFuncionales) {
         this.esquema = esquema;
@@ -24,6 +26,7 @@ public class Tableaux {
         lineaCompleta = false;
         cantidadAxFila = new int[esquema.getEsquemas().size()];
         pasosTableaux = new ArrayList<>();
+        filaCompleta = -1;
 
         inicializarTableaux();
         calcularPasos();
@@ -121,7 +124,7 @@ public class Tableaux {
                             valoresReemplazo.put(componenteDeterminante.toString(),componenteDeterminado);
 
                             cantidadAxFila[indexEsquema] +=1;
-                            cambios.add(new Coordenada(indexEsquema,posicionDeterminado));
+                            //cambios.add(new Coordenada(indexEsquema,posicionDeterminado));
                             tabla[indexEsquema][posicionDeterminado] = componenteDeterminado;
 
                             for(int i = 0;i<indexEsquema;i++) {
@@ -204,11 +207,11 @@ public class Tableaux {
                             fila++;
                         }
                         lineaCompleta = !(fila <tamAtributos);
+
+                        if(lineaCompleta)
+                            filaCompleta = esq;
                     }
                 }
-
-                if(lineaCompleta == true)
-                    lineaCompleta = true;
             }
             
         }
@@ -247,5 +250,7 @@ public class Tableaux {
     }
 
     public int cantidadDePasos(){return  pasosTableaux.size();}
+
+    public int darFilaCompleta(){return filaCompleta;}
 
 }

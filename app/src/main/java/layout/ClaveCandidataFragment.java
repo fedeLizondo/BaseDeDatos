@@ -89,7 +89,10 @@ public class ClaveCandidataFragment extends Fragment {
 
     private void update()
     {
+
         if(administradora != null) {
+
+            administradora = Administradora.getInstance();
 
             ListadoClavesCandidatas = administradora.calcularClavesCandidatas();
             //if (ListadoClavesCandidatas != null && !ListadoClavesCandidatas.isEmpty())
@@ -97,7 +100,6 @@ public class ClaveCandidataFragment extends Fragment {
 
             ArrayAdapter ccAdaper = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, convertirAArrayList(ListadoClavesCandidatas));
             listaCC.setAdapter(ccAdaper);
-
             listaCC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

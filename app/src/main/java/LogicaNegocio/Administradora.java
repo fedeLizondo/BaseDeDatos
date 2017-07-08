@@ -141,7 +141,7 @@ public class Administradora implements Serializable {
     public void agregarDependenciaFuncional(DependenciaFuncional dependenciaFuncional) {
         if (dependenciaFuncional != null && !lDependenciasFuncionales.contains(dependenciaFuncional)) {
             lDependenciasFuncionales.add(dependenciaFuncional);
-            hayCambios(Cambios.DEPENDECIAS);
+            hayCambios(Cambios.DEPENDENCIAS);
         }
     }
 
@@ -150,14 +150,14 @@ public class Administradora implements Serializable {
             int pos = lDependenciasFuncionales.indexOf(dependenciaFuncionalAntigua);
             lDependenciasFuncionales.remove(dependenciaFuncionalAntigua);
             lDependenciasFuncionales.add(pos, dependenciaFuncionalNueva);
-            hayCambios(Cambios.DEPENDECIAS);
+            hayCambios(Cambios.DEPENDENCIAS);
         }
     }
 
     public void eliminarDependenciaFuncional(DependenciaFuncional dependenciaFuncional) {
         if (lDependenciasFuncionales.contains(dependenciaFuncional)) {
             lDependenciasFuncionales.remove(dependenciaFuncional);
-            hayCambios(Cambios.DEPENDECIAS);
+            hayCambios(Cambios.DEPENDENCIAS);
         }
     }
 
@@ -215,12 +215,12 @@ public class Administradora implements Serializable {
                         claves.remove(string);
                 }
             }
+
+            //Asigno por default la clave candidata como el primer valor de la lista de claves
+            claveCandidata = (ArrayList<String>) claves.get(0).clone();
         }
 
-        //Asigno por default la clave candidata como el primer valor de la lista de claves
-        claveCandidata = claves.get(0);
-
-        return claves;
+        return (ArrayList<ArrayList<String>>) claves.clone();
     }
 
     private void calcularClavesRecursivo(ArrayList<String> lPrefijos, ArrayList<String> lAtributosPosibles) {
@@ -323,9 +323,12 @@ public class Administradora implements Serializable {
     }
 
     public void cambiarClaveCandidata(ArrayList<String> claveCandidata) {
-        hayCambios(Cambios.CLAVECANDIDATA);
-        if(claves.contains(claveCandidata))
-            this.claveCandidata = claveCandidata;
+        if(claves.contains(claveCandidata) && !(claveCandidata.containsAll(this.claveCandidata) && claveCandidata.size() == this.claveCandidata.size()) ) {
+            //this.claveCandidata.clear();
+            hayCambios(Cambios.CLAVECANDIDATA);
+            this.claveCandidata.addAll(claveCandidata);
+
+        }
     }
 
     public ArrayList<String> darClaveCandidataSeleccionada() {
@@ -720,19 +723,20 @@ public class Administradora implements Serializable {
         {
             default:
             case ATRIBUTOS:
-            case DEPENDECIAS: claveCandidata.clear();superClaves.clear();
-            case CLAVECANDIDATA:formaNormal= null;fmin.clear();claves.clear();
+            case DEPENDENCIAS: claves.clear();superClaves.clear();
+            case CLAVECANDIDATA:formaNormal= null;fmin.clear();claveCandidata.clear(); //= new ArrayList<>();
             case ESQUEMA: tableaux = null;
         }
 
     }
 
-    public enum Cambios{ATRIBUTOS,DEPENDECIAS,CLAVECANDIDATA,ESQUEMA}
+    public enum Cambios{ATRIBUTOS, DEPENDENCIAS,CLAVECANDIDATA,ESQUEMA}
 
     private void clean() {
         lAtributos.clear();
         lDependenciasFuncionales.clear();
         claves.clear();
+        superClaves.clear();
         fmin.clear();
         formaNormal = null;
         tableaux = null;

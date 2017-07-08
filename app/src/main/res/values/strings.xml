@@ -46,6 +46,7 @@
     <string name="errorModificarAtributoYaIngresado">El Atributo ingresado ya se encuentra en la lista</string>
     <string name="errorModificarAtributoVacio">Por favor ingrese un Atributo </string>
 
+    <string name="ErrorNoHayAtributos">No se puede calcular por que no hay atributos</string>
 
     <!--BOTONES ATRIBUTOS-->
     <string name="agregarAtributo">Agregar Atributo</string>
@@ -67,25 +68,21 @@
     <string name="tituloAgregarDependenciaFuncional">Agregar Dependencia Funcional</string>
     <string name="tituloModificarDependenciaFuncional">Modificar Dependencia Funcional</string>
 
-
     <string name="ErrorDependenciaFuncionalRepetida">La dependendecia funcional se encuentra repetida</string>
     <string name="ErrorDependenciaFuncionalNoHayAtributos">No hay atributos agregados</string>
-    <string name="ErrorDFNoHayDeterminanteSeleccionados">No hay Determinate Seleccionado</string>
+    <string name="ErrorDFNoHayDeterminanteSeleccionados">No hay Determinante Seleccionado</string>
     <string name="ErrorDFNoHayDeterminadoSeleccionados">No hay Determinado Seleccionado</string>
-
 
     <!-- CLAVES CANDIDATAS -->
     <string name="tituloClaveCandidata">Clave Candidata</string>
     <string name="Seleccionada">C.C Seleccionada:</string>
     <string name="superClaves">Super Claves: </string>
 
-
     <!-- CÁLCULO DE CLAUSURAS -->
     <string name="tituloClausura">Clausura</string>
     <string name="seleccionarClausura">Seleccione atributos para calcular clausura</string>
     <string name="btnCalcularClausura">Calcular Clausura</string>
     <string name="tituloCalcularClausura">Calcular Clausura</string>
-
 
     <!-- F MIN -->
     <string name="tituloFMin">F min</string>
@@ -109,11 +106,16 @@
     <string name="subTituloTableuxTienePerdida">Tiene Perdida de información</string>
     <string name="subTituloTableuxNoTienePerdida"><b>No</b> tiene Perdida de información</string>
 
+    <string name="subTituloPasosTableauxInicial"><b>Esquema Inicial</b></string>
+    <string name="subTituloPasosTableaux"><b>Dependencia Funcional: </b> %1$s </string>
+
+    <string name="ErrorNoHayMasPasos"></string>
 
 
     <!-- FORMA NORMAL -->
     <string name="tituloFormaNormal">Forma Normal</string>
-    <!-- TODO Convertir String Harcodeados de la forma normal -->
+
+
 
     <!--CALCULO EFICIENTE -->
     <string name="tituloCalculoEficiente">Cálculo Eficiente</string>
@@ -123,12 +125,9 @@
     <string name="subTituloCalculoSinPerdida">Sub Esquemas :</string>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="title_activity_agregar_dependencia_funcional">AgregarDependenciaFuncional</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_modificar_dependecia_funcional">ModificarDependeciaFuncional
-    </string>
+    <string name="title_activity_modificar_dependecia_funcional">ModificarDependeciaFuncional</string>
     <string name="title_activity_calcular_clausura">CalcularClausura</string>
     <string name="title_activity_agregar_esquemas">AgregarEsquemas</string>
     <string name="title_activity_calculo_tableaux">CalculoTableaux</string>
