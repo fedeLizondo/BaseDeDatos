@@ -77,16 +77,87 @@ public class TableauxFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        update();
+        super.onResume();
+    }
 
     public void initView(View view)
     {
         btnCalcular = (Button) view.findViewById(R.id.bt_CalcularTableaux);
+
+        btnCalcular.setVisibility(lEsquemas.size() > 0?View.VISIBLE:View.INVISIBLE);
+
         rvEsquemas = (RecyclerView) view.findViewById(R.id.rv_Esquemas);
         fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarEsquema);
+
+        btnCalcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lEsquemas != null && !lEsquemas.isEmpty()) {
+
+                    Intent i = new Intent(getActivity(), CalculoTableaux.class);
+                    Esquemas esquemaAux = administradora.darEsquema();
+                    i.putExtra(CalculoTableaux.ESQUEMAS,esquemaAux);
+                    startActivity(i);
+
+                } else {
+                    final Snackbar snackbar = Snackbar.make(getView(), R.string.ErrorTableauxEsquemasVacios, Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction(R.string.entendido, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
+                }
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (administradora.darListadoAtributos().isEmpty()) {
+                    final Snackbar snackbar = Snackbar.make(getView(), R.string.ErrorTableauxNoHayAtributos, Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction(R.string.entendido, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
+                } else {
+                       /* if (administradora.darListadoDependenciasFuncional().isEmpty()) {
+                            final Snackbar snackbar = Snackbar.make(getView(), R.string.ErrorTableauxNoHayDF, Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction(R.string.entendido, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    snackbar.dismiss();
+                                }
+                            });
+                            snackbar.show();
+                        } else {*/
+                    Intent i = new Intent(getActivity(), AgregarEsquemas.class);
+                    Esquemas esquema = administradora.darEsquema();
+                    i.putExtra(AgregarEsquemas.ESQUEMA, esquema);
+                    i.putExtra(AgregarEsquemas.ATRIBUTOS, administradora.darListadoAtributos());
+                    startActivityForResult(i, 101);
+
+                    //}
+                }
+                btnCalcular.setVisibility(lEsquemas.size() > 0?View.VISIBLE:View.INVISIBLE);
+            }
+        });
+
     }
 
     public void update()
     {
+
+        if(administradora == null)
+            administradora = Administradora.getInstance();
+        lEsquemas = administradora.darEsquemas();
 
         if(rvEsquemas!=null) {
             rvEsquemas.setHasFixedSize(true);
@@ -97,61 +168,7 @@ public class TableauxFragment extends Fragment {
             rvEsquemas.setAdapter(dataAdapter);
             dataAdapter.notifyDataSetChanged();
 
-            btnCalcular.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (lEsquemas != null && !lEsquemas.isEmpty()) {
-
-                        Intent i = new Intent(getActivity(), CalculoTableaux.class);
-                        Esquemas esquemaAux = administradora.darEsquema();
-                        i.putExtra(CalculoTableaux.ESQUEMAS,esquemaAux);
-                        startActivity(i);
-
-                    } else {
-                        final Snackbar snackbar = Snackbar.make(getView(), R.string.ErrorTableauxEsquemasVacios, Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setAction(R.string.entendido, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
-                        snackbar.show();
-                    }
-                }
-            });
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (administradora.darListadoAtributos().isEmpty()) {
-                        final Snackbar snackbar = Snackbar.make(getView(), R.string.ErrorTableauxNoHayAtributos, Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setAction(R.string.entendido, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
-                        snackbar.show();
-                    } else {
-                        if (administradora.darListadoDependenciasFuncional().isEmpty()) {
-                            final Snackbar snackbar = Snackbar.make(getView(), R.string.ErrorTableauxNoHayDF, Snackbar.LENGTH_INDEFINITE);
-                            snackbar.setAction(R.string.entendido, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    snackbar.dismiss();
-                                }
-                            });
-                            snackbar.show();
-                        } else {
-                            Intent i = new Intent(getActivity(), AgregarEsquemas.class);
-                            Esquemas esquema = administradora.darEsquema();
-                            i.putExtra(AgregarEsquemas.ESQUEMA, esquema);
-                            i.putExtra(AgregarEsquemas.ATRIBUTOS, administradora.darListadoAtributos());
-                            startActivityForResult(i, 101);
-                        }
-                    }
-                }
-            });
+            btnCalcular.setVisibility(lEsquemas.size() > 0?View.VISIBLE:View.INVISIBLE);
 
             initSwipe();
         }
@@ -171,6 +188,7 @@ public class TableauxFragment extends Fragment {
                 ArrayList<String> esquema = lEsquemas.get(position);
 
                 if (direction == ItemTouchHelper.LEFT){
+                    btnCalcular.setVisibility(lEsquemas.size() > 0?View.VISIBLE:View.INVISIBLE);
                     dataAdapter.removeItem(position);
                     administradora.eliminarEsquema(esquema);
                     lEsquemas.remove(esquema);

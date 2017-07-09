@@ -40,6 +40,32 @@ public class Esquemas implements Serializable {
     }
 
 
+    public void eliminarEsquemaConAtributo(String atributo)
+    {
+        ArrayList<ArrayList<String>> listadoEsquemas = new ArrayList<>();
+        for ( ArrayList<String> esquema:esquemas) {
+            if(esquema.contains(atributo))
+            {
+                listadoEsquemas.add(esquema);
+            }
+        }
+        esquemas.removeAll(listadoEsquemas);
+    }
+
+    public void modificarEsquemaConAtributo(String atributoAnterior,String atributoNuevo)
+    {
+        for(ArrayList<String> esquema:esquemas)
+        {
+            if(esquema.contains(atributoAnterior))
+            {
+                int indexAtributo = esquema.indexOf(atributoAnterior);
+                esquema.remove(indexAtributo);
+                esquema.add(indexAtributo,atributoNuevo);
+            }
+        }
+    }
+
+
     public ArrayList<ArrayList<String>> getEsquemas()
     {
         return (ArrayList<ArrayList<String>>)esquemas.clone();

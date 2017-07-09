@@ -89,7 +89,7 @@ public class ModificarAtributosFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                if( etAtributo.getTextSize() > 0 && !etAtributo.getText().equals("") && !etAtributo.getText().equals(atributoAnterior))
+                if( etAtributo.getTextSize() > 0 && !etAtributo.getText().toString().equals("") && !etAtributo.getText().toString().equals(atributoAnterior) && !etAtributo.getText().toString().contains(","))
                 {
 
                     String atributo = etAtributo.getText().toString();
@@ -108,14 +108,20 @@ public class ModificarAtributosFragment extends DialogFragment {
                 }
                 else
                 {
-                    if(etAtributo.getText().equals(""))
+                    if(etAtributo.getText().toString().equals("") )
                     {
                         Toast.makeText(getContext(),
                                 getResources().getString(R.string.errorModificarAtributoVacio),
                                 Toast.LENGTH_LONG).show();
                     }
+                    if(etAtributo.getText().toString().contains(","))
+                    {
+                        Toast.makeText(getContext(),
+                                getContext().getString(R.string.errorAtributoInvalido),
+                                Toast.LENGTH_LONG).show();
+                    }
 
-                    if(etAtributo.getText().equals(atributoAnterior))
+                    if(etAtributo.getText().toString().equals(atributoAnterior))
                     {
                         Toast.makeText(getContext(),
                                 getResources().getString(R.string.errorModificarAtributoYaIngresado),

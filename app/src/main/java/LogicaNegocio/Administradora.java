@@ -89,6 +89,8 @@ public class Administradora implements Serializable {
                    modificarDependenciaFuncional(df,crearDependenciaFuncional(determinante,determinado));
                 }
             }
+
+            esquema.modificarEsquemaConAtributo(atributoViejo,atributoNuevo);
         }
     }
 
@@ -109,6 +111,7 @@ public class Administradora implements Serializable {
             }
             lDependenciasFuncionales.removeAll(eliminar);
 
+            esquema.eliminarEsquemaConAtributo(atributo);
         }
     }
 

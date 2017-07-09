@@ -1,13 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context="layout.PasosTableauxFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,27 +37,24 @@
                 android:layout_marginTop="15dp"/>
 
         </LinearLayout>
+
+
         <TextView
             android:id="@+id/txtDependenciaFuncional"
             android:text="@string/subTituloPasosTableauxInicial"
-            android:layout_weight="8"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="20sp"
             android:paddingStart="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             />
-        <!--GridView
-            android:id="@+id/gv_Tableaux"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            /-->
+
 
         <ScrollView
             android:id="@+id/scrollView1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
             <LinearLayout
@@ -72,25 +69,29 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal" >
 
                         <TableLayout
                             android:id="@+id/tl_Tableaux"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent" >
+                            android:layout_height="wrap_content" >
                         </TableLayout>
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
         </ScrollView>
+        </LinearLayout>
+
+
         <android.support.design.widget.FloatingActionButton
             app:fabSize="normal"
             app:srcCompat="@drawable/ic_menu_forward"
             android:id="@+id/fabSiguientePaso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
             android:layout_gravity="bottom|end" />
-    </LinearLayout>
+
 
 </FrameLayout>

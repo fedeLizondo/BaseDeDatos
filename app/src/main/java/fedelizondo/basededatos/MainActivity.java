@@ -98,7 +98,14 @@ public class MainActivity extends AppCompatActivity implements
         FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
+
+        //TODO ELIMINAR ESTAS 2 LINEAS
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.attach(fragment);
+
         fragmentTransaction.replace(android.R.id.content, fragment);
+        fragmentTransaction.commit();
+
         fragmentTransaction.commit();
     }
 

@@ -29,6 +29,12 @@
     <string name="tituloAgregarAtributo">Lista de Atributos Agregados</string>
     <string name="listaAtributosVacia">No hay Atributos Ingresados :( </string>
 
+    <string name="errorAtributoInvalidoRepetido">El elemento %1$s se encuentra repetido o es invalido</string>
+    <string name="errorAtributosInvalidosRepetidos">Estos elementos %1$s se encuentran repetidos o son invalido</string>
+    <string name="errorAtributoRepetido">El elemento %1$s se encuentra repetido </string>
+    <string name="errorAtributosRepetidos">Estos elementos %1$s se encuentran repetidos</string>
+
+    <string name="errorAtributoInvalido">El atributo ingresado es invalido (no se permite ",")</string>
     <string name="tituloFragmentAgregarAtributo">Agregar Atributo</string>
     <string name="subTituloFragmentAgregarAtributo">Ingrese Atributo</string>
     <string name="preTextoMuchosFragmentAgregarAtributo">Estos elementos </string>
@@ -90,6 +96,7 @@
 
     <!-- TABLEAUX -->
     <string name="tituloTableaux">Tableaux</string>
+    <string name="titutloListaTableaux">Lista de Esquemas Agregados</string>
     <string name="pasosTableaux">Pasos</string>
     <string name="tituloEsquemas">Listado de Esquemas</string>
     <string name="tituloAgregarEsquema">Esquemas</string>
@@ -105,27 +112,22 @@
     <string name="subtituloTableauxCalculo">El resultado es :</string>
     <string name="subTituloTableuxTienePerdida">Tiene Perdida de información</string>
     <string name="subTituloTableuxNoTienePerdida"><b>No</b> tiene Perdida de información</string>
-
     <string name="subTituloPasosTableauxInicial"><b>Esquema Inicial</b></string>
     <string name="subTituloPasosTableaux"><b>Dependencia Funcional: </b> %1$s </string>
-
-    <string name="ErrorNoHayMasPasos"></string>
-
+    <string name="ErrorNoHayMasPasos">No hay mas pasos para continuar</string>
 
     <!-- FORMA NORMAL -->
     <string name="tituloFormaNormal">Forma Normal</string>
 
-
-
     <!--CALCULO EFICIENTE -->
     <string name="tituloCalculoEficiente">Cálculo Eficiente</string>
     <string name="subTituloCalculoEficiente">Sub Esquemas :</string>
+
     <!-- CALCULO SIN PERDIDA DE INFORMACION-->
     <string name="tituloCalculoSinPerdida">Cálculo Sin Perdida de Información</string>
     <string name="subTituloCalculoSinPerdida">Sub Esquemas :</string>
 
-
-
+    <!-- TITULOS DE LAS ACTIVITY'S -->
     <string name="title_activity_agregar_dependencia_funcional">AgregarDependenciaFuncional</string>
     <string name="title_activity_modificar_dependecia_funcional">ModificarDependeciaFuncional</string>
     <string name="title_activity_calcular_clausura">CalcularClausura</string>

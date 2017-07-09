@@ -77,8 +77,6 @@ public class AgregarAtributosFragment extends DialogFragment  {
             listadoAtributo = getArguments().getStringArrayList(ARG_PARAM1);
         }
 
-
-
     }
 
     @Override
@@ -89,7 +87,6 @@ public class AgregarAtributosFragment extends DialogFragment  {
 
         atributoPorAgregar = (EditText) rootView.findViewById(R.id.etAtributoPorAgregar);
 
-
         btnAgregar = (Button) rootView.findViewById(R.id.btnAgregarAtributosAgregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +95,7 @@ public class AgregarAtributosFragment extends DialogFragment  {
         atributos = new ArrayList<String>();
 
 
-                if (atributoPorAgregar.getTextSize() > 0 && !atributoPorAgregar.getText().equals("")) {
+                if (atributoPorAgregar.getTextSize() > 0 && !atributoPorAgregar.getText().equals("") && !atributoPorAgregar.getText().toString().equals("")) {
 
                     String atributo = atributoPorAgregar.getText().toString();
                     String arrayAtributo[] = atributo.split(",");
@@ -108,7 +105,7 @@ public class AgregarAtributosFragment extends DialogFragment  {
                     if (listadoAtributo!=null && !listadoAtributo.isEmpty()) {
                         for (String string : arrayAtributo)
                         {
-                            if( !listadoAtributo.contains(string) )
+                            if( !listadoAtributo.contains(string) && !string.equals("") )
                                 atributos.add(string);
                             else
                                 listaStringRepetidos.add(string);
@@ -116,23 +113,39 @@ public class AgregarAtributosFragment extends DialogFragment  {
 
                         if(!listaStringRepetidos.isEmpty())
                         {
-                            String preTexto = getResources().getString( (listaStringRepetidos.size()>1)?
-                                    R.string.preTextoMuchosFragmentAgregarAtributo :
-                                    R.string.preTextoUnicoFragmentAgregarAtributo);
-
-                            String postTexto = getResources().getString( (listaStringRepetidos.size() > 1)?
-                                    R.string.postTextoMuchosFragmentAgregarAtributo:
-                                    R.string.postTextoUnicoFragmentAgregarAtributo);
+                            String respuesta = String.format(getResources().getString(
+                                    (listaStringRepetidos.size() > 1)?
+                                        R.string.errorAtributosRepetidos:
+                                        R.string.errorAtributoRepetido
+                                    ),
+                                    listaStringRepetidos.toString());
 
                             Toast.makeText(getContext(),
-                                    preTexto +" "+listaStringRepetidos.toString()+" "+postTexto,
+                                    respuesta,
                                     Toast.LENGTH_LONG).show();
                         }
                     }
                     else
                     {
+                        ArrayList<String> stringRepetidosInvalido = new ArrayList<String>();
                         for (String s : arrayAtributo) {
-                            atributos.add(s);
+                            if(!atributos.contains(s) && !s.equals(""))
+                                atributos.add(s);
+                            else
+                                stringRepetidosInvalido.add(s);
+                        }
+
+                        if(!stringRepetidosInvalido.isEmpty()) {
+
+
+                            String respuesta = String.format(getResources().getString(
+                                    (stringRepetidosInvalido.size() > 1)?
+                                            R.string.errorAtributosInvalidosRepetidos:
+                                            R.string.errorAtributoInvalidoRepetido
+                                    ),
+                                    stringRepetidosInvalido.toString());
+
+                            Toast.makeText(getContext(),respuesta,Toast.LENGTH_LONG).show();
                         }
                     }
 

@@ -105,11 +105,14 @@ public class DependenciaFuncionalFragment extends Fragment {
         super.onResume();
     }
 
+
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser)
         {
+            update();
             if(fab!=null){
                 ScaleAnimation animation = new ScaleAnimation((float)0.5,1,(float)0.5,1);
                 animation.setFillBefore(true);
@@ -272,4 +275,9 @@ public class DependenciaFuncionalFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         dataAdapter.updateDataSource(administradora.darListadoDependenciasFuncional());
     }
+
+
+
+
+
 }

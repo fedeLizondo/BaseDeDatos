@@ -102,10 +102,10 @@ public class PasosTableauxFragment extends Fragment {
         if(spinner != null)
         {
             ArrayList<String> arrayListPasos = new ArrayList<>();
-            arrayListPasos.add("Esquema Inicial");
-
+            arrayListPasos.add(getContext().getString(R.string.subTituloPasosTableauxInicial));
+            String texto = getContext().getString(R.string.tituloTableauxPasos);
             for (int i = 1; i < tableaux.cantidadDePasos(); i++) {
-                arrayListPasos.add("Paso "+i);
+                arrayListPasos.add(texto+" "+i);
             }
 
 
@@ -124,8 +124,7 @@ public class PasosTableauxFragment extends Fragment {
                     else
                     {
                         if (posicion == tableaux.cantidadDePasos()-1)
-                        {   //TODO CAMBIAR SIMBOLO DE + POR FLECHA
-                            Toast toast = Toast.makeText(getContext(),getContext().getString(R.string.ErrorNoHayMasPasos), Toast.LENGTH_SHORT);
+                        {   Toast toast = Toast.makeText(getContext(),getContext().getString(R.string.ErrorNoHayMasPasos), Toast.LENGTH_SHORT);
                             toast.show();
                         }
                     }
@@ -146,7 +145,6 @@ public class PasosTableauxFragment extends Fragment {
                         TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
                     }
 
-
                     if(position == (tableaux.cantidadDePasos()-1))
                     {
                         fab.setVisibility(View.INVISIBLE);
@@ -160,8 +158,8 @@ public class PasosTableauxFragment extends Fragment {
                     else {
 
                         tv_Contenido.setText(String.format(getResources().getString(R.string.subTituloPasosTableaux), pasoTableaux.getDependenciaFuncional().toString()));
-
                     }
+
                     fillTable(tableaux.darFilas() + 1, tableaux.darColumnas() + 1, pasoTableaux.imprimirEsquema(administradora.darListadoAtributos(), administradora.darEsquema()), tableLayout);
                 }
 
@@ -170,27 +168,12 @@ public class PasosTableauxFragment extends Fragment {
 
                 }
             });
-
-           /* spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    PasoTableaux pasoTableaux = tableaux.getPaso(position);
-                    tableLayout = (TableLayout) view.findViewById(R.id.tl_Tableaux);
-                    TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-                    fillTable(tableaux.darFilas() + 1, tableaux.darColumnas() + 1, pasoTableaux.imprimirEsquema(administradora.darListadoAtributos(), administradora.darEsquema()), tableLayout);
-                }
-            });*/
         }
         pasoTableaux = tableaux.getPaso(posicion);
 
         tableLayout = (TableLayout) view.findViewById(R.id.tl_Tableaux);
         TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
         fillTable(tableaux.darFilas()+1,tableaux.darColumnas()+1,pasoTableaux.imprimirEsquema(administradora.darListadoAtributos(),administradora.darEsquema()),tableLayout);
-
-
-
-
-
 
     }
 

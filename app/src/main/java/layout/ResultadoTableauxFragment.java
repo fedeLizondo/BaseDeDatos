@@ -82,35 +82,12 @@ public class ResultadoTableauxFragment extends Fragment {
 
         hayPerdidaDeInformacion = administradora.hayPerdidaDeInformacion();
         tv_Contenido.setText(hayPerdidaDeInformacion?R.string.subTituloTableuxTienePerdida:R.string.subTituloTableuxNoTienePerdida);
-        //tv_Contenido.setText(R.string.subTituloTableuxNoTienePerdida);
-        // if(administradora.isTableauxHayPerdidaDeInformacion())
-        // tv_Contenido.setText(R.string.subTituloTableuxTienePerdida);
-
 
         PasoTableaux pasoTableaux = tableaux.ultimoPaso();
 
-        if (getContext() instanceof CalculoTableaux) {
-           /*for (int i = 0 ;i < fila; i++)
-           {
-               TableRow tableRow = new TableRow(this.getContext());
-               TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
-               tableRow.setId(i+1);
-
-               for (int j = 0;j<columna;j++)
-               {
-                    TextView textView = new TextView(getContext());
-                    textView.setText("A");
-                    textView.setTextColor(Color.BLACK);
-                    textView.setTextSize(20);
-                    textView.setLayoutParams(params);
-                    tableRow.addView(textView);
-               }
-               tableLayout.addView(tableRow);
-           }*/
-           }
-           tableLayout = (TableLayout) view.findViewById(R.id.tl_Tableaux);
-           TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
-           fillTable(tableaux.darFilas()+1,tableaux.darColumnas()+1,pasoTableaux.imprimirEsquema(administradora.darListadoAtributos(),administradora.darEsquema()),tableLayout);
+        tableLayout = (TableLayout) view.findViewById(R.id.tl_Tableaux);
+        TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT);
+        fillTable(tableaux.darFilas()+1,tableaux.darColumnas()+1,pasoTableaux.imprimirEsquema(administradora.darListadoAtributos(),administradora.darEsquema()),tableLayout);
 
     }
 
