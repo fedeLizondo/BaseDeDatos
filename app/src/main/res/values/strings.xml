@@ -45,7 +45,7 @@
     <string name="errorAgregarAtributoYaIngresado">El Atributo ingresado ya se encuentra en la lista</string>
     <string name="errorAgregarAtributoVacio">Por favor ingrese un Atributo </string>
 
-    <string name="informarAtributosEliminar">se van a eliminar %1$d atributos</string>
+    <string name="informarAtributosEliminar">Se van a eliminar %1$d atributos</string>
     <string name="informarAtributoEliminar">Se va a eliminar 1 atributo</string>
     <string name="tituloFragmentModificarAtributo">Modificar Atributo</string>
     <string name="subtituloFragmentModificarAtributo">Modificar Atributo</string>
