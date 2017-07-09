@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +46,7 @@ public class AtributosFragment extends Fragment implements
 
     private OnFragmentInteractionListener mListener;
     private ModificarAtributosFragment.OnFragmentInteractionListenerFragmentModificarAtributo listenerFragmentModificarAtributo;
+
 
 
     public AtributosFragment() {
@@ -224,9 +226,49 @@ public class AtributosFragment extends Fragment implements
                     dataAdapter.removeItem(position);
                     listaAtributos.remove(atributo);
 
-                    if (mListener != null) {
-                        mListener.onFragmentInteractionEliminarAtributos( atributo );
-                    }
+                    final Snackbar snack = Snackbar.make(getView(), "My Placeholder Text", Snackbar.LENGTH_LONG);
+
+                    snack.setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listaAtributos = Administradora.getInstance().darListadoAtributos();
+                            dataAdapter = new DataAdapter(listaAtributos);
+                            recyclerViewAtributos.setAdapter(dataAdapter);
+                            dataAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                    snack.addCallback(new Snackbar.Callback() {
+
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                // Snackbar closed on its own
+                                if (mListener != null) {
+                                    ArrayList<String> listaEliminar = Administradora.getInstance().darListadoAtributos();
+                                    listaEliminar.removeAll(listaAtributos);
+                                    for (String Atributo : listaEliminar)
+                                        mListener.onFragmentInteractionEliminarAtributos( Atributo );
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onShown(Snackbar snackbar) {
+                            ArrayList<String> listaEliminar = Administradora.getInstance().darListadoAtributos();
+                            listaEliminar.removeAll(listaAtributos);
+
+                            String mensaje = (listaEliminar.size()>1)?
+                                    String.format(getContext().getString(R.string.informarAtributosEliminar),listaEliminar.size()):
+                                    getContext().getString(R.string.informarAtributoEliminar);
+
+
+                            snack.setText( mensaje );
+                        }
+                    });
+                    snack.show();
+
+
                 }
                 else
                 {
