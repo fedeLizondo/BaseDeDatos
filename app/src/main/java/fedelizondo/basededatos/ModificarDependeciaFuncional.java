@@ -52,7 +52,7 @@ public class ModificarDependeciaFuncional extends AppCompatActivity  implements
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle(R.string.tituloFragmentModificarAtributo);
+        setTitle(R.string.tituloModificarDependenciaFuncional);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 

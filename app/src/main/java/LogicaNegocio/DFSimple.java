@@ -1,6 +1,7 @@
 package LogicaNegocio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -88,6 +89,9 @@ public class DFSimple extends DependenciaFuncional{
         ArrayList<String> aux = new ArrayList<String>();
         aux.add(determinante);
         aux.add(determinado);
-        return aux;
+
+        Collections.sort(aux);
+        return (ArrayList<String>) aux.clone();
+
     }
 }

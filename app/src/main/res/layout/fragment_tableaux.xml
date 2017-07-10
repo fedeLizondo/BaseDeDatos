@@ -56,16 +56,13 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAgregarEsquema"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/ll_FragmentAtributos"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="50dp"
-
-
-        android:layout_weight="0"
         app:fabSize="normal"
         app:srcCompat="@drawable/plus" />
 

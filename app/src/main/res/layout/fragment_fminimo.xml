@@ -29,13 +29,18 @@
         android:textAlignment="center"
         android:text="@string/subTituloFMin" /-->
 
-    <TextView
-        android:id="@+id/tv_cuerpoFMIN"
-        android:padding="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:text="@string/tituloFMin" />
-
+     <android.support.v7.widget.RecyclerView
+         android:id="@+id/rv_Fmin"
+         android:scrollbars="vertical"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:dividerHeight="1dp"
+         style="@android:style/Widget.DeviceDefault.ExpandableListView"
+         android:divider="@android:color/darker_gray"
+         android:scrollbarStyle="outsideOverlay"
+         android:layout_weight="1"
+         />
  </LinearLayout>
+
+
 </FrameLayout>

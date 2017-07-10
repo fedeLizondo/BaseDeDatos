@@ -149,22 +149,23 @@ public class MainActivity extends AppCompatActivity implements
             //DESDE ACA COMIENZAN LOS EJEMPLOS  //
             //////////////////////////////////////
             case R.id.nav_Ejemplo1:
-                index = ATRIBUTO;
+                index = TABLEAUX;
                 administradora.ejemploTableaux();
                 break;
             case R.id.nav_Ejemplo2:
                 administradora.ejemploConPerdidaDeInformacion();
-                index = ATRIBUTO;
+                index = TABLEAUX;
                 break;
             case R.id.nav_Ejemplo3:
-                administradora.ejemploPrimerEjercicio();
-                index = ATRIBUTO;
+                administradora.ejemploClaveCandidata();
+                index = CLAVE;
                 break;
             case R.id.nav_Ejemplo4:
-                index = ATRIBUTO;
+                index = FMIN;
+                administradora.ejemploCCyFMIN();
                 break;
             case R.id.nav_Ejemplo5:
-                index = ATRIBUTO;
+                index = CLAVE;
                 administradora.ejemploCCyFMIN();
                 break;
             default: index = posicionActual;
@@ -180,9 +181,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
+        {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else
+        {
             super.onBackPressed();
         }
     }

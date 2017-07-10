@@ -308,4 +308,20 @@ public class AtributosFragment extends Fragment implements
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerViewAtributos);
     }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser)
+        {
+            listaAtributos = Administradora.getInstance().darListadoAtributos();
+            if(dataAdapter != null)
+            {
+                dataAdapter = new DataAdapter(listaAtributos);
+                recyclerViewAtributos.setAdapter(dataAdapter);
+                dataAdapter.notifyDataSetChanged();
+            }
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 }

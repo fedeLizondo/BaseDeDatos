@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import LogicaNegocio.Esquemas;
 
@@ -38,9 +39,9 @@ public class AgregarEsquemas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_esquemas);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setTitle(R.string.tituloAgregarEsquema);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.tituloAgregarEsquema);
+        setSupportActionBar(toolbar);
 
 
         esquema = new ArrayList<>();
@@ -80,6 +81,7 @@ public class AgregarEsquemas extends AppCompatActivity {
                 {
                     indexSeleccionado.add(integer);
                     esquema.add(atributos.get(position));
+                    Collections.sort(esquema);
                 }
 
                 tv_AgregarEsquema.setText(esquema.toString().replace('[','{').replace(']','}'));

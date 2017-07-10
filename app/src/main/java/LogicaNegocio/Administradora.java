@@ -2,6 +2,8 @@ package LogicaNegocio;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 
 
@@ -30,22 +32,40 @@ public class Administradora implements Serializable {
     //----------------------------------------------
     private Tableaux tableaux;
     private Esquemas esquema;
+    private CalculoEficiente calculoEficiente;
+    private CalculoSinPerdidaDeInfo calculoSinPerdidaDeInfo;
     private ArrayList<String> claveCandidata;
+
+    //Pasos FMIN
+    private ArrayList<DependenciaFuncional> paso1;
+    private ArrayList<DependenciaFuncional> paso2;
+    private ArrayList<DependenciaFuncional> paso3;
+
+
 
     private Administradora() {
 
         Runtime garbage = Runtime.getRuntime();
         garbage.gc();
 
-        lAtributos = new ArrayList<String>();
-        lDependenciasFuncionales = new ArrayList<DependenciaFuncional>();
-        claves = new ArrayList<ArrayList<String>>();
-        superClaves = new ArrayList<ArrayList<String>>();
-        fmin = new ArrayList<DependenciaFuncional>();
+        lAtributos = new ArrayList<>();
+        lDependenciasFuncionales = new ArrayList<>();
+        claves = new ArrayList<>();
+        superClaves = new ArrayList<>();
+        fmin = new ArrayList<>();
         formaNormal = null;
         tableaux = null;
+
+        calculoEficiente = null;
+        calculoSinPerdidaDeInfo = null;
+
+        paso1 = new ArrayList<>();
+        paso2 = new ArrayList<>();
+        paso3 = new ArrayList<>();
+
         claveCandidata = new ArrayList<>();
         esquema = new Esquemas();
+
     }
 
     //ATRIBUTOS
@@ -58,6 +78,7 @@ public class Administradora implements Serializable {
 
     }
 
+    @SuppressWarnings("unchecked")
     public void modificarAtributo(String atributoViejo, String atributoNuevo) {
 
         if (lAtributos.contains(atributoViejo) && !lAtributos.contains((atributoNuevo))) {
@@ -115,6 +136,7 @@ public class Administradora implements Serializable {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayList<String> darListadoAtributos() {
         //Retorna una copia de la lista
         return (ArrayList<String>) lAtributos.clone();
@@ -210,12 +232,13 @@ public class Administradora implements Serializable {
             ArrayList<ArrayList<String>> lAuxClave = new ArrayList<ArrayList<String>>(claves);
             ArrayList<ArrayList<String>> lAuxClave2 = new ArrayList<ArrayList<String>>(claves);
 
-            superClaves = new ArrayList<ArrayList<String>>(claves);
-
             for (ArrayList<String> clave : lAuxClave2) {
                 for (ArrayList<String> string : lAuxClave) {
                     if (string.containsAll(clave) && clave.size() < string.size())
+                    {
+                        Collections.sort(string);
                         claves.remove(string);
+                    }
                 }
             }
 
@@ -237,12 +260,12 @@ public class Administradora implements Serializable {
                 lAuxAtributosPosibles.remove(atributoPosible);
                 lAuxPrefijos.add(atributoPosible);
 
+                Collections.sort(lAuxPrefijos);
+
                 if (calcularUniverso(lAuxPrefijos)) {
                     ArrayList<String> aux = new ArrayList<String>();
                     aux.addAll(lAuxPrefijos);
                     claves.add(aux);
-                    if(!superClaves.contains(aux))
-                        superClaves.add(aux);
                 } else
                     calcularClavesRecursivo(lAuxPrefijos, (ArrayList<String>) lAuxAtributosPosibles.clone());
 
@@ -334,12 +357,57 @@ public class Administradora implements Serializable {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayList<String> darClaveCandidataSeleccionada() {
         return (ArrayList<String>) claveCandidata.clone();
     }
-
+    @SuppressWarnings("unchecked")
     public ArrayList<ArrayList<String>> darSuperClaves() {
+
+        if(superClaves.isEmpty() && !lAtributos.isEmpty())
+        {
+            superClaves.addAll(calcularClavesCandidatas());
+
+            for( ArrayList<String> clave :claves )
+            {
+                ArrayList<String> listadoAtributosRestantes = darListadoAtributos();
+                listadoAtributosRestantes.removeAll(clave);
+                calculoSuperClavesRecursivo((ArrayList<String>)clave.clone(),listadoAtributosRestantes);
+            }
+
+            Collections.sort(superClaves, new Comparator<ArrayList<String>>() {
+                @Override
+                public int compare(ArrayList<String> o1, ArrayList<String> o2) {
+                    return o1.size()-o2.size();
+                }
+            });
+        }
+
         return superClaves;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private void calculoSuperClavesRecursivo(ArrayList<String> lPrefijos,ArrayList<String> lAtributosPosibles)
+    {
+        if(lAtributosPosibles!=null && !lAtributosPosibles.isEmpty())
+        {
+            ArrayList<String> lAuxPrefijos = new ArrayList<String>((ArrayList<String>) lPrefijos.clone());
+            ArrayList<String> lAuxAtributosPosibles = new ArrayList<String>((ArrayList<String>) lAtributosPosibles.clone());
+
+            for(String atributoPosible : lAtributosPosibles)
+            {
+                lAuxAtributosPosibles.remove(atributoPosible);
+                lAuxPrefijos.add(atributoPosible);
+                Collections.sort(lAuxPrefijos);
+
+                if(!superClaves.contains(lAuxPrefijos))
+                    superClaves.add((ArrayList<String>) lAuxPrefijos.clone());
+                calculoSuperClavesRecursivo(lAuxPrefijos,(ArrayList<String>) lAuxAtributosPosibles.clone());
+                lAuxPrefijos.remove(atributoPosible);
+            }
+
+        }
     }
 
     //FORMA NORMAL
@@ -415,58 +483,18 @@ public class Administradora implements Serializable {
         return !formaNormal.soyFNBC();
     }
 
-    public ArrayList<ArrayList<DependenciaFuncional>> calcularDescomposicion3FN() {
-        if(lAtributos.isEmpty() || lAtributos == null)
-        {
-            return  new ArrayList<ArrayList<DependenciaFuncional>>();
-        }
+    public CalculoEficiente calculoEficiente3FN()
+    {
+        if(calculoEficiente == null)
+            calculoEficiente = new CalculoEficiente(darListadoAtributos(),darListadoDependenciasFuncional(),darClaveCandidataSeleccionada());
+        return  calculoEficiente;
+    }
 
-        if (fmin == null || claves == null || claves.isEmpty())
-        {
-            calcularFmin();
-            calcularClavesCandidatas();
-        };
-
-        ArrayList<ArrayList<DependenciaFuncional>> descomposicion = new ArrayList<ArrayList<DependenciaFuncional>>();
-        ArrayList<String> clave = claves.get(0);
-
-        int tam = fmin.size();
-        int i = 0;
-        int tamDescomposicion = descomposicion.size();
-        int x = 0;
-        boolean TengoLaCLave = false;
-        while (i < tam) {
-
-            DependenciaFuncional dfAux = fmin.get(i);
-            if (dfAux.getDeterminante().containsAll(clave))
-                TengoLaCLave = true;
-            x = 0;
-            while (x < tamDescomposicion && !(descomposicion.get(x)).get(0).getDeterminante().containsAll(dfAux.getDeterminante())) {
-                x++;
-            }
-            if (x < tamDescomposicion) {
-                descomposicion.get(x).add(dfAux);
-            } else {
-                ArrayList<DependenciaFuncional> lDFAux = new ArrayList<DependenciaFuncional>();
-                lDFAux.add(dfAux);
-                descomposicion.add(lDFAux);
-            }
-            i++;
-        }
-
-        if (!TengoLaCLave) {
-            ArrayList<DependenciaFuncional> lDFAux = new ArrayList<DependenciaFuncional>();
-            DependenciaFuncional DFAux;
-            if (clave.size() > 1)
-                DFAux = new DFDeterminanteComplejo(clave, "");
-            else
-                DFAux = new DFSimple(clave.get(0), "");
-
-            lDFAux.add(DFAux);
-            descomposicion.add(lDFAux);
-        }
-
-        return descomposicion;
+    public CalculoSinPerdidaDeInfo calculoSinPerdidaDeInfoFNBC()
+    {
+        if(calculoSinPerdidaDeInfo == null)
+            calculoSinPerdidaDeInfo = new CalculoSinPerdidaDeInfo(darListadoAtributos(),darListadoDependenciasFuncional(),darClaveCandidataSeleccionada());
+        return calculoSinPerdidaDeInfo;
     }
 
     public ArrayList<ArrayList<DependenciaFuncional>> calcularDescomposicionFNBC() {
@@ -558,6 +586,9 @@ public class Administradora implements Serializable {
             ArrayList<DependenciaFuncional> dfEliminarRedundantes = new ArrayList<>();
             ArrayList<DependenciaFuncional> dfSinRedundanciaIzq = new ArrayList<>();
 
+            paso1.clear();
+            paso2.clear();
+            paso3.clear();
 
             //Elimino redundancia del determinado
             for (DependenciaFuncional df : lDependenciasFuncionales) {
@@ -565,6 +596,7 @@ public class Administradora implements Serializable {
             }
 
             dfEliminarRedundantes = (ArrayList<DependenciaFuncional>) dependenciaFuncional.clone();
+            paso1.addAll((ArrayList<DependenciaFuncional>) dependenciaFuncional.clone());
 
             //Elimino redundancia del determinante
             for (DependenciaFuncional df : dependenciaFuncional) {
@@ -584,6 +616,8 @@ public class Administradora implements Serializable {
 
             dfEliminarRedundantes = (ArrayList<DependenciaFuncional>) dfSinRedundanciaIzq.clone();
 
+            paso2.addAll((ArrayList<DependenciaFuncional>) dfSinRedundanciaIzq.clone());
+
             //dfSinRedundanciaIzq = new ArrayList<DependenciaFuncional>(new HashSet<DependenciaFuncional>(dfSinRedundanciaIzq));
 
             for (DependenciaFuncional df : dfSinRedundanciaIzq) {
@@ -594,7 +628,21 @@ public class Administradora implements Serializable {
             }
 
         }
+        paso3.addAll(fmin);
         return fmin;
+    }
+
+
+    public ArrayList<DependenciaFuncional> getPaso1() {
+        return paso1;
+    }
+
+    public ArrayList<DependenciaFuncional> getPaso2() {
+        return paso2;
+    }
+
+    public ArrayList<DependenciaFuncional> getPaso3() {
+        return paso3;
     }
 
     private boolean soyDFRedundante(final DependenciaFuncional dependenciaFuncional, final ArrayList<DependenciaFuncional> lDependenciasFuncionales) {
@@ -727,10 +775,9 @@ public class Administradora implements Serializable {
             default:
             case ATRIBUTOS:
             case DEPENDENCIAS: claves.clear();superClaves.clear();
-            case CLAVECANDIDATA:formaNormal= null;fmin.clear();claveCandidata.clear(); //= new ArrayList<>();
+            case CLAVECANDIDATA:formaNormal= null;fmin.clear();claveCandidata.clear();calculoEficiente = null;calculoSinPerdidaDeInfo = null;
             case ESQUEMA: tableaux = null;
         }
-
     }
 
     public enum Cambios{ATRIBUTOS, DEPENDENCIAS,CLAVECANDIDATA,ESQUEMA}
@@ -770,7 +817,6 @@ public class Administradora implements Serializable {
         determinante.add("e");
         agregarDependenciaFuncional(new DFDeterminanteComplejo(determinante, "a"));
 
-        //TODO AGREGAR SUB ESQUEMAS
         ArrayList<String>esquema = new ArrayList<>();
         esquema.add("a");
         esquema.add("d");
@@ -798,6 +844,7 @@ public class Administradora implements Serializable {
         agregarEsquema(esquema);
     }
 
+    @SuppressWarnings("unchecked")
     public void ejemploConPerdidaDeInformacion()
     {
         clean();
@@ -815,7 +862,7 @@ public class Administradora implements Serializable {
         agregarDependenciaFuncional(new DFSimple("CP", "Ciudad"));
 
 
-        //TODO AGREGAR SUB ESQUEMAS
+
         ArrayList<String>esquema = new ArrayList<>();
         esquema.add("Ciudad");
         esquema.add("Calle");
@@ -828,6 +875,88 @@ public class Administradora implements Serializable {
 
     }
 
+    @SuppressWarnings("unchecked")
+    public void ejemploClaveCandidata()
+    {
+        clean();
+        agregarAtributos("a");
+        agregarAtributos("b");
+        agregarAtributos("c");
+        agregarAtributos("d");
+        agregarAtributos("e");
+
+        ArrayList<String> Determinante = new ArrayList<>();
+        ArrayList<String> Determinado = new ArrayList<>();
+
+        agregarDependenciaFuncional(new DFSimple("a","b"));
+        agregarDependenciaFuncional(new DFSimple("a","c"));
+
+        Determinante.add("b");
+        Determinante.add("c");
+
+        agregarDependenciaFuncional(new DFDeterminanteComplejo((ArrayList<String>) Determinante.clone(),"a"));
+        Determinante.add("d");
+
+        agregarDependenciaFuncional(new DFDeterminanteComplejo((ArrayList<String>) Determinante.clone(),"e"));
+
+        agregarDependenciaFuncional(new DFSimple("e","c"));
+
+        ArrayList<String> esquema= new ArrayList<>();
+        esquema.add("a");
+        esquema.add("b");
+        esquema.add("c");
+        esquema.add("d");
+        esquema.add("e");
+        agregarEsquema(esquema);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void ejemploFMINTeoria()
+    {
+        clean();
+        agregarAtributos("a");
+        agregarAtributos("b");
+        agregarAtributos("c");
+        agregarAtributos("d");
+        agregarAtributos("e");
+
+        ArrayList<String> Determinante = new ArrayList<>();
+        ArrayList<String> Determinado = new ArrayList<>();
+
+        Determinado.add("b");
+        Determinado.add("c");
+        Determinado.add("d");
+        agregarDependenciaFuncional(new DFDeterminadoComplejo("a",(ArrayList<String>) Determinado.clone()));
+
+        Determinante.add("a");
+        Determinante.add("b");
+        Determinado.clear();
+
+        Determinado.add("d");
+        Determinado.add("e");
+        agregarDependenciaFuncional(new DFCompleja((ArrayList<String>) Determinante.clone(),(ArrayList<String>) Determinado.clone()));
+
+        Determinado.clear();
+        Determinante.clear();
+
+        Determinante.add("b");
+        Determinante.add("e");
+        Determinado.add("a");
+        Determinado.add("c");
+
+        agregarDependenciaFuncional(new DFCompleja((ArrayList<String>) Determinante.clone(),(ArrayList<String>) Determinado.clone()));
+
+
+        ArrayList<String> esquema= new ArrayList<>();
+        esquema.add("a");
+        esquema.add("b");
+        esquema.add("c");
+        esquema.add("d");
+        esquema.add("e");
+        agregarEsquema(esquema);
+    }
+
+    @SuppressWarnings("unchecked")
     public void ejemploCCyFMIN() {
         clean();
         agregarAtributos("a");
@@ -887,6 +1016,7 @@ public class Administradora implements Serializable {
 
     }
 
+    @SuppressWarnings("unchecked")
     public void ejemploPrimerEjercicio(){
         clean();
         agregarAtributos("a");
@@ -928,6 +1058,7 @@ public class Administradora implements Serializable {
         Determinado.clear();
 
     }
+
 
 
 

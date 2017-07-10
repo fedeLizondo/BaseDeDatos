@@ -1,6 +1,7 @@
 package LogicaNegocio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -88,6 +89,7 @@ public class DFCompleja extends DependenciaFuncional {
         aux.addAll(determinante);
         aux.addAll(determinado);
         aux = new ArrayList<String>(new HashSet<String>(aux));
-        return aux;
+        Collections.sort(aux);
+        return (ArrayList<String>) aux.clone();
     }
 }

@@ -70,6 +70,7 @@ public class CalculoTableaux extends AppCompatActivity {
         } else {
             esquemas = new Esquemas();
         }
+
         administradora  = Administradora.getInstance();
 
         tableaux = administradora.calcularTableaux();

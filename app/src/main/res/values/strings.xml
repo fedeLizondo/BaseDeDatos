@@ -93,7 +93,11 @@
 
     <!-- F MIN -->
     <string name="tituloFMin">F min</string>
-    <string name="subTituloFMin">F min = </string>
+    <string name="subTituloFMin">Pasos F min </string>
+    <string name="CalculoFMPrimerPaso">Todas las dependencias funcionales deben ser simples ( X -> A) </string>
+    <string name="CalculoFMSegundoPaso">No debe haber atributos redundantes del lado del determinado</string>
+    <string name="CalculoFMTercerPaso">No debe haber dependecias funcionales redundantes</string>
+
 
     <!-- TABLEAUX -->
     <string name="tituloTableaux">Tableaux</string>
@@ -122,17 +126,33 @@
 
     <!--CALCULO EFICIENTE -->
     <string name="tituloCalculoEficiente">Cálculo Eficiente</string>
-    <string name="subTituloCalculoEficiente">Sub Esquemas :</string>
+    <string name="subTituloCalculoEficiente">Pasos para descomposición en 3FN</string>
+    <string name="EsquemasEnFNBC">Los esquemas ingresados ya se encuentran en <b>FNBC</b> </string>
+    <string name="EsquemasEn3FN">Los esquemas ingresados ya se encuentran en <b>3FN</b> </string>
+    <string name="CalculoEficientePrimerPaso"> Encontrar un Fmin</string>
+    <string name="CalculoEficienteSegundoPaso"> Crear un sub­esquema ​para cada dependencia funcional asociado a R</string>
+    <string name="CalculoEficienteTercerPaso">Verificar ​que algún sub­esquema contenga alguna Clave Candidata ​,\n
+                                              En caso de que ningún sub­esquema​ cumpla ​con lo anterior,entonces crear
+                                              un sub esquema ​que contenga clave candidata</string>
+    <string name="CalculoEficienteCuartoPaso">Verificar si se puede encontrar un diseño eficiente con menos esquemas</string>
 
     <!-- CALCULO SIN PERDIDA DE INFORMACION-->
     <string name="tituloCalculoSinPerdida">Cálculo Sin Perdida de Información</string>
-    <string name="subTituloCalculoSinPerdida">Sub Esquemas :</string>
+    <string name="subTituloCalculoSinPerdida">Pasos para descomposición en ​FNBC​ :</string>
+
+    <string name="CalculoSinPerdidaPrimerPaso"> Encontrar un Fmin</string>
+    <string name="CalculoSinPerdidaSegundoPaso">​Para un esquema del tipo R(A,B,C,...,N) con un grupo de dependencias funcionales.\n
+                                                Si alguna Dependencia Funcional X→A viola la FNBC ,Entonces se Proyecta Esquema en Esquema1 = X U A y Esquema2 = X ­ A
+                                                F1 y F2 contiene las dependencias funcionales de F+ cuyos atributos están en Esquema1 y Esquema2 correspondientemente.</string>
+
+    <string name="CalculoSinPerdidaTercerPaso">Continuar analizando R1 y R2 Hasta que todos los esquemas terminales del árbol estén en FNBC</string>
+
 
     <!-- TITULOS DE LAS ACTIVITY'S -->
-    <string name="title_activity_agregar_dependencia_funcional">AgregarDependenciaFuncional</string>
-    <string name="title_activity_modificar_dependecia_funcional">ModificarDependeciaFuncional</string>
-    <string name="title_activity_calcular_clausura">CalcularClausura</string>
-    <string name="title_activity_agregar_esquemas">AgregarEsquemas</string>
-    <string name="title_activity_calculo_tableaux">CalculoTableaux</string>
-    <string name="title_activity_modificar_esquema">ModificarEsquema</string>
+    <string name="title_activity_agregar_dependencia_funcional">Agregar Dep. Funcional</string>
+    <string name="title_activity_modificar_dependecia_funcional">Modificar Dep. Funcional</string>
+    <string name="title_activity_calcular_clausura">Calcular Clausura</string>
+    <string name="title_activity_agregar_esquemas">Agregar Esquemas</string>
+    <string name="title_activity_calculo_tableaux">Cálculo Tableaux</string>
+    <string name="title_activity_modificar_esquema">Modificar Esquema</string>
 </resources>
