@@ -14,7 +14,7 @@
             android:id="@+id/seleccionarClausura"
             android:textAppearance="?android:textAppearanceMedium"
             android:textStyle="bold"
-            android:padding="12dp"
+            android:padding="@dimen/barraPrincipal"
             android:textColor="@color/colorText_Icons"
             android:background="@color/colorPrimary"
             android:textAlignment="center"

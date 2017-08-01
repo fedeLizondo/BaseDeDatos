@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:padding="12dp"
+        android:padding="@dimen/barraPrincipal"
         android:background="@color/colorPrimary"
         >
 
@@ -55,13 +55,9 @@
         android:layout_weight="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_horizontal_margin"
-        android:paddingLeft="12dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
         android:text="@string/superClaves"
         android:id="@+id/superClaves"
+        android:padding="@dimen/barraPrincipal"
         android:background="@color/colorPrimary"
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="@color/colorText_Icons"

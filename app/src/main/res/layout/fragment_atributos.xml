@@ -19,7 +19,7 @@
         android:text="@string/tituloAgregarAtributo"
         android:textAppearance="?android:textAppearanceMedium"
         android:textStyle="bold"
-        android:padding="12dp"
+        android:padding="@dimen/barraPrincipal"
         android:textColor="@color/colorText_Icons"
         android:background="@color/colorPrimary"
         android:textAlignment="center"
@@ -75,7 +75,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/fab_margin"
-        />
+        tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
 
