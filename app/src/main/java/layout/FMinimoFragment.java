@@ -87,7 +87,7 @@ public class FMinimoFragment extends Fragment {
                     pasos.add(new PasosCardView("", descripcion, ""));
                 } else {
 
-                    descripcion = getContext().getString(R.string.subTituloFMin);
+                    descripcion = getContext().getString(R.string.subTituloFMinSinDependencias);
                     pasos.add(new PasosCardView("", descripcion, "F* = {}"));
                 }
             } else {
@@ -115,8 +115,6 @@ public class FMinimoFragment extends Fragment {
             adapter.notifyDataSetChanged();
 
         }
-
-
     }
 
     @Override

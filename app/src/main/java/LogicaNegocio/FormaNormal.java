@@ -20,11 +20,11 @@ public abstract class FormaNormal {
 
     public abstract boolean soyPrimeraFN();
 
-
     public FormaNormal obtenerFormaNormal()
     {
        return  null;
     }
 
+    public abstract DependenciaFuncional obtenerDependenciaFuncional();
 
 }

@@ -17,6 +17,9 @@
             android:layout_marginTop="15dp"
             android:layout_weight="0"
             android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
             android:text="@string/subtituloTableauxCalculo"
             android:textSize="20sp" />
 
@@ -27,6 +30,9 @@
             android:layout_marginTop="15dp"
             android:layout_weight="0"
             android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/pasosTableaux"
             android:textSize="20sp" />
@@ -67,7 +73,6 @@
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
             android:layout_weight="1"></TableLayout-->
-
        </LinearLayout>
 
 </FrameLayout>

@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="4dp"
+
     tools:context="layout.ClaveCandidataFragment">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:layout_weight="0"
+        android:padding="12dp"
+        android:background="@color/colorPrimary"
         >
 
         <TextView
@@ -20,8 +20,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Seleccionada"
+            android:textColor="@color/colorText_Icons"
             android:textAppearance="?android:textAppearanceLarge"
-             />
+            android:textStyle="bold"
+            />
 
         <TextView
             android:id="@+id/tv_ccSeleccionada"
@@ -37,37 +39,43 @@
             android:textColor="@color/colorAccent" />
     </LinearLayout>
 
-            <ListView
-                android:id="@+id/lv_ClaveCandidata"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:divider="@color/colorDivider"
-                android:layout_weight="10"
-                android:dividerHeight="1dp"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                />
+    <ListView
+        android:id="@+id/lv_ClaveCandidata"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@color/colorDivider"
+        android:layout_weight="10"
+        android:dividerHeight="1dp"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        />
 
 
-            <TextView
-                android:layout_weight="0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:text="@string/superClaves"
-                android:id="@+id/superClaves"
-                android:textAppearance="?android:textAppearanceLarge"
-               />
+    <TextView
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingLeft="12dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="@string/superClaves"
+        android:id="@+id/superClaves"
+        android:background="@color/colorPrimary"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@color/colorText_Icons"
+        android:textStyle="bold"
+        />
 
-            <ListView
-                android:id="@+id/lv_SuperClave"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:divider="@color/colorDivider"
-                android:dividerHeight="1dp"
-                android:layout_weight="10"
-                />
+    <ListView
+        android:id="@+id/lv_SuperClave"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@color/colorDivider"
+        android:dividerHeight="1dp"
+        android:layout_weight="10"
+        />
 
 
 </LinearLayout>

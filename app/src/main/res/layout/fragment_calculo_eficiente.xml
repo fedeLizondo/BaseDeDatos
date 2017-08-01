@@ -1,13 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="layout.CalculoEficienteFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+
 
         <TextView
             android:id="@+id/subTitulo"
@@ -25,7 +23,7 @@
             android:id="@+id/rv_CalculoEficiente"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:dividerHeight="1dp"
             style="@android:style/Widget.DeviceDefault.ExpandableListView"
             android:divider="@android:color/darker_gray"
@@ -34,5 +32,3 @@
             />
 
     </LinearLayout>
-
-</FrameLayout>

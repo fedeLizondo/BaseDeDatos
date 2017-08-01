@@ -151,7 +151,7 @@ public class DependenciaFuncionalFragment extends Fragment {
 
     public void AgregarDF()
     {
-        if(administradora != null){ //!lAtributos.isEmpty()) {
+        if(administradora != null && !administradora.darListadoAtributos().isEmpty()){ //!lAtributos.isEmpty()) {
             Intent intent = new Intent(getActivity(), AgregarDependenciaFuncional.class);
             intent.putStringArrayListExtra(AgregarDependenciaFuncional.LISTAATRIBUTOS, administradora.darListadoAtributos());
             startActivityForResult(intent,1);
@@ -159,14 +159,14 @@ public class DependenciaFuncionalFragment extends Fragment {
         else
         {
             String mensaje = getResources().getString(R.string.ErrorDependenciaFuncionalNoHayAtributos);
-            Snackbar.make(view,mensaje,Snackbar.LENGTH_LONG)
+            Snackbar.make(view,mensaje,Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     public void ModificarDF(int index)
     {
-        if(administradora != null){ //!lAtributos.isEmpty()) {
+        if(administradora != null){
             Intent intent = new Intent(getActivity(), ModificarDependeciaFuncional.class);
             intent.putExtra(ModificarDependeciaFuncional.INDEXAMODIFICAR, index);
             startActivityForResult(intent,1);

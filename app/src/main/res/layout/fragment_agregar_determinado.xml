@@ -5,9 +5,6 @@
     android:layout_height="match_parent"
     tools:context="layout.SeleccionarDeterminadoFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/ll_contenedor"
         android:layout_width="match_parent"
@@ -34,6 +31,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorTextview"
             android:paddingRight="48sp"
+            android:paddingLeft="48sp"
             android:paddingEnd="48sp"
             android:padding="10dp"
             android:text="@string/ErrorDFNoHayDeterminadoSeleccionados"
@@ -42,8 +40,10 @@
             android:textColor="@color/colorText_Icons" />
 
     </LinearLayout>
-        <android.support.design.widget.FloatingActionButton
+
+    <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabAgregarDeterminado"
+            android:layout_margin="@dimen/fab_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -52,8 +52,5 @@
             android:layout_alignParentEnd="true"
             app:fabSize="normal"
             app:srcCompat="@drawable/plus" />
-
-        </RelativeLayout>
-
 
 </RelativeLayout>

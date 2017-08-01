@@ -226,9 +226,9 @@ public class AtributosFragment extends Fragment implements
                     dataAdapter.removeItem(position);
                     listaAtributos.remove(atributo);
 
-                    final Snackbar snack = Snackbar.make(getView(), "My Placeholder Text", Snackbar.LENGTH_LONG);
+                    final Snackbar snack = Snackbar.make(getView(), "My Placeholder Text", Snackbar.LENGTH_SHORT);
 
-                    snack.setAction("Undo", new View.OnClickListener() {
+                    snack.setAction("Deshacer", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             listaAtributos = Administradora.getInstance().darListadoAtributos();

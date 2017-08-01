@@ -28,7 +28,6 @@ public class Administradora implements Serializable {
     private ArrayList<DependenciaFuncional> fmin;
     private FormaNormal formaNormal;
 
-
     //----------------------------------------------
     private Tableaux tableaux;
     private Esquemas esquema;
@@ -203,7 +202,8 @@ public class Administradora implements Serializable {
 
             if (lDependenciasFuncionales.isEmpty()) {
                 claves.add(lAtributos);
-                return claves;
+                claveCandidata = (ArrayList<String>) claves.get(0).clone();
+                return (ArrayList<ArrayList<String>>) claves.clone();
             }
 
             //Obtengo todos los Determinantes y todos los Determinados
@@ -241,7 +241,6 @@ public class Administradora implements Serializable {
                     }
                 }
             }
-
             //Asigno por default la clave candidata como el primer valor de la lista de claves
             claveCandidata = (ArrayList<String>) claves.get(0).clone();
         }
@@ -301,6 +300,11 @@ public class Administradora implements Serializable {
     public ArrayList<String> calcularClausura(ArrayList<String> AtributoACalcular) {
 
         if (lDependenciasFuncionales.isEmpty() || AtributoACalcular.isEmpty()) {
+           if(lDependenciasFuncionales.isEmpty() )
+           {
+              return  AtributoACalcular;
+           }
+           else
             return new ArrayList<String>();
         }
 
@@ -626,12 +630,11 @@ public class Administradora implements Serializable {
                 } else
                     dfEliminarRedundantes.remove(df);
             }
-
+            paso3.addAll(fmin);
         }
-        paso3.addAll(fmin);
+
         return fmin;
     }
-
 
     public ArrayList<DependenciaFuncional> getPaso1() {
         return paso1;

@@ -15,17 +15,21 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:textAlignment="center"
+
         android:text="@string/tituloAgregarAtributo"
-        android:textAppearance="?android:textAppearanceLarge"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textStyle="bold"
+        android:padding="12dp"
+        android:textColor="@color/colorText_Icons"
+        android:background="@color/colorPrimary"
+        android:textAlignment="center"
         android:layout_weight="0"
         />
-    <View
+    <!--View
         android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorDivider" />
+        android:background="@color/colorDivider" /-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_Atributos"
@@ -33,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="1dp"
+            android:paddingTop="8dp"
             style="@android:style/Widget.DeviceDefault.ExpandableListView"
             android:divider="@android:color/darker_gray"
             android:scrollbarStyle="outsideOverlay"
@@ -68,6 +73,8 @@
         android:layout_gravity="bottom|end"
         android:layout_alignBottom="@id/ll_FragmentAtributos"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/fab_margin"
         />
 
     </RelativeLayout>

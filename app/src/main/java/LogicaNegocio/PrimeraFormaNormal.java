@@ -43,4 +43,9 @@ public class PrimeraFormaNormal extends FormaNormal {
     public boolean soyPrimeraFN() {
         return true;
     }
+
+    @Override
+    public DependenciaFuncional obtenerDependenciaFuncional() {
+        return dependenciaFuncional;
+    }
 }

@@ -53,11 +53,11 @@
     <string name="errorModificarAtributoYaIngresado">El Atributo ingresado ya se encuentra en la lista</string>
     <string name="errorModificarAtributoVacio">Por favor ingrese un Atributo </string>
 
-    <string name="ErrorNoHayAtributos">No se puede calcular por que no hay atributos</string>
+    <string name="ErrorNoHayAtributos">No se puede calcular porque no hay atributos</string>
 
     <!--BOTONES ATRIBUTOS-->
-    <string name="agregarAtributo">Agregar Atributo</string>
-    <string name="modificarAtributo">Modificar Atributo</string>
+    <string name="agregarAtributo">Agregar </string>
+    <string name="modificarAtributo">Modificar </string>
 
 
     <!--_________________________________________________________________________-->
@@ -65,8 +65,6 @@
     <!--|                       DEPENDENCIA FUNCIONAL                           |-->
     <!--|_______________________________________________________________________|-->
 
-    <string-array name="Determinantes"></string-array>
-    <string-array name="ListaDF"></string-array>
     <string name="listaDependencias">Lista de dependencias funcionales</string>
 
     <string name="tituloDeterminante">Determinante</string>
@@ -87,14 +85,15 @@
 
     <!-- CÁLCULO DE CLAUSURAS -->
     <string name="tituloClausura">Clausura</string>
-    <string name="seleccionarClausura">Seleccione atributos para calcular clausura</string>
+    <string name="seleccionarClausura">Seleccione atributos para el cálculo</string>
     <string name="btnCalcularClausura">Calcular Clausura</string>
     <string name="tituloCalcularClausura">Calcular Clausura</string>
 
     <!-- F MIN -->
     <string name="tituloFMin">F min</string>
     <string name="subTituloFMin">Pasos F min </string>
-    <string name="CalculoFMPrimerPaso">Todas las dependencias funcionales deben ser simples ( X -> A) </string>
+    <string name="subTituloFMinSinDependencias">Al no haber dependencias F min es </string>
+    <string name="CalculoFMPrimerPaso">Todas las dependencias funcionales deben ser simples ( X → A) </string>
     <string name="CalculoFMSegundoPaso">No debe haber atributos redundantes del lado del determinado</string>
     <string name="CalculoFMTercerPaso">No debe haber dependecias funcionales redundantes</string>
 
@@ -123,6 +122,21 @@
 
     <!-- FORMA NORMAL -->
     <string name="tituloFormaNormal">Forma Normal</string>
+    <string name="JustificacionFormaNormalBoyceCodd">El determinante <b>( %1$s )</b>  es igual a la c.c <b>( %2$s )</b> </string>
+    <string name="JustificacionFormaNormalBoyceCoddSinDependencias">Al no tener dependencias es igual a la c.c <b>( %1$s )</b> </string>
+    <string name="JustificacionTerceraFormaNormal">El determinado <b>( %1$s )</b>  forma parte de la c.c <b>( %2$s )</b>  ></string>
+    <string name="JustificacionSegundaFormaNormal">El determinante <b>( %1$s )</b>  NO forma parte de la c.c <b>( %2$s )</b> </string>
+    <string name="JustificacionPrimeraFormaNormal">Como no es FNBC , Tercera Forma Normal ni Segunda Forma , Esta en primera Forma Normal</string>
+    <string name="JustificacionPorQueNoFormaNormalBoyceCodd">El determinante <b>( %1$s ) NO </b>  es igual a la c.c <b>( %2$s )</b> </string>
+    <string name="JustificacionPorQueNoTerceraFormaNormal">El determinado <b>( %1$s ) NO </b> forma parte de la c.c <b>( %2$s )</b> </string>
+    <string name="JustificacionPorQueNoSegundaFormaNormal">El determinante <b>( %1$s )</b>  forma parte de la c.c <b>( %2$s )</b> </string>
+    <string name="tituloJustificacionFormaNormalBoyceCodd">Es Forma Normal de Boyce Codd</string>
+    <string name="tituloJustificacionTerceraFormaNormal">Es Tercera Forma Normal</string>
+    <string name="tituloJustificacionSegundaFormaNormal">Es Segunda Forma Normal</string>
+    <string name="tituloJustificacionPrimeraFormaNormal">Es Primera Forma Normal</string>
+    <string name="tituloJustificacionNoFormaNormalBoyceCodd">No es Forma Normal de Boyce Codd</string>
+    <string name="tituloJustificacionNoTerceraFormaNormal">No es Tercera Forma Normal</string>
+    <string name="tituloJustificacionNoSegundaFormaNormal">No es Segunda Forma Normal</string>
 
     <!--CALCULO EFICIENTE -->
     <string name="tituloCalculoEficiente">Cálculo Eficiente</string>
@@ -141,8 +155,8 @@
     <string name="subTituloCalculoSinPerdida">Pasos para descomposición en ​FNBC​ :</string>
 
     <string name="CalculoSinPerdidaPrimerPaso"> Encontrar un Fmin</string>
-    <string name="CalculoSinPerdidaSegundoPaso">​Para un esquema del tipo R(A,B,C,...,N) con un grupo de dependencias funcionales.\n
-                                                Si alguna Dependencia Funcional X→A viola la FNBC ,Entonces se Proyecta Esquema en Esquema1 = X U A y Esquema2 = X ­ A
+    <string name="CalculoSinPerdidaSegundoPaso">​Para un esquema del tipo R(A,B,C,&#8230;,N) con un grupo de dependencias funcionales.\n
+                                                Si alguna Dependencia Funcional X→A viola la FNBC ,Entonces se Proyecta Esquema en: \nEsquema1 = X U A y \nEsquema2 = X ­ A.\n
                                                 F1 y F2 contiene las dependencias funcionales de F+ cuyos atributos están en Esquema1 y Esquema2 correspondientemente.</string>
 
     <string name="CalculoSinPerdidaTercerPaso">Continuar analizando R1 y R2 Hasta que todos los esquemas terminales del árbol estén en FNBC</string>

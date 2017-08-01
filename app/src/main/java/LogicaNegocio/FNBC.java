@@ -40,4 +40,9 @@ public class FNBC extends  FormaNormal {
     public boolean soyPrimeraFN() {
         return false;
     }
+
+    @Override
+    public DependenciaFuncional obtenerDependenciaFuncional() {
+        return null;
+    }
 }

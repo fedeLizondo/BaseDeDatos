@@ -1,100 +1,108 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="visible"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="layout.ModificarAtributosFragment">
 
+
+    <!-- INPUT -->
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <!-- INPUT -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="8dp"
-            >
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginStart="8dp"
+                android:inputType="none"
+                android:text="@string/indicacionFragmentModificarAtributo"
+                android:visibility="visible" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/indicacionFragmentModificarAtributo"
-                    android:inputType="none"
-
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="4dp"
-                    />
-
-                <TextView
-                    android:id="@+id/etATributoModificar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="4dp"
-
-                    />
-            </LinearLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+            <TextView
+                android:id="@+id/etATributoModificar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_weight="1"
-                >
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:inputType="text"
-                    android:hint="@string/subtituloFragmentModificarAtributo"
-                    android:tag="@string/subtituloFragmentModificarAtributo"
-                    android:ems="10"
-                    android:id="@+id/etAtributoIngresadoModificar"
-                    style="@style/Widget.AppCompat.EditText" />
-
-            </android.support.design.widget.TextInputLayout>
-
-
+                android:visibility="visible" />
         </LinearLayout>
 
-        <!-- BOTONES ACEPTAR Y CANCELAR -->
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <Button
-                android:id="@+id/btnModificarAtributosAceptar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/modificarAtributo"
-                android:textColor="@color/colorAccent"
-                android:textAppearance="?android:textAppearanceMedium"
-                style="@style/Widget.AppCompat.Button.Borderless" />
-            <Button
-                android:id="@+id/btnModificarAtributosCancelar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/cancelar"
-                android:textColor="@color/colorAccent"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:alpha="100"
-                style="@style/Widget.AppCompat.Button.Borderless" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="visible">
 
-        </LinearLayout>
+            <EditText
+                android:id="@+id/etAtributoIngresadoModificar"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:ems="10"
+                android:hint="@string/subtituloFragmentModificarAtributo"
+                android:inputType="text"
+                android:tag="@string/subtituloFragmentModificarAtributo"
+                android:visibility="visible" />
+
+        </android.support.design.widget.TextInputLayout>
 
 
     </LinearLayout>
 
-</FrameLayout>
+    <!-- BOTONES ACEPTAR Y CANCELAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/btnModificarAtributosAceptar"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/modificarAtributo"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/colorAccent"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btnModificarAtributosCancelar"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:alpha="100"
+            android:text="@string/cancelar"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/colorAccent"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
